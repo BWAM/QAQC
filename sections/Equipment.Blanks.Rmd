@@ -16,31 +16,24 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ##Equipment Blanks
-Equipment blank fail: result > reporting limit  
-IT'S IMPORTANT TO NOTE: that the quantitation limit is NOT the reporting limit. It is set by the lab and can vary week to week. The reporting limit is the project goal (including field and lab errors) and the quantitation limit is what the lab alone achieved. It's important to develop reporting limits specific to the needs of the project. For example, you may have a stricter reporting limit for a track down study than you would have for a screening survey.      
 
-Failures do not necessarily mean that we shouldn't use the data. For example:     
-Ohio EPA (https://www.epa.ohio.gov/portals/35/documents/sw_samplingmanual.pdf) offers a table of recommended flags:  
+* Equipment Blank exceedances  (result > reporting limit)  
+    + Step 1: identify a reporting limit based on the data collected in 2017+18
+    + Step 2: pull EB values that exceed these reporting limits
+    + Step 3: flag sample values associated with EB exceedences that are less than 10x (flagged calculated), 5x (flagged trend), and 3x (rejected) the equipment blank value   
+
+IT'S IMPORTANT TO NOTE: that the quantitation limit is NOT the reporting limit. It is set by the lab and can vary week to week (the method detection limit can as well). The reporting limit is the project goal (including field and lab errors) and the quantitation limit is what the lab alone achieved. It's important to develop reporting limits specific to the needs of the project. For example, you may have a stricter reporting limit for a track down study than you would have for a screening survey.      
+
+These flags and their thresholds are again taken from OHIO EPA methods (https://www.epa.ohio.gov/portals/35/documents/sw_samplingmanual.pdf). Their detailed description is replicated below:  
 ```{r, echo=FALSE}
 OHIO<-read.csv("data/Ohio.Qualifiers.csv")
 knitr::kable(OHIO)
 rm(OHIO)
 ```
 
-Current strategy:  
-
-1. Select a reporting limit informed by plotting the blank readings  
-2. Using this reporting limit, identify the EB failures
-3. Examine the failures to see if there are any field or lab errors that could explain them (with RoseAnn's assistance)  
-4. Flag the data to communicate its best use (regulatory, trend analysis...etc)    
-
-### Info from EDD reports
-Conclusions drawn from reading lab reports  
-I have to read these when I get back
-
 ###plots    
 I only plotted parameters with EB failures.  
-The purpose of these plots is to see how whether the failures were outliers or were part of an underlying noise. If the latter, then we should consider raising the reporting limit.  
+The purpose of these plots is to see whether the failures were outliers or were part of an underlying noise. If the latter, then we should consider raising the reporting limit.  
 NOTE: I turn non-detects into 0 which I know they are not but for the purpose of identifying failed EBs, I feel this is ok.
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
