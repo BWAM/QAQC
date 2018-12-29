@@ -1,0 +1,153 @@
+---
+title: "Precision"
+author: "Alene Onion"
+date: "December 29, 2018"
+output:
+  html_document:
+    toc: true
+    toc_depth: 6
+    toc_float: true
+---
+
+```{r setupP, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+#file.copy("sections/images", ".", recursive = TRUE)
+```
+
+##Precision Assessment
+I have decided to copy the precision analysis method used by Ohio EPA described on page 37 of this document:    
+(https://www.epa.ohio.gov/portals/35/documents/sw_samplingmanual.pdf)
+
+In short, they reject any duplicate sample pair where the %RPD > (0.9465x^-0.344)100 +5  
+where:
+x = sample / detection limit
+%RPD = [diff(duplicate pair)/av(duplicate pair)]*100  
+NOTE: they used the method detection limt but we might consider the quantitation limit  
+NOTE: I used the maximum of the two samples to calculate x  
+
+###plots  
+To examin failures visually, I plotted sample/DL versus %RPD as well as the threshold equation described above.  
+Any point above the line should be rejected. Any point below the line is accepted. If the line isn't visible, that means it is above the range of the graph and all the points would be accepted.    
+```{r, echo=FALSE}
+#converting non-detects to 0
+dup$result_value.dup <- ifelse(dup$lab_qualifiers.dup=="U",0,dup$result_value.dup)
+dup$result_value.dup <- ifelse(dup$lab_qualifiers.dup=="UN",0,dup$result_value.dup)
+dup$result_value.dup <- ifelse(dup$lab_qualifiers.dup=="UE",0,dup$result_value.dup)
+dup$result_value.parent <- ifelse(dup$lab_qualifiers.parent=="U",0,dup$result_value.parent)
+dup$result_value.parent <- ifelse(dup$lab_qualifiers.parent=="UN",0,dup$result_value.parent)
+dup$result_value.parent <- ifelse(dup$lab_qualifiers.parent=="UE",0,dup$result_value.parent)
+#Calculating RPD
+dup$RPD<-((dup$result_value.parent-dup$result_value.dup))
+#can't divide by 0 so I calculate the denominator first 
+dup$RPD<-ifelse(dup$RPD==0,0,((dup$RPD)/(dup$result_value.parent+dup$result_value.dup/2))*100)
+dup$RPD<-abs(dup$RPD)
+#remove parameters wihtout method detection limits
+dup<-dup[!is.na(dup$method_detection_limit.parent),]
+#this step is necessary to make sure you're using the max sample value
+dup$ratio<-ifelse(pmax(dup$result_value.parent, dup$result_value.dup)==dup$result_value.parent,
+                  ifelse(dup$result_value.parent==0,0,(dup$result_value.parent/dup$method_detection_limit.parent)),
+                  ifelse(dup$result_value.dup==0,0,(dup$result_value.dup/dup$method_detection_limit.dup)))
+dup$eq<-ifelse(dup$ratio!=0,(100*0.9465*(dup$ratio^-0.344))+5,0)
+dup$pass<-ifelse((dup$eq>dup$RPD)|(dup$RPD==0),"pass","fail")
+#ohio's line of acceptability
+eq = function(x){(0.9465*(x^(-0.344)))*100+5}
+
+params<-unique(dup$chemical_name)
+nparams<-length(params)
+
+for(i in 1:nparams){
+  temp<-dup[dup$chemical_name==params[i],]
+  #plot the result values
+  plot(temp$ratio,temp$RPD,type="p",lwd=4,col="forestgreen",main=params[i],xlab="sample/DL ratio",ylab="RPD")
+  abline(h=20)
+  lines(eq(1:1000),type="l",lwd=4,col="deepskyblue")
+ rm(temp) 
+}
+rm(list=c('i','params','nparams','eq'))
+```
+
+###Rejected Samples  
+NOTE: I'm associate QC samples with those nearest in time. 
+Originally, we were going to associate QC samples to all those samples collected by the same team but the field data available at this time are incomplete so I wasn't able to do this. It still is a good option for future analyses.
+```{r, echo=FALSE}
+#truncate the dup file
+dups<-unique(dup[c('chemical_name','pass','sample_date.parent')])
+names(dups)[names(dups)=='sample_date.parent']<-'sample_date'
+dups$sample_date<-as.Date(dups$sample_date,"%m/%d/%Y")
+
+samples<-unique(wallkill[c('sys_sample_code','chemical_name','sample_date')])
+samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
+
+params<-unique(dups$chemical_name)
+nparams<-length(params)
+
+for(i in 1:nparams){
+  temp<-samples[samples$chemical_name==params[i],]
+  tempd<-dups[dups$chemical_name==params[i],]
+  tempd$sample_date<-as.Date(tempd$sample_date,"%m/%d/%Y")
+  sites<-unique(temp$sys_sample_code)
+  nsites<-length(sites)
+  for(j in 1:nsites){
+    temp1<-temp[temp$sys_sample_code==sites[j],]
+    temp1$sample_date<-as.Date(temp1$sample_date,"%m/%d/%Y")
+    tempd1<-tempd[which(abs(tempd$sample_date-temp1$sample_date)==min(abs(tempd$sample_date-temp1$sample_date))),]
+    temp1$pass<-tempd1$pass[1]
+    if(exists("dataset")){
+      dataset<-merge(dataset,temp1,all=TRUE)
+    }
+    if(!exists("dataset")){
+      dataset<-temp1
+    }
+    rm(list=c('temp1','tempd1'))
+  }
+  rm(list=c('temp','tempd','sites','nsites','j'))
+}
+rm(list=c('params','nparams','i','samples','dups'))
+
+#rename pass to duppass
+names(dataset)[names(dataset)=='pass']<-'duppass'
+#merge with final wallkill dataset
+#first convert wallkill date to a date
+wallkill$sample_date<-as.Date(wallkill$sample_date,"%m/%d/%Y")
+wallkill<-merge(wallkill,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
+wallkill<-wallkill[!is.na(wallkill$chemical_name),]
+rm(dataset)
+```
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+#plotting the sample failures
+#count fails and passes
+library(plyr)
+dupfails<-count(dup[c('short','pass')])
+samplefails<-count(wallkill[c('short','duppass')])
+names(samplefails)[names(samplefails)=='duppass']<-'legend'
+names(dupfails)[names(dupfails)=='pass']<-'legend'
+
+library(ggplot2)
+library(ggpubr)
+theme_set(theme_pubr())
+
+ samplefails<-(ggplot() +
+    geom_col(data=samplefails,aes(short,freq,fill=legend)) +
+      coord_flip() +
+      theme(axis.title.x = element_blank(),axis.title.y = element_blank()))
+ dupfails<-(ggplot() +
+    geom_col(data=dupfails,aes(short,freq,fill=legend)) +
+      coord_flip() +
+      theme(axis.title.x = element_blank(),axis.title.y = element_blank()))
+ print(ggarrange(
+  samplefails, dupfails, labels = c("associated sample fails", "individual dup fails"),
+  common.legend = TRUE, legend = "bottom"
+  ))
+ rm(list=c('dupfails','samplefails'))
+ rm(dup)
+```
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+#This bit of script converts pass faill to R (reject) and A (Accept)
+wallkill$duppass<-gsub("pass","A",wallkill$duppass)
+wallkill$duppass<-gsub("fail","R",wallkill$duppass)
+
+```
+
+

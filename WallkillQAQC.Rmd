@@ -1,0 +1,95 @@
+---
+title: "WallkillQAQC"
+author: "Alene Onion"
+date: "December 29, 2018"
+output:
+  html_document:
+    toc: true
+    toc_depth: 6
+    toc_float: true
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+#file.copy("sections/images", ".", recursive = TRUE)
+```
+ 
+##QAQC overview
+
+Our quality control review is divided into two compotnents: Laboratory Quality Control and Field QUality Control.  
+
+Laboratory Quality Control:  
+
+* Accuracy
+    + a.k.a. analysis of matrix spike samples 
+    + These must satisfy the accuracy criteria set forth in table 3 (screening) and table 4 (routine)
+    + NOTE: the QAPP only requires that we analyze spikes for nutrients, metals and minerals (see section II.5.A.b)! I’m presuming this excludes solids, turbidity, conductivity, and hardness in addition to in situ parameters, alkalinity, DOC, and chlorophyll a
+* Precision   
+    + a.k.a. analysis of duplicate samples.  
+    + Previously, these would satisfy the precision criteria set forth in table 3 (screening) and table 4 (routine). In this document, we propose using a new method developed by Ohio EPA that offers a curved threshold instead.  
+
+Field Quality Control:  
+
+* Completeness: Did we collect all the samples we intended to 
+* Holding time exceedances  
+* Temperature upon receipt exceedances  
+* Equipment Blank exceedances  (result > reporting limit)  
+    + Step 1: identify a reporting limit based on the data collected in 2017+18
+    + Step 2: pull EB values that exceed these reporting limits
+    + Step 3: decide how to flag data associated with a failed blank
+
+##Associating Samples  
+
+Plotting the wallkill sample dates to understand how best to associate them.  
+
+```{r, echo=FALSE}
+samples<-unique(wallkill[c('sample_date','lab_sdg')])
+samples$freq<-1
+samples$type<-"standard samples"
+samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
+blanksamples<-unique(EB[c('sample_date','lab_sdg')])
+blanksamples$freq<-2
+blanksamples$type<-"equipment blanks"
+blanksamples$sample_date<-as.Date(blanksamples$sample_date,"%m/%d/%Y")
+dupsamples<-unique(dup[c('sample_date.parent','lab_sdg')])
+dupsamples$freq<-3
+dupsamples$type<-"duplicates"
+names(dupsamples)[names(dupsamples)=="sample_date.parent"]<-"sample_date"
+dupsamples$sample_date<-as.Date(dupsamples$sample_date,"%m/%d/%Y")
+spikesamples<-unique(spike[c('sample_date','lab_sdg')])
+spikesamples$freq<-4
+spikesamples$type<-"spike samples"
+spikesamples$sample_date<-as.Date(spikesamples$sample_date,"%m/%d/%Y")
+#merge together
+samples<-merge(samples,blanksamples,all=TRUE)
+samples<-merge(samples,dupsamples,all=TRUE)
+samples<-merge(samples,spikesamples,all=TRUE)
+
+library(ggplot2)
+print(ggplot() +
+  geom_point(data=samples,aes(sample_date,freq,color=type)) +
+  ylab("sample types")+
+  xlab("sample date"))
+rm(list=c('samples','blanksamples','dupsamples','spikesamples'))
+```
+
+```{r, child = 'sections/Accuracy.Rmd'}
+
+```
+
+```{r, child = 'sections/Precision.Rmd'}
+
+```
+
+```{r, child = 'sections/Equipment.Blanks.Rmd'}
+
+```
+
+
+
+
+```{r}
+#, }
+#child = 'sections/Parameter.pairs.Rmd'}
+
+```
+

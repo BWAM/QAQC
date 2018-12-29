@@ -1,0 +1,5 @@
+Sample Result,Interpretation
+Sample <= 3x Blank,Reject sample results in this range as insufficiently different from blank results
+3x Blank < Sample <= 5x Blank,Likely indication that the analyte is present but poor confidence in the numerical result - generally limit data use to data “trend” applications
+< 5x Blank < Sample <= 10x Blank,Consider the sample result to be an estimated concentration (qualified “J”) but still suitable for most data uses
+< 10x Blank,Do not qualify data (blank contamination does not significantly change the result within the uncertainty of the value reported)

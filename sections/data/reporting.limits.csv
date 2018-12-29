@@ -1,0 +1,36 @@
+chemical_name,reporting_limit,reporting_units,short,accuracy
+"ALKALINITY, TOTAL (AS CaCO3)",2,mg/L,alkalinity,20
+Aluminum,50,u/L,aluminum,20
+Arsenic,1,u/L,arsenic,20
+Cadmium,1,u/L,cadmium,20
+CHLORIDE (AS CL),0.2,mg/L,chloride,20
+Copper,1,ug/L,copper,20
+HARDNESS (AS CACO3),2,mg/L,hardness,20
+Iron,100,ug/L,iron,20
+Lead,1,ug/L,lead,20
+Magnesium,1000,ug/L,magnesium,20
+Nickel,1,ug/L,nickel,20
+Nitrate+Nitrite as Nitrogen,0.05,guessed,NO3+NO2,20
+"Nitrogen, ammonia (As N)",0.01,mg/L,NH4,20
+"NITROGEN, NITRATE (AS N)",0.05,mg/L,NO3,20
+"NITROGEN, NITRITE",0.05,guessed,NO2,20
+"PHOSPHORUS, TOTAL (AS P)",0.003,mg/L,phosphorus,20
+Silver,1,ug/L,silver,20
+TURBIDITY,0.1,NTU,turbidity,10
+Zinc,10,ug/L,zinc,20
+Calcium,100,ug/L,calcium,20
+"NITROGEN, KJELDAHL, TOTAL",0.1,mg/L,TKN,20
+Nitrogen,0.05,guessed,nitrogen,20
+Chlorophyll A,0.4,ug/L,ChlA,5
+"TOTAL DISSOLVED SOLIDS (RESIDUE, FILTERABLE)",10,mg/L,TDS,20
+"Carbon, Dissolved Organic (DOC)",1,mg/L,DOC,20
+"Fluoride, undistilled",0.1,mg/L,fluoride,20
+Manganese,10,ug/L,manganese,20
+"Orthophosphate as Phosphorus, Dissolved",0.005,mg/L,orthoP,20
+Potassium,2,mg/L,potassium,20
+Sodium,1,mg/L,sodium,20
+SULFATE (AS SO4),0.2,mg/L,sulfate,20
+Conductivity at 25 Degrees Celsius,100,guessed,conductivity,20
+PH,100,guessed,ph,20
+Temperature of pH Analysis,100,guessed,tempph,20
+Mercury,1,ng/L,mercury,20

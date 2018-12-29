@@ -1,0 +1,195 @@
+SITE_ID,BASIN,LOCATION,RIVMILE,LATITUDE,LONGITUDE,COLL_DATE_TIME,CREW,WATER_CHEM,qa_qc_type,NOTES,Yr_Visited,Survey
+13-KLEI-0.1,13,KLEI,0.1,41.76936,-74.09332,7/11/2017 0:00,"Heitzman, Onion",NA,NA,NA,2017,Macro_2017
+13-WPALG-3.4,13,WPALG,3.4,41.676,-74.2626,7/24/2017 0:00,"Smith, Duffy, Lendrum",NA,NA,NA,2017,Macro_2017
+13-MANY-1.3,13,MANY,1.3,41.49333,-74.29389,7/25/2017 0:00,Heitzman Fagel,NA,NA,NA,2017,Macro_2017
+13-WALK-60.1,13,WALK,60.1,41.29083,-74.53056,7/25/2017 0:00,"Heitzman, Fagel",NA,NA,NA,2017,Macro_2017
+13-MONH-4.1,13,MONH,4.1,41.42833,-74.42389,7/26/2017 0:00,"Heitzman, Fagel",NA,NA,NA,2017,Macro_2017
+13-VERK-2.9,13,VERK,2.9,41.628,-74.331,7/26/2017 0:00,"Smith, Lemley",NA,NA,NA,2017,Macro_2017
+13-WALK-13.3,13,WALK,13.3,41.73004,-74.109888,7/26/2017 0:00,"Mosher, Duffy",NA,NA,NA,2017,Macro_2017
+13-WALK-15,13,WALK,15,41.72124,-74.132787,7/26/2017 0:00,"Mosher, Duffy",NA,NA,NA,2017,Macro_2017
+13-WALK_T44-3,13,WALK_T44,3,41.42274,-74.32401,7/26/2017 0:00,"Smith, Lemley",NA,NA,NA,2017,Macro_2017
+13-WAWA-4.5,13,WAWA,4.5,41.23833,-74.41805,7/26/2017 0:00,"Smith, Lemley",NA,NA,NA,2017,Macro_2017
+13-WALK-2.1,13,WALK,2.1,41.825296,-74.047202,8/3/2017 0:00,"Nye, Onion",NA,NA,NA,2017,Macro_2017
+13-GUNK-0.4,13,GUNK,0.4,41.68722,-74.17278,8/24/2017 0:00,"Heitzman, Mosher, Lojpersberger",NA,NA,NA,2017,Macro_2017
+13-WALK-60.1,13,WALK,60.1,41.29083,-74.53056,8/24/2017 0:00,"Heitzman, Mosher, Lojpersberger",NA,NA,NA,2017,Macro_2017
+13-MONH-0.4,13,MONH,0.4,41.42361,-74.38111,8/30/2017 0:00,"Mosher, Lemley",NA,NA,NA,2017,Macro_2017
+13-QKER-0.9,13,QKER,0.9,41.32722,-74.41639,8/30/2017 0:00,"Mosher, Lemley",NA,NA,NA,2017,Macro_2017
+13-WALK-19,13,WALK,19,41.68306,-74.16444,8/30/2017 0:00,"Mosher, Lemley",NA,NA,NA,2017,Macro_2017
+13-WALK-22.8,13,WALK,22.8,41.635,-74.18889,8/30/2017 0:00,"Mosher, Lemley",NA,NA,NA,2017,Macro_2017
+13-WALK-26.9,13,WALK,26.9,41.5763,-74.1907167,8/30/2017 0:00,"Mosher, Lemley",NA,NA,NA,2017,Macro_2017
+13-WALK-29.9,13,WALK,29.9,41.54217,-74.20946,8/30/2017 0:00,"Mosher, Lemley",NA,NA,NA,2017,Macro_2017
+13-WALK-35.6,13,WALK,35.6,41.5025,-74.26334,8/30/2017 0:00,"Mosher, Lemley",NA,NA,NA,2017,Macro_2017
+13-WALK-46.6,13,WALK,46.6,41.41222,-74.37806,8/30/2017 0:00,"Mosher, Lemley",NA,NA,NA,2017,Macro_2017
+13-WALK-2.1,13,WALK,2.1,41.825296,-74.047202,9/25/2017 0:00,Duffy/Heitzman,NA,NA,NA,2017,Macro_2017
+13-WCHEE-0.6,13,WCHEE,0.6,41.4086,-74.373,9/25/2017 0:00,Duffy/Heitzman,NA,NA,NA,2017,Macro_2017
+13-WKLEI-0.6,13,WKLEI,0.6,41.7749,-74.0975,9/25/2017 0:00,Duffy/Heitzman,NA,NA,NA,2017,Macro_2017
+13-WALK-2.1,13,WALK,2.1,-74.047202,41.825296,7/10/2018 9:16,"Heitzman,Lojpersberger,Wright,Other",X,Not_Sampled,"Slow flow, murky & debris due to trees, macrophytes indeterminate. Secchi disk 0.28. Boat site",2018,Chem_Only_2018
+13-WALK-0.7,13,WALK,0.7,-74.04382,41.84705,7/10/2018 10:34,"Heitzman,Lojpersberger,Other,Wright",X,Not_Sampled,Nicer than upstream location. Sample collected in center of sturgeon pool with dam in sight but avoided getting too close.,2018,Chem_Only_2018
+13-SWAK-1.7,13,SWAK,1.7,-74.03726589,41.84395784,7/10/2018 12:12,"Heitzman,Lojpersberger,Wright,Other",X,Not_Sampled,"Secondary variable: Bridge overhead with several homes nearby.
+
+Canopy 80%
+
+.795 CFS for flow
+",2018,Chem_Only_2018
+13-WKLEI-0.6,13,WKLEI,0.6,-74.09647,41.77464,7/10/2018 13:13,"Heitzman,Lojpersberger,Other,Wright",X,Not_Sampled,"Flow 1.6 depth
+0.04 velocity, 15ft across
+Slow, muddy, deep creek
+Canopy:35%",2018,Chem_Only_2018
+13-WALK-9.8,13,WALK,9.8,-74.092973,41.765737,7/10/2018 15:01,Lojpersberger,X,Not_Sampled,"Depth 1.7 
+Secchi .3
+
+Some surface scum",2018,Chem_Only_2018
+13-WALK-60.1,13,WALK,60.1,-74.53451,41.28812,7/11/2018 7:56,"Heitzman,Lojpersberger,Wright",X,MS,"Secchi 0.2
+Found a deep hole near Multiplates 9 ft or deeper 
+Did spike QC here",2018,Chem_Only_2018
+13-RUTG-1.5,13,RUTG,1.5,-74.487986,41.335792,7/11/2018 10:09,"Heitzman,Lojpersberger,Other,Wright",X,Not_Sampled,Relatively nice site w/good access.,2018,Chem_Only_2018
+13-QKER-0.9,13,QKER,0.9,-74.41616034,41.3277278,7/11/2018 11:18,"Heitzman,Lojpersberger,Wright,Other",X,Not_Sampled,"Pretty strong smell of septic/manure! Yum!
+Crappy little stream",2018,Chem_Only_2018
+13-RIOG-0.7,13,RIOG,0.7,-74.359233,41.40115,7/11/2018 12:55,"Heitzman,Lojpersberger,Wright",X,,"Lots of snags, downed logs",2018,Chem_Only_2018
+13-WCHEE-0.6,13,WCHEE,0.6,-74.37234525,41.40857561,7/11/2018 13:45,"Heitzman,Lojpersberger,Other,Wright",X,Not_Sampled,"Quite turbid, recent silt net had been set up downstream of bridge",2018,Chem_Only_2018
+13-WALK-46.6,13,WALK,46.6,-74.37774,41.41217,7/11/2018 14:31,"Heitzman,Lojpersberger,Other,Wright",X,Not_Sampled,Difficult access. Sample collected 20m downstream of stp discharge. Bring kemmerer at higher flows.,2018,Chem_Only_2018
+13-MONH-0.4,13,MONH,0.4,-74.38029344,41.4236387,7/11/2018 15:14,"Lojpersberger,Heitzman,Wright,Other",X,Not_Sampled,"Traffic
+Nice little stream
+Chemistry collected 10m above LARGE downed tree in stream",2018,Chem_Only_2018
+13-MASO-0.2,13,MASO,0.2,-74.372867,41.43765,7/11/2018 16:18,"Heitzman,Lojpersberger,Other,Wright",X,Not_Sampled,Lots of periphyton with largely shelf bedrock substrate. Site borders maintenance area for golf course. ,2018,Chem_Only_2018
+13-WALK-44.4,13,WALK,44.4,-74.365652,41.438788,7/11/2018 16:50,"Heitzman,Other,Lojpersberger,Wright",X,EB_FB,Nice site but fair amount of periphyton. Good access at usgs gauging station.,2018,Chem_Only_2018
+13-WALK-0.8,13,WALK,0.8,-74.04101,41.84881,7/24/2018 8:56,"Other,Stoll",X,Not_Sampled,"This site is privately owned by central hudson system, a company which owns two hydroplants including the sturgeon pool dam/plant. We were buzzed in through the gate by a nice woman and able to take a sample from their boat launch. Old camp.",2018,Chem_Only_2018
+13-WALK-2.1,13,WALK,2.1,-74.047202,41.825296,7/24/2018 9:39,"Other,Stoll",X,Not_Sampled,20 m downstream normal sampling site ,2018,Chem_Only_2018
+13-SWAK-1.7,13,SWAK,1.7,-74.037419,41.843302,7/24/2018 10:10,"Other,Stoll",X,Not_Sampled,,2018,Chem_Only_2018
+13-WKLEI-0.6,13,WKLEI,0.6,-74.09647,41.77464,7/24/2018 11:20,"Other,Stoll",X,Not_Sampled,"Heard and saw a deer, see upstream pic.",2018,Chem_Only_2018
+13-RUTG-1.5,13,RUTG,1.5,-74.487986,41.335792,7/24/2018 13:11,"Other,Stoll",X,Not_Sampled,,2018,Chem_Only_2018
+13-WALK-60.1,13,WALK,60.1,-74.53451,41.28812,7/24/2018 14:34,"Other,Stoll",X,Not_Sampled,"High water, hard to tell the natural bank location.",2018,Chem_Only_2018
+13-QKER-0.9,13,QKER,0.9,-74.41639,41.32722,7/24/2018 15:45,"Other,Stoll",X,Not_Sampled,Grabbed bucket for water chemistry from bridge.,2018,Chem_Only_2018
+13-WALK-44.4,13,WALK,44.4,-74.365652,41.438788,7/25/2018 7:53,"Other,Stoll",X,Not_Sampled,Grabbed near usgs gauge.,2018,Chem_Only_2018
+13-MASO-0.2,13,MASO,0.2,-74.372867,41.43765,7/25/2018 8:34,"Other,Stoll",X,Not_Sampled,"Location next golf links, road, and bridge limiting first degree recreation ",2018,Chem_Only_2018
+13-MONH-0.4,13,MONH,0.4,-74.38111,41.42361,7/25/2018 9:32,"Other,Stoll",X,Not_Sampled,High flow.,2018,Chem_Only_2018
+13-WALK-46.6,13,WALK,46.6,-74.37774,41.41217,7/25/2018 10:21,"Other,Stoll",X,Not_Sampled,Grabbed sample and ysi from rd bridge due to flow and bank conditions ,2018,Chem_Only_2018
+13-WCHEE-0.6,13,WCHEE,0.6,-74.37248,41.40873,7/25/2018 10:48,"Other,Stoll",X,Not_Sampled,,2018,Chem_Only_2018
+13-RIOG-0.7,13,RIOG,0.7,-74.359233,41.40115,7/25/2018 11:37,"Other,Stoll",X,EB_FB,Site looks like a dumpsite.,2018,Chem_Only_2018
+13-SWAK-1.7,13,SWAK,1.7,-74.037419,41.843302,8/14/2018 8:54,"Stoll,Other",X,DUP,Proximity to road and homes.,2018,Chem_Only_2018
+13-WKLEI-0.6,13,WKLEI,0.6,-74.09647,41.77464,8/14/2018 10:06,"Stoll,Other",X,,,2018,Chem_Only_2018
+13-RUTG-1.5,13,RUTG,1.5,-74.487986,41.335792,8/14/2018 12:07,"Stoll,Other",X,,Highest flow of all three times we’ve been here.,2018,Chem_Only_2018
+13-POCH-1.8,13,POCH,1.8,-74.474664,41.317902,8/14/2018 13:07,"Stoll,Other",X,,"Site next to cow pen, desire to recreate significantly reduced ",2018,Chem_Only_2018
+13-QKER-0.9,13,QKER,0.9,-74.41639,41.32722,8/14/2018 14:01,"Other,Stoll",X,,Too high to take flow.,2018,Chem_Only_2018
+13-RIOG-0.7,13,RIOG,0.7,-74.359233,41.40115,8/14/2018 14:44,"Stoll,Other",X,,,2018,Chem_Only_2018
+13-WALK-44.4,13,WALK,44.4,-74.365652,41.438788,8/15/2018 8:15,"Other,Stoll",X,Not_Sampled,,2018,Chem_Only_2018
+13-MASO-0.2,13,MASO,0.2,-74.372867,41.43765,8/15/2018 9:00,"Stoll,Other",X,,Close to golf course.,2018,Chem_Only_2018
+13-WALK-29.9,13,WALK,29.9,-74.20946,41.54217,8/15/2018 9:25,Other,X,Not_Sampled,High water,2018,Chem_Only_2018
+13-MONH-0.4,13,MONH,0.4,-74.38111,41.42361,8/15/2018 9:33,"Stoll,Other",X,Not_Sampled,,2018,Chem_Only_2018
+13-WALK-46.6,13,WALK,46.6,-74.37774,41.41217,8/15/2018 10:15,"Stoll,Other",X,,Other-proximity to construction site.,2018,Chem_Only_2018
+13-TINW-0.5,13,TINW,0.5,-74.18353,41.573251,8/15/2018 10:25,Other,X,Not_Sampled,,2018,Chem_Only_2018
+13-WCHEE-0.6,13,WCHEE,0.6,-74.37248,41.40873,8/15/2018 10:42,"Stoll,Other",X,EB_FB,,2018,Chem_Only_2018
+13-WALK-26.9,13,WALK,26.9,-74.1907167,41.5763,8/15/2018 11:11,Other,X,Not_Sampled,Very high water,2018,Chem_Only_2018
+13-DWAR-2,13,DWAR,2,-74.19945,41.62444,8/15/2018 12:16,Other,X,"Not_Sampled,DUP", weep holes under bridge,2018,Chem_Only_2018
+13-WALK-22.8,13,WALK,22.8,-74.18889,41.635,8/15/2018 13:48,Other,X,Not_Sampled,,2018,Chem_Only_2018
+13-GUNK-0.4,13,GUNK,0.4,-74.17278,41.68722,8/15/2018 14:39,Other,X,Not_Sampled,"High water, too high for flow readings. Some drift on pH. ",2018,Chem_Only_2018
+13-WALK-19,13,WALK,19,-74.16442,41.68639,8/15/2018 15:15,Other,X,Not_Sampled,High flows,2018,Chem_Only_2018
+13-PKIL-0.4,13,PKIL,0.4,-74.10472,41.72528,8/15/2018 16:22,Other,X,EB_FB,,2018,Chem_Only_2018
+13-GUNK-40.3,13,GUNK,40.3,-74.5607,41.42199,8/16/2018 8:58,Other,X,Not_Sampled,Some pH drifting ,2018,Chem_Only_2018
+13-GUNK_T35-0.2,13,GUNK_T35,0.2,-74.5389,41.43961,8/16/2018 9:57,Other,X,Not_Sampled,"pH drift from 8.10 to 7.76 over sampling time, turned off and on and holding at 7.68.  ditch flowing in downstream of where sample taken. ",2018,Chem_Only_2018
+13-WALK-60.1,13,WALK,60.1,-74.53409683,41.28797356,8/16/2018 10:54,"Lojpersberger,Woltmann",X,MS,Boat,2018,Chem_Only_2018
+13-GUNK-37.7,13,GUNK,37.7,-74.5298,41.44134,8/16/2018 11:00,Other,X,Not_Sampled,"Duck weed, foam, weep holes in bridge",2018,Chem_Only_2018
+13-LGUN-6,13,LGUN,6,-74.4938,41.45587,8/16/2018 12:44,Other,X,Not_Sampled,Ditches and culvert pipes,2018,Chem_Only_2018
+13-MONH-4.1,13,MONH,4.1,-74.4239,41.42833,8/16/2018 13:41,Other,X,EB_FB,Very milky time turbidity; light brown. Very hard to see even in shallow water. Unclear if odor is coming from STP or water. ,2018,Chem_Only_2018
+13-WALK-9.8,13,WALK,9.8,-74.09267982,41.76678005,8/16/2018 13:44,"Lojpersberger,Woltmann",X,Not_Sampled,.12 secchi -boat,2018,Chem_Only_2018
+13-WALK-35.6,13,WALK,35.6,-74.2633,41.5025,8/16/2018 15:05,Other,X,Not_Sampled,"High flows, lots of clay-y sediment",2018,Chem_Only_2018
+13-WALK-0.7,13,WALK,0.7,-74.04002372,41.84063742,8/16/2018 15:16,"Lojpersberger,Woltmann",X,Not_Sampled,"16.2m depth, .20 secchi.Boat",2018,Chem_Only_2018
+13-WALK-2.1,13,WALK,2.1,-74.047202,41.825296,8/16/2018 15:52,"Lojpersberger,Woltmann",X,EB_FB,Access along highway.  Busy road.  Heavy rain past 48-72hrs. High flow,2018,Chem_Only_2018
+13-SWAK-1.7,13,SWAK,1.7,-74.037419,41.843302,8/27/2018 9:42,"Lojpersberger,Lemley",N,,Replicates nice riffles. Crayfish  good reference.    Scottie terriers came over for a visit,2018,Macro_2018
+13-WALK-26.9,13,WALK,26.9,-74.1907167,41.5763,8/27/2018 9:56,"Heitzman,Stoll",N,,"Water has come down some from last week 
+Worms in net",2018,Macro_2018
+13-TINW-0.5,13,TINW,0.5,-74.18353,41.573251,8/27/2018 10:49,"Heitzman,Stoll",N,,,2018,Macro_2018
+13-WKLEI-0.6,13,WKLEI,0.6,-74.09647,41.77464,8/27/2018 11:20,"Lemley,Lojpersberger",N,,Muddy lw gradient strm,2018,Macro_2018
+13-WALK-29.9,13,WALK,29.9,-74.20946,41.54217,8/27/2018 11:40,"Heitzman,Stoll",N,," Lots of worms 
+Couldn’t see substrate because of water clarity but felt like gravel & rubble on bedrock
+Difficult to get anything in net",2018,Macro_2018
+13-PKIL-0.4,13,PKIL,0.4,-74.10104546,41.72429918,8/27/2018 12:27,"Lemley,Lojpersberger",N,,Ok habitat in residential area.  Nice enough benthics.   Just upstream at pooled area is surface foam see photos.  ,2018,Macro_2018
+13-WALK-35.6,13,WALK,35.6,-74.26334,41.5025,8/27/2018 12:41,"Heitzman,Stoll",N,,"Had to do a net jab low gradient sample
+Water was up tp Charlie’s waist10 m off shore
+Assessed off Canning Rd- too deep at bridge ",2018,Macro_2018
+13-WALK-19,13,WALK,19,-74.16442,41.68639,8/27/2018 13:19,"Lojpersberger,Lemley",N,,Flow elevated.  Kick sample near bank but benthics look like established.  Decent mix of mayflies caddis and riffle beetles.   Bedrock substrate with loose gravel and a little rubble in riffle zone,2018,Macro_2018
+13-LGUN-6,13,LGUN,6,-74.493797,41.45587,8/27/2018 13:50,"Heitzman,Stoll",N,,"Substrate was all silt/sand/gravel
+Not very productive",2018,Macro_2018
+13-GUNK-0.4,13,GUNK,0.4,-74.17278,41.68722,8/27/2018 13:58,"Lemley,Lojpersberger",N,,Nice stream but tough kicking in bouldery riffle   Bright green filamentous algae on rocks. See extra photo,2018,Macro_2018
+13-GUNK-37.7,13,GUNK,37.7,-74.529772,41.441342,8/27/2018 14:33,"Heitzman,Stoll",N,,"
+Kicks taken at bridge, 20 m below dam for water supply- stagnant below bridge on downstream side",2018,Macro_2018
+13-WALK-22.8,13,WALK,22.8,-74.18889,41.635,8/27/2018 15:09,"Lemley,Lojpersberger",N,,Elevated flow but ok to kick turbid water.  Riffle under bridge mostly.  Better access to site right at east side of bridge.  ,2018,Macro_2018
+13-GUNK_T35-0.2,13,GUNK_T35,0.2,-74.538899,41.439605,8/27/2018 15:13,"Heitzman,Stoll",N,,"Rather slow flow above the lake Kicked riffle area 25 m below bridge 
+Send report to:
+Alan Lewis
+193 guymard turnpike
+Middletown, ny 10940
+Farmbook1@yahoo.com
+",2018,Macro_2018
+13-DWAR-2,13,DWAR,2,-74.19945,41.62444,8/27/2018 15:44,"Lojpersberger,Lemley",N,,Kick 1 taken at possible manmade riffle 40m upstreams,2018,Macro_2018
+13-GUNK-40.3,13,GUNK,40.3,-74.560699,41.421985,8/27/2018 16:13,"Heitzman,Stoll",N,,"Slow moving, silty bottom ",2018,Macro_2018
+13-MONH-4.1,13,MONH,4.1,-74.42389,41.42833,8/27/2018 17:13,"Heitzman,Stoll",N,,,2018,Macro_2018
+13-MASO-0.2,13,MASO,0.2,-74.37250706,41.43725915,8/27/2018 17:25,"Lojpersberger,Lemley",N,,Big snapping turtle. Mostly bedrock substrate. ,2018,Macro_2018
+13-MONH-0.4,13,MONH,0.4,-74.38111,41.42361,8/27/2018 17:55,"Heitzman,Stoll",N,,,2018,Macro_2018
+13-WCHEE-0.6,13,WCHEE,0.6,-74.37248,41.40873,8/28/2018 8:17,"Heitzman,Stoll",N,,Lots of worms in the net & pan- crawling with crayfish ,2018,Macro_2018
+13-QKER-0.9,13,QKER,0.9,-74.41599808,41.32759372,8/28/2018 8:48,"Lojpersberger,Lemley",N,,"Dominant land use Ag, not residential. Nothing to scrape for habs sample.",2018,Macro_2018
+13-RUTG-1.5,13,RUTG,1.5,-74.487986,41.335792,8/28/2018 9:19,"Heitzman,Stoll",N,,"Bridge being removed in August while we were there 
+Also flows quite high, couldn’t get to downstream site, moved upstream 40 m",2018,Macro_2018
+13-RIOG-0.7,13,RIOG,0.7,-74.36009053,41.40105109,8/28/2018 9:51,"Lemley,Lojpersberger",N,,"Land use Ag, not res. ",2018,Macro_2018
+13-POCH-1.8,13,POCH,1.8,-74.47223469,41.30040286,8/28/2018 10:13,"Heitzman,Stoll",N,,"Agricultural 
+Deep water",2018,Macro_2018
+13-WALK-46.6,13,WALK,46.6,-74.37748558,41.41249901,8/28/2018 10:40,"Lojpersberger,Lemley",N,,High flow. Cant determine substrate or embeddedness. No bio.,2018,Macro_2018
+13-WALK-44.4,13,WALK,44.4,-74.36590615,41.43875012,8/28/2018 11:08,"Lojpersberger,Lemley",N,,No kick. Flow too high.,2018,Macro_2018
+13-WALK-0.8,13,WALK,0.8,-74.04101,41.84881,9/5/2018 9:07,"Heitzman,Lojpersberger,Woltmann",X,Not_Sampled,Sampled from dock at Central Hudson recreation area with mercury grab pole,2018,Chem_Only_2018
+13-WALK-2.1,13,WALK,2.1,-74.047202,41.825296,9/5/2018 9:31,"Heitzman,Lojpersberger,Woltmann",X,Not_Sampled,Sampled from shore with mercury grab pole,2018,Chem_Only_2018
+13-SWAK-1.7,13,SWAK,1.7,-74.037419,41.843302,9/5/2018 10:07,"Heitzman,Lojpersberger,Woltmann",X,Not_Sampled,,2018,Chem_Only_2018
+13-GUNK-40.3,13,GUNK,40.3,-74.560699,41.421985,9/5/2018 10:11,Other,X,Not_Sampled,,2018,Chem_Only_2018
+13-WKLEI-0.6,13,WKLEI,0.6,-74.09647,41.77464,9/5/2018 11:05,"Heitzman,Lojpersberger,Woltmann",X,Not_Sampled,Deep & gross,2018,Chem_Only_2018
+13-GUNK_T35-0.2,13,GUNK_T35,0.2,-74.538899,41.439605,9/5/2018 11:07,Other,X,Not_Sampled,,2018,Chem_Only_2018
+13-WALK-9.8,13,WALK,9.8,-74.092973,41.765737,9/5/2018 11:37,"Heitzman,Lojpersberger,Woltmann",X,"Not_Sampled,DUP","Took sample with mercury grab pole, sample just above Klein kill mouth",2018,Chem_Only_2018
+13-GUNK-37.7,13,GUNK,37.7,-74.529772,41.441342,9/5/2018 12:17,Other,X,Not_Sampled,Some duck weed floating. Water coming in off the dam but no flow registered. ,2018,Chem_Only_2018
+13-LGUN-6,13,LGUN,6,-74.493797,41.45587,9/5/2018 12:58,Other,X,Not_Sampled,,2018,Chem_Only_2018
+13-RUTG-1.5,13,RUTG,1.5,-74.487986,41.335792,9/5/2018 13:42,"Heitzman,Lojpersberger,Woltmann",X,Not_Sampled,Bridge is now down Took sample &flow above old bridge about 60m,2018,Chem_Only_2018
+13-MONH-4.1,13,MONH,4.1,-74.42389,41.42833,9/5/2018 14:09,Other,X,Not_Sampled,Water level 2nd variable. Some fish/crayfish. ,2018,Chem_Only_2018
+13-WALK-60.1,13,WALK,60.1,-74.53451,41.28812,9/5/2018 14:36,"Heitzman,Lojpersberger,Woltmann",X,Not_Sampled,Used mercury grab pole to take sample ,2018,Chem_Only_2018
+13-WALK-35.6,13,WALK,35.6,-74.26334,41.5025,9/5/2018 15:11,Other,X,Not_Sampled,Small fish,2018,Chem_Only_2018
+13-QKER-0.9,13,QKER,0.9,-74.41639,41.32722,9/5/2018 16:01,"Heitzman,Lojpersberger,Woltmann",X,Not_Sampled,,2018,Chem_Only_2018
+13-WALK-29.9,13,WALK,29.9,-74.20946,41.54217,9/5/2018 16:23,Other,X,DUP,Foam. Group of youth swimming and fishing when we arrived. ,2018,Chem_Only_2018
+13-WALK-44.4,13,WALK,44.4,-74.365652,41.438788,9/6/2018 7:58,"Heitzman,Lojpersberger,Woltmann",X,Not_Sampled,Rooster here again!,2018,Chem_Only_2018
+13-WALK-44.4,13,WALK,44.4,-74.365652,41.438788,9/6/2018 8:03,"Heitzman,Lojpersberger,Woltmann",X,No_QC_Collected,Water down enough to take kick.,2018,Macro_2018
+13-TINW-0.5,13,TINW,0.5,-74.18353,41.573251,9/6/2018 8:24,Other,X,EB_FB,Bottom sediment mucky,2018,Chem_Only_2018
+13-MASO-0.2,13,MASO,0.2,-74.372867,41.43765,9/6/2018 8:37,"Heitzman,Lojpersberger,Woltmann",X,Not_Sampled,,2018,Chem_Only_2018
+13-WALK-26.9,13,WALK,26.9,-74.1907167,41.5763,9/6/2018 9:09,Other,X,Not_Sampled,Green heron ,2018,Chem_Only_2018
+13-MONH-0.4,13,MONH,0.4,-74.38111,41.42361,9/6/2018 9:30,"Heitzman,Lojpersberger,Woltmann",X,Not_Sampled,"STP smell
+High conductivity ",2018,Chem_Only_2018
+13-WALK-46.6,13,WALK,46.6,-74.37774,41.41217,9/6/2018 10:06,"Heitzman,Lojpersberger,Woltmann",X,Not_Sampled,Bridge too high- access quite difficult ,2018,Chem_Only_2018
+13-WCHEE-0.6,13,WCHEE,0.6,-74.37248,41.40873,9/6/2018 10:24,"Heitzman,Lojpersberger,Woltmann",X,MS,,2018,Chem_Only_2018
+13-DWAR-2,13,DWAR,2,-74.19945,41.62444,9/6/2018 10:28,Other,X,Not_Sampled,,2018,Chem_Only_2018
+13-WALK-22.8,13,WALK,22.8,-74.18889,41.635,9/6/2018 11:02,Other,X,Not_Sampled,,2018,Chem_Only_2018
+13-RIOG-0.7,13,RIOG,0.7,-74.359233,41.40115,9/6/2018 11:11,"Heitzman,Lojpersberger,Woltmann",X,EB_FB,"Brambles, trash, odor- just not pleasant even though next to walking path ",2018,Chem_Only_2018
+13-WALK-19,13,WALK,19,-74.16442,41.68639,9/6/2018 12:11,Other,X,Not_Sampled,Swift current ,2018,Chem_Only_2018
+13-GUNK-0.4,13,GUNK,0.4,-74.17278,41.68722,9/6/2018 13:29,Other,X,Not_Sampled,Talked to landowner. They see turtles nesting. 2 green herons. Some algae scum caught on branches. ,2018,Chem_Only_2018
+13-PKIL-0.4,13,PKIL,0.4,-74.10472,41.72528,9/6/2018 14:57,Other,X,Not_Sampled,Low flow,2018,Chem_Only_2018
+13-WALK-29.9,13,WALK,29.9,-74.20946,41.54217,10/2/2018 9:33,Other,X,Not_Sampled,High flows,2018,Chem_Only_2018
+13-TINW-0.5,13,TINW,0.5,-74.18353,41.573251,10/2/2018 10:27,Other,X,Not_Sampled,Really mucky. EV fell in. ,2018,Chem_Only_2018
+13-WALK-26.9,13,WALK,26.9,-74.1907167,41.5763,10/2/2018 11:09,Other,X,Not_Sampled,High flows,2018,Chem_Only_2018
+13-DWAR-2,13,DWAR,2,-74.19945,41.62444,10/2/2018 12:27,Other,X,DUP,Swift but shallow water,2018,Chem_Only_2018
+13-WALK-22.8,13,WALK,22.8,-74.18889,41.635,10/2/2018 13:05,Other,X,Not_Sampled,High flows,2018,Chem_Only_2018
+13-GUNK-0.4,13,GUNK,0.4,-74.17278,41.68722,10/2/2018 13:39,Other,X,Not_Sampled,High flow,2018,Chem_Only_2018
+13-WALK-19,13,WALK,19,-74.16442,41.68639,10/2/2018 14:41,Other,X,Not_Sampled,High flow,2018,Chem_Only_2018
+13-PKIL-0.4,13,PKIL,0.4,-74.10472,41.72528,10/2/2018 15:44,Other,X,Not_Sampled,High flow,2018,Chem_Only_2018
+13-WALK-0.8,13,WALK,0.8,-74.04101,41.84881,10/3/2018 9:07,"Lojpersberger,Lemley,Other",X,Not_Sampled,Benthic algae by shore. Used reach pole for grab sample.,2018,Chem_Only_2018
+13-WALK-2.1,13,WALK,2.1,-74.04564318,41.82413348,10/3/2018 9:51,"Lojpersberger,Lemley,Other",X,Not_Sampled,High flow. Used reach pole for grab sample.,2018,Chem_Only_2018
+13-GUNK-40.3,13,GUNK,40.3,-74.560699,41.421985,10/3/2018 10:04,Other,X,EB_FB,,2018,Chem_Only_2018
+13-SWAK-1.7,13,SWAK,1.7,-74.03169922,41.83241819,10/3/2018 10:16,"Lojpersberger,Lemley,Other",X,Not_Sampled,Default coordinates incorrect? Very high flow. Used reach pole for grab sample.,2018,Chem_Only_2018
+13-WKLEI-0.6,13,WKLEI,0.6,-74.09780871,41.77428948,10/3/2018 11:00,"Lemley,Lojpersberger,Other",X,Not_Sampled,Low grad. High flow. Sampled with grab pole.,2018,Chem_Only_2018
+13-GUNK_T35-0.2,13,GUNK_T35,0.2,-74.538899,41.439605,10/3/2018 11:25,Other,X,Not_Sampled,Small stream but highest we’ve sampled,2018,Chem_Only_2018
+13-WALK-9.8,13,WALK,9.8,-74.09275107,41.7697125,10/3/2018 11:35,"Lemley,Lojpersberger,Other",X,Not_Sampled,High flow. Used pole for grab sample. ,2018,Chem_Only_2018
+13-GUNK-37.7,13,GUNK,37.7,-74.529772,41.441342,10/3/2018 12:20,Other,X,Not_Sampled,Lots of foam build up,2018,Chem_Only_2018
+13-RUTG-1.5,13,RUTG,1.5,-74.48758221,41.33703112,10/3/2018 13:04,"Lemley,Lojpersberger,Other",X,Not_Sampled,Very high flow. Sampled upstream of bridge due to bridge construction. Used pole for grab. ,2018,Chem_Only_2018
+13-LGUN-6,13,LGUN,6,-74.493797,41.45587,10/3/2018 13:29,Other,X,Not_Sampled,"Not a lot of rocks, more like low gradient wetland stream. ",2018,Chem_Only_2018
+13-WALK-60.1,13,WALK,60.1,-74.5342809,41.28779112,10/3/2018 13:34,"Lemley,Lojpersberger,Other",X,Not_Sampled,Very high flow. Grab sample with pole.,2018,Chem_Only_2018
+13-QKER-0.9,13,QKER,0.9,-74.4159591,41.32763471,10/3/2018 14:47,"Lemley,Lojpersberger,Other",X,DUP,High flow. Sampled with pole. ,2018,Chem_Only_2018
+13-MONH-4.1,13,MONH,4.1,-74.42389,41.42833,10/3/2018 15:05,Other,X,Not_Sampled,,2018,Chem_Only_2018
+13-WALK-35.6,13,WALK,35.6,-74.26334,41.5025,10/3/2018 15:53,Other,X,Not_Sampled,High flows,2018,Chem_Only_2018
+13-WALK-44.4,13,WALK,44.4,-74.36680008,41.43979769,10/4/2018 8:18,"Lemley,Lojpersberger,Other",X,Not_Sampled,Very high flow. Sampled with pole.,2018,Chem_Only_2018
+13-MASO-0.2,13,MASO,0.2,-74.37251964,41.43713472,10/4/2018 8:36,"Lemley,Lojpersberger,Other",X,Not_Sampled,Next to large gravel pad/construction site. Very high flow. Sampled with pole. ,2018,Chem_Only_2018
+13-MONH-0.4,13,MONH,0.4,-74.38036385,41.42416296,10/4/2018 8:59,"Lemley,Lojpersberger,Other",X,Not_Sampled,High flow. Sampled with pole. ,2018,Chem_Only_2018
+13-WALK-46.6,13,WALK,46.6,-74.3776269,41.41229151,10/4/2018 9:24,"Lemley,Lojpersberger,Other",X,EB_FB,Very high flow. Sampled with pole. Stp outfall under bridge. ,2018,Chem_Only_2018
+13-WCHEE-0.6,13,WCHEE,0.6,-74.37248,41.40873,10/4/2018 9:59,"Lemley,Lojpersberger,Other",X,Not_Sampled,,2018,Chem_Only_2018
+13-RIOG-0.7,13,RIOG,0.7,-74.359233,41.40115,10/4/2018 11:30,"Lemley,Lojpersberger,Other",X,Not_Sampled,,2018,Chem_Only_2018

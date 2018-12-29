@@ -1,0 +1,117 @@
+---
+title: "Accuracy"
+author: "Alene Onion"
+date: "December 29, 2018"
+output:
+  html_document:
+    toc: true
+    toc_depth: 6
+    toc_float: true
+---
+
+```{r setuA, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+#file.copy("sections/images", ".", recursive = TRUE)
+```
+
+##Accuracy Assessment
+Accuracy fail: designated 'spike' samples are spiked with a known concentration. The difference between the concentration before and after should be the spiked amount +/- the accuracy criteria established by the standard methods manual and listed in tables 3 and 4. A matrix spike is used to document the bias of a method in a given sample matrix.  
+
+NOTE: we only examine the matrix spike samples. The matrix spike duplicate samples would only be analyzed when we are meausring organics. That's not the case in any BWAM programs.  
+NOTE: as a reminder, the QAPP only requires that we analyze spikes for nutrients, metals and minerals (see section II.5.A.b)!  
+
+###Difficulties with this analysis  
+First of all, not all parameters had spike assessments (NA values means a spike analysis wasn't performed on this parameter).  
+I think this is ok because the QAPP only requires that we analyze spikes for nutrients, metals and minerals (see section II.5.A.b) and the nutrients that don't have spike analyses are those that are calculated (for ex: nitrate is calculated from nitrate/nitrite - nitrite). Furthermore, those assessed by spike analysis, were not done so in at a regular, consistant, interval???  
+
+My sollution to associate each sample with the nearest (in time) spike analysis if any exist at all. I feel this is best because we aren't assessing indivdual samplers, we're assessing the impact the matrix has on the analysis. For other projects, we may want to segregate this analysis regionally. For the wallkill, I didn't feel this was necessary.   
+
+Finally, it's important to note that the spike fails I calculated, did not match the spike fails calculated by the lab. I need to investigate why to figure out if my calculation or the labs is incorrect. It is surprising that so many samples are flagged rejected by this.  
+
+
+###Rejected Samples  
+NOTE:this section of the script is slow because I had to use nested loops to associate each sample with the nearest spike analysis.
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+#calculate the failures myself rather than depending on the lab
+spike$percrecovery<-((abs(spike$qc_spike_measured-spike$qc_original_conc))/spike$qc_spike_added)*100
+spike$pass<-ifelse(spike$percrecover>(100+spike$accuracy)|spike$percrecovery<(100-spike$accuracy),"fail","pass")
+
+#create a separate file with the samples flagged as pass / fail to merge with parent file later (safety precaution)
+spike$sample_date<-as.Date(spike$sample_date,"%m/%d/%Y")
+spikes<-unique(spike[c('chemical_name','sample_date','pass')])
+spikes$sample_date<-as.Date(spikes$sample_date,"%m/%d/%Y")
+
+samples<-unique(wallkill[c('sys_sample_code','chemical_name','sample_date')])
+samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
+
+params<-unique(spikes$chemical_name)
+nparams<-length(params)
+
+for(i in 1:nparams){
+  temp<-samples[samples$chemical_name==params[i],]
+  temps<-spikes[spikes$chemical_name==params[i],]
+  temps$sample_date<-as.Date(temps$sample_date,"%m/%d/%Y")
+  sites<-unique(temp$sys_sample_code)
+  nsites<-length(sites)
+  for(j in 1:nsites){
+    temp1<-temp[temp$sys_sample_code==sites[j],]
+    temp1$sample_date<-as.Date(temp1$sample_date,"%m/%d/%Y")
+    temps1<-temps[which(abs(temps$sample_date-temp1$sample_date)==min(abs(temps$sample_date-temp1$sample_date))),]
+    temp1$pass<-temps1$pass[1]
+    if(exists("dataset")){
+      dataset<-merge(dataset,temp1,all=TRUE)
+    }
+    if(!exists("dataset")){
+      dataset<-temp1
+    }
+    rm(list=c('temp1','temps1'))
+  }
+  rm(list=c('temp','temps','sites','nsites','j'))
+}
+rm(list=c('params','nparams','i','samples','spikes'))
+
+#rename pass to spikepass
+names(dataset)[names(dataset)=='pass']<-'spikepass'
+#merge with final wallkill dataset
+#first convert wallkill date to a date
+wallkill$sample_date<-as.Date(wallkill$sample_date,"%m/%d/%Y")
+wallkill<-merge(wallkill,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
+wallkill<-wallkill[!is.na(wallkill$chemical_name),]
+rm(dataset)
+```
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+#plotting the sample failures
+#count fails and passes
+library(plyr)
+spikefails<-count(spike[c('short','pass')])
+samplefails<-count(wallkill[c('short','spikepass')])
+names(samplefails)[names(samplefails)=='spikepass']<-'legend'
+names(spikefails)[names(spikefails)=='pass']<-'legend'
+
+library(ggplot2)
+library(ggpubr)
+theme_set(theme_pubr())
+
+ samplefails<-(ggplot() +
+    geom_col(data=samplefails,aes(short,freq,fill=legend)) +
+      coord_flip() +
+      theme(axis.title.x = element_blank(),axis.title.y = element_blank()))
+ spikefails<-(ggplot() +
+    geom_col(data=spikefails,aes(short,freq,fill=legend)) +
+      coord_flip() +
+      theme(axis.title.x = element_blank(),axis.title.y = element_blank()))
+ print(ggarrange(
+  samplefails, spikefails, labels = c("associated sample fails", "individual spike fails"),
+  common.legend = TRUE, legend = "bottom"
+  ))
+ rm(list=c('spikefails','samplefails','spike'))
+```
+
+```{r message=FALSE, warning=FALSE, results='asis'}
+#This bit of script converts pass faill to R (reject) and A (Accept)
+wallkill$spikepass<-gsub("pass","A",wallkill$spikepass)
+wallkill$spikepass<-gsub("fail","R",wallkill$spikepass)
+
+```
