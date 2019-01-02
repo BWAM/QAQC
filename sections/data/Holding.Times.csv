@@ -1,39 +1,39 @@
-Parameter,Holding.Time,Added Wiggle Room,Holding,units
-"ALKALINITY, TOTAL (AS CaCO3)",14 days,12hrs,1252800,seconds
-"Carbon, Dissolved Organic (DOC)",28 days,12hrs,2462400,seconds
-CHLORIDE (AS CL),28 days,12hrs,2462400,seconds
-Conductivity at 25 Degrees Celsius,28 days,12hrs,2462400,seconds
-"Fluoride, undistilled",28 days,12hrs,2462400,seconds
-Mercury,28 days,12hrs,2462400,seconds
-Nitrate+Nitrite as Nitrogen,28 days,12hrs,2462400,seconds
-"Nitrogen, ammonia (As N)",28 days,12hrs,2462400,seconds
-"NITROGEN, KJELDAHL, TOTAL",28 days,12hrs,2462400,seconds
-"PHENOLICS, TOTAL RECOVERABLE",28 days,12hrs,2462400,seconds
-"PHOSPHORUS, TOTAL (AS P)",28 days,12hrs,2462400,seconds
-SULFATE (AS SO4),28 days,12hrs,2462400,seconds
-TOTAL ORGANIC CARBON,28 days,12hrs,2462400,seconds
-SPECIFIC CONDUCTANCE,28 days ,12hrs,2462400,seconds
-"NITROGEN, NITRATE (AS N)",48 hrs,12hrs,216000,seconds
-"NITROGEN, NITRITE",48 hrs,12hrs,216000,seconds
-TURBIDITY,48 hrs,12hrs,216000,seconds
-"Orthophosphate as Phosphorus, Dissolved",48 hrs.,12hrs,216000,seconds
-Aluminum,6months,12hrs,15595200,seconds
-Arsenic,6months,12hrs,15595200,seconds
-Cadmium,6months,12hrs,15595200,seconds
-Copper,6months,12hrs,15595200,seconds
-Iron,6months,12hrs,15595200,seconds
-Lead,6months,12hrs,15595200,seconds
-Manganese,6months,12hrs,15595200,seconds
-Nickel,6months,12hrs,15595200,seconds
-Silver,6months,12hrs,15595200,seconds
-TOTAL SOLIDS,7 days,12hrs,648000,seconds
-Total Suspended Solids,7 days,12hrs,648000,seconds
-TOTAL VOLATILE SOLIDS,7 days,12hrs,648000,seconds
-HARDNESS (AS CACO3),7 days or 28 days depending on mehtod,12hrs,648000,seconds
-Calcium,7 days or 28 days depending on method,12hrs,648000,seconds
-Magnesium,7 days or 28 days depending on method,12hrs,648000,seconds
-Potassium,7 days or 28 days depending on method,12hrs,648000,seconds
-Sodium,7 days or 28 days depending on method,12hrs,648000,seconds
-"TOTAL DISSOLVED SOLIDS (RESIDUE, FILTERABLE)",7days,12hrs,648000,seconds
-PH,NA,12hrs,3643200,seconds
-Temperature of pH Analysis,NA,12hrs,3643200,seconds
+chemical_name,Holding.Time,Holding.Time.Hrs,Added Wiggle Room,Holding,units
+"ALKALINITY, TOTAL (AS CaCO3)",14 days,336,12,348,hours
+"Carbon, Dissolved Organic (DOC)",28 days,672,12,684,hours
+CHLORIDE (AS CL),28 days,672,12,684,hours
+Conductivity at 25 Degrees Celsius,28 days,672,12,684,hours
+"Fluoride, undistilled",28 days,672,12,684,hours
+Mercury,28 days,672,12,684,hours
+Nitrate+Nitrite as Nitrogen,28 days,672,12,684,hours
+"Nitrogen, ammonia (As N)",28 days,672,12,684,hours
+"NITROGEN, KJELDAHL, TOTAL",28 days,672,12,684,hours
+"PHENOLICS, TOTAL RECOVERABLE",28 days,672,12,684,hours
+"PHOSPHORUS, TOTAL (AS P)",28 days,672,12,684,hours
+SULFATE (AS SO4),28 days,672,12,684,hours
+TOTAL ORGANIC CARBON,28 days,672,12,684,hours
+SPECIFIC CONDUCTANCE,28 days ,672,12,684,hours
+"NITROGEN, NITRATE (AS N)",48 hrs,48,12,60,hours
+"NITROGEN, NITRITE",48 hrs,48,12,60,hours
+TURBIDITY,48 hrs,48,12,60,hours
+"Orthophosphate as Phosphorus, Dissolved",48 hrs.,48,12,60,hours
+Aluminum,6months,4320,12,4332,hours
+Arsenic,6months,4320,12,4332,hours
+Cadmium,6months,4320,12,4332,hours
+Copper,6months,4320,12,4332,hours
+Iron,6months,4320,12,4332,hours
+Lead,6months,4320,12,4332,hours
+Manganese,6months,4320,12,4332,hours
+Nickel,6months,4320,12,4332,hours
+Silver,6months,4320,12,4332,hours
+TOTAL SOLIDS,7 days,168,12,180,hours
+Total Suspended Solids,7 days,168,12,180,hours
+TOTAL VOLATILE SOLIDS,7 days,168,12,180,hours
+HARDNESS (AS CACO3),7 days or 28 days depending on mehtod,672,12,684,hours
+Calcium,7 days or 28 days depending on method,672,12,684,hours
+Magnesium,7 days or 28 days depending on method,672,12,684,hours
+Potassium,7 days or 28 days depending on method,672,12,684,hours
+Sodium,7 days or 28 days depending on method,672,12,684,hours
+"TOTAL DISSOLVED SOLIDS (RESIDUE, FILTERABLE)",7days,168,12,180,hours
+PH,NA,NA,12,NA,hours
+Temperature of pH Analysis,NA,NA,12,NA,hours

@@ -26,7 +26,6 @@ In short, they reject any duplicate sample pair where the %RPD > (0.9465x^-0.344
 where:
 x = sample / detection limit
 %RPD = [diff(duplicate pair)/av(duplicate pair)]*100  
-NOTE: they used the method detection limt but we might consider the quantitation limit  
 NOTE: I used the maximum of the two samples to calculate x  
 
 ###plots  
@@ -79,7 +78,7 @@ dups<-unique(dup[c('chemical_name','pass','sample_date.parent')])
 names(dups)[names(dups)=='sample_date.parent']<-'sample_date'
 dups$sample_date<-as.Date(dups$sample_date,"%m/%d/%Y")
 
-samples<-unique(wallkill[c('sys_sample_code','chemical_name','sample_date')])
+samples<-unique(data[c('sys_sample_code','chemical_name','sample_date')])
 samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
 
 params<-unique(dups$chemical_name)
@@ -110,11 +109,11 @@ rm(list=c('params','nparams','i','samples','dups'))
 
 #rename pass to duppass
 names(dataset)[names(dataset)=='pass']<-'duppass'
-#merge with final wallkill dataset
-#first convert wallkill date to a date
-wallkill$sample_date<-as.Date(wallkill$sample_date,"%m/%d/%Y")
-wallkill<-merge(wallkill,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
-wallkill<-wallkill[!is.na(wallkill$chemical_name),]
+#merge with final data dataset
+#first convert data date to a date
+data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
+data<-merge(data,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
+data<-data[!is.na(data$chemical_name),]
 rm(dataset)
 ```
 
@@ -123,7 +122,7 @@ rm(dataset)
 #count fails and passes
 library(plyr)
 dupfails<-count(dup[c('short','pass')])
-samplefails<-count(wallkill[c('short','duppass')])
+samplefails<-count(data[c('short','duppass')])
 names(samplefails)[names(samplefails)=='duppass']<-'legend'
 names(dupfails)[names(dupfails)=='pass']<-'legend'
 
@@ -149,8 +148,8 @@ theme_set(theme_pubr())
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
 #This bit of script converts pass faill to R (reject) and A (Accept)
-wallkill$duppass<-gsub("pass","A",wallkill$duppass)
-wallkill$duppass<-gsub("fail","R",wallkill$duppass)
+data$duppass<-gsub("pass","A",data$duppass)
+data$duppass<-gsub("fail","R",data$duppass)
 
 ```
 

@@ -77,7 +77,7 @@ EBs$blank<-ifelse(EBs$pass=="fail",EBs$blank,NA)
 EBs$sample_date<-as.Date(EBs$sample_date,"%m/%d/%Y")
 EBs<-unique(EBs[c('chemical_name','blank','sample_date')])
 
-samples<-unique(wallkill[c('sys_sample_code','chemical_name','sample_date')])
+samples<-unique(data[c('sys_sample_code','chemical_name','sample_date')])
 samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
 
 params<-unique(EBs$chemical_name)
@@ -106,15 +106,15 @@ for(i in 1:nparams){
 }
 rm(list=c('params','nparams','i','samples','EBs'))
 
-#merge with final wallkill dataset
-#first convert wallkill date to a date
-wallkill$sample_date<-as.Date(wallkill$sample_date,"%m/%d/%Y")
-wallkill<-merge(wallkill,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
-wallkill<-wallkill[!is.na(wallkill$chemical_name),]
+#merge with final data dataset
+#first convert data date to a date
+data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
+data<-merge(data,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
+data<-data[!is.na(data$chemical_name),]
 rm(dataset)
 
 #finally, calculate error flag if any
-wallkill$EBpass<-ifelse(is.na(wallkill$blank),"A",ifelse(wallkill$result_value<=3*(wallkill$blank),"R",ifelse(wallkill$result_value<=5*(wallkill$blank),"trend",ifelse(wallkill$result_value<=10*(wallkill$blank),"J","A"))))
+data$EBpass<-ifelse(is.na(data$blank),"A",ifelse(data$result_value<=3*(data$blank),"R",ifelse(data$result_value<=5*(data$blank),"trend",ifelse(data$result_value<=10*(data$blank),"J","A"))))
 ```
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
@@ -122,7 +122,7 @@ wallkill$EBpass<-ifelse(is.na(wallkill$blank),"A",ifelse(wallkill$result_value<=
 #count fails and passes
 library(plyr)
 blankfails<-count(EB[c('short','pass')])
-samplefails<-count(wallkill[c('short','EBpass')])
+samplefails<-count(data[c('short','EBpass')])
 names(samplefails)[names(samplefails)=='EBpass']<-'legend'
 names(blankfails)[names(blankfails)=='pass']<-'legend'
 blankfails$legend<-gsub("pass","A",blankfails$legend)

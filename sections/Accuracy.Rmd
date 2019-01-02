@@ -21,8 +21,7 @@ knitr::opts_chunk$set(echo = FALSE)
     + designated 'spike' samples are spiked with a known concentration. The difference between the concentration before and after divided by the spiked amount is the percent recovery. Spike samples are acceptable if the percent recovery is 100% +/- the accuracy criteria established by the standard methods manual and listed in tables 3 and 4.  Otherwise, the spike and it's associated samples are flagged as rejected.
     + NOTE: the QAPP only requires that we analyze spikes for nutrients, metals and minerals (see section II.5.A.b)! I’m presuming this excludes solids, turbidity, conductivity, and hardness in addition to in situ parameters, alkalinity, DOC, and chlorophyll a  
     + NOTE: we only examine the matrix spike samples. The matrix spike duplicate samples would only be analyzed when we are meausring organics. That's not the case in any BWAM programs.   
-    
-It's important to note that the spike fails I calculated, did not match the spike fails calculated by the lab. According to Gavin, the lab flags failed spike samples with * in the qc_spike_status column. I need to investigate why to figure out if my calculation or the labs is incorrect. It is surprising that so many samples are flagged rejected by this.  
+    + NOTE: The spike fails I calculated, do not match the spike fails calculated by the lab (flagged star in the qc_spike_status column). This is because the lab has diffierent accuracy limits.
 
     
 ###Difficulties with this analysis  
@@ -44,7 +43,7 @@ spike$sample_date<-as.Date(spike$sample_date,"%m/%d/%Y")
 spikes<-unique(spike[c('chemical_name','sample_date','pass')])
 spikes$sample_date<-as.Date(spikes$sample_date,"%m/%d/%Y")
 
-samples<-unique(wallkill[c('sys_sample_code','chemical_name','sample_date')])
+samples<-unique(data[c('sys_sample_code','chemical_name','sample_date')])
 samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
 
 params<-unique(spikes$chemical_name)
@@ -75,11 +74,11 @@ rm(list=c('params','nparams','i','samples','spikes'))
 
 #rename pass to spikepass
 names(dataset)[names(dataset)=='pass']<-'spikepass'
-#merge with final wallkill dataset
-#first convert wallkill date to a date
-wallkill$sample_date<-as.Date(wallkill$sample_date,"%m/%d/%Y")
-wallkill<-merge(wallkill,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
-wallkill<-wallkill[!is.na(wallkill$chemical_name),]
+#merge with final dataset
+#first convert data date to a date
+data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
+data<-merge(data,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
+data<-data[!is.na(data$chemical_name),]
 rm(dataset)
 ```
 
@@ -88,7 +87,7 @@ rm(dataset)
 #count fails and passes
 library(plyr)
 spikefails<-count(spike[c('short','pass')])
-samplefails<-count(wallkill[c('short','spikepass')])
+samplefails<-count(data[c('short','spikepass')])
 names(samplefails)[names(samplefails)=='spikepass']<-'legend'
 names(spikefails)[names(spikefails)=='pass']<-'legend'
 
@@ -113,7 +112,7 @@ theme_set(theme_pubr())
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
 #This bit of script converts pass faill to R (reject) and A (Accept)
-wallkill$spikepass<-gsub("pass","A",wallkill$spikepass)
-wallkill$spikepass<-gsub("fail","R",wallkill$spikepass)
+data$spikepass<-gsub("pass","A",data$spikepass)
+data$spikepass<-gsub("fail","R",data$spikepass)
 
 ```
