@@ -9,6 +9,7 @@
 #Holding.Times.csv: a lookup table for holding times
 #ALSflags.png: to see the ALs flags
 #laberrors.csv: a list of all the errors noted in the written lab reports
+#validator_flags: a list of all the possible flags applied to the validator_flag column
 
 #This script associates samples with the nearest qc samples by date
 #It is possible to run this script for a large or small data set 

@@ -143,7 +143,6 @@ Plotting the interpreted flags to see the reason the data were flagged
 ```{r message=FALSE, warning=FALSE, results='asis'}
 #plot the result value / day for each param 
 #color the points based on flags
-#first make the plot just to plot the parameters
 labfails<-unique(data$chemical_name)
 labfails<-count(data[c('short','interpreted_qualifiers')])
 names(labfails)[names(labfails)=='interpreted_qualifiers']<-'legend'
@@ -153,7 +152,14 @@ library(ggplot2)
 library(ggpubr)
 theme_set(theme_pubr())
 
-legend<-(ggplot() +
+
+ #plot the graph without the legend
+ print((ggplot() +
+    geom_col(data=labfails,aes(short,freq,fill=legend)) +
+      coord_flip() +
+      theme(axis.title.x = element_blank(),axis.title.y = element_blank(),legend.position="none")))
+#plot just the legend
+ legend<-(ggplot() +
                   geom_col(data=labfails,aes(short,freq,fill=legend)) +
                   coord_flip() +
                   theme_void())
@@ -161,11 +167,6 @@ legend<-get_legend(legend)
 as_ggplot(legend)
 rm(legend)
 
- #now plot the entire graph
- print((ggplot() +
-    geom_col(data=labfails,aes(short,freq,fill=legend)) +
-      coord_flip() +
-      theme(axis.title.x = element_blank(),axis.title.y = element_blank(),legend.position="none")))
 rm(list=c('labfails'))
 
 ```

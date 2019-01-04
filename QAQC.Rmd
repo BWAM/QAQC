@@ -168,4 +168,5 @@ rm(list=c('samples','blanksamples','dupsamples','spikesamples'))
 #creating final data set
 forprint<-unique(data[c('sys_sample_code','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers')])
 write.csv(forprint,file="output/dataqqaqcd.csv",row.names = FALSE)
+rm(forprint)
 ```
