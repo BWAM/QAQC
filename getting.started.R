@@ -18,14 +18,21 @@
 
 #The output is a flagged data set and a quality report summarizing the flagging process
 
-
 #first load the data file
-data<-read.csv("sections/data/Wallkill_2018_chem.csv")
+data<-read.csv("sections/data/projectData/wallkill2018/Wallkill_2018_chem.csv")
+errors<-read.csv("sections/data/projectData/wallkill2018/laberrors.csv")
 #truncate this file to only the necessary fields
 #this shortened file is saved as Wallkill.short.csv
-data<-unique(data[c('sys_sample_code','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date','result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured','qc_spike_status','method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code','DEC_sample_type','analysis_date')])
+data<-unique(data[c('sys_sample_code','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
+                    'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured','qc_spike_status',
+                    'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
+                    'DEC_sample_type','analysis_date')])
 
 #first a QC check to make sure this script accoutns for all the possible lab error codes:
 #run the rmarkdown script for this list
 rmarkdown::render("QAQC.Rmd", params = inputs)
+
+#write the data output
+write.csv(forprint,file="sections/data/projectData/wallkill2018/output/dataqqaqcd.csv",row.names = FALSE)
+rm(forprint)
 

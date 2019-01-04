@@ -33,8 +33,6 @@ rm(qualifiers)
 
 Errors noted in the narrative reports:  
 ```{r message=FALSE, warning=FALSE, results='asis'}
-errors<-read.csv("data/laberrors.csv")
-
 knitr::kable(errors)
 rm(errors)
 ```
