@@ -7,6 +7,8 @@
 #reporting.limits.csv: reporting limits file that includes accuracy limits, paired parameters that components should be samler than, and an abbreviated name column
 #Ohio.Qualifiers.csv: A table of Ohio data qualifiers
 #Holding.Times.csv: a lookup table for holding times
+#ALSflags.png: to see the ALs flags
+#laberrors.csv: a list of all the errors noted in the written lab reports
 
 #This script associates samples with the nearest qc samples by date
 #It is possible to run this script for a large or small data set 
@@ -18,23 +20,11 @@
 
 #first load the data file
 data<-read.csv("sections/data/Wallkill_2018_chem.csv")
+#truncate this file to only the necessary fields
+#this shortened file is saved as Wallkill.short.csv
+data<-unique(data[c('sys_sample_code','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date','result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured','qc_spike_status','method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code','DEC_sample_type','analysis_date')])
 
 #first a QC check to make sure this script accoutns for all the possible lab error codes:
-lab_qualifiers<-c("",'B','E','J','N','U','UE','UN')
-possible_flags<-c('X','X','X','X','X','X','X','X')
-possible_flags<-data.frame(lab_qualifiers,possible_flags)
-possible_flags$lab_qualifiers<-as.character(possible_flags$lab_qualifiers)
-flags<-data
-flags$flags_in_this_data<-'X'
-flags<-unique(flags[c('lab_qualifiers','flags_in_this_data')])
-flags$lab_qualifiers<-as.character(flags$lab_qualifiers)
-flags<-merge(possible_flags,flags,by=c('lab_qualifiers'),all=TRUE)
-#now set up an error if there are flags not identified in the possible list
-flagcheck<-flags[is.na(flags$possible_flags),]
-rm(list=c('lab_qualifiers','possible_flags'))
-if(length(flagcheck$possible_flags)==0){
-   
 #run the rmarkdown script for this list
 rmarkdown::render("QAQC.Rmd", params = inputs)
-}
 

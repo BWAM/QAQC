@@ -17,12 +17,11 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ##Equipment Blanks
 
-* Equipment Blank exceedances  (result > reporting limit)  
-    + Step 1: identify a reporting limit based on the data collected in 2017+18
-    + Step 2: pull EB values that exceed these reporting limits
-    + Step 3: flag sample values associated with EB exceedences that are less than 10x (flagged calculated), 5x (flagged trend), and 3x (rejected) the equipment blank value   
+* Equipment Blank exceedances  (result > quantitation limit)  
+    + Step 1: pull EB values that exceed the quantitation limt
+    + Step 2: flag sample values associated with EB exceedences that are less than 10x (flagged calculated), 5x (flagged trend), and 3x (rejected) the equipment blank value   
 
-IT'S IMPORTANT TO NOTE: that the quantitation limit is NOT the reporting limit. It is set by the lab and can vary week to week (the method detection limit can as well). The reporting limit is the project goal (including field and lab errors) and the quantitation limit is what the lab alone achieved. It's important to develop reporting limits specific to the needs of the project. For example, you may have a stricter reporting limit for a track down study than you would have for a screening survey.      
+IT'S IMPORTANT TO NOTE: that the quantitation limit is NOT the method detection limit. Both are set by the lab and can vary week to week. The quantitation limit is the practical limt the lab was able to achieve and has confidence in on that date.       
 
 These flags and their thresholds are again taken from OHIO EPA methods (https://www.epa.ohio.gov/portals/35/documents/sw_samplingmanual.pdf). Their detailed description is replicated below:  
 ```{r, echo=FALSE}
@@ -31,12 +30,14 @@ knitr::kable(OHIO)
 rm(OHIO)
 ```
 
+The equipment blank assessments are performed on a subset of samples. The errors discovered with these QC assessments are applied to all normal samples. This is done by associating normal samples to those QC samples closest in date/time to each sample. 
+
 ###plots    
 I only plotted parameters with EB failures.  
 The purpose of these plots is to see whether the failures were outliers or were part of an underlying noise. If the latter, then we should consider raising the reporting limit.  
 NOTE: I turn non-detects into 0 which I know they are not but for the purpose of identifying failed EBs, I feel this is ok.
 
-```{r message=FALSE, warning=FALSE, results='asis'}
+```{r message=FALSE, results='asis'}
 #create pass column - pass if less than reporting limit; reject if more than reporting limit
 #convert non-detects to 0
 EB$result_value <- ifelse(EB$lab_qualifiers=="U",0,EB$result_value)
@@ -44,7 +45,7 @@ EB$result_value <- ifelse(EB$lab_qualifiers=="UN",0,EB$result_value)
 EB$result_value <- ifelse(EB$lab_qualifiers=="UE",0,EB$result_value)
 
 #create pass column
-EB$pass<-ifelse(EB$result_value>EB$reporting_limit,"fail","pass")
+EB$pass<-ifelse(EB$result_value>EB$quantitation_limit,"fail","pass")
 #format date
 EB$sample_date <- as.Date(EB$sample_date,"%m/%d/%Y")
 ```
@@ -59,7 +60,7 @@ nparams<-length(params)
 for(i in 1:nparams){
   temp<-EB[EB$chemical_name==params[i],]
   temp$sample_date<-as.Date(temp$sample_date,"%m/%d/%Y")
-  reporting<-temp$reporting_limit[1]
+  reporting<-temp$quantitation_limit[1]
   #plot the result values
   plot(temp$sample_date,temp$result_value,type="p",lwd=4,col="black",main=params[i],xlab="date",ylab="equipment blank result value")
   abline(h=c(reporting))
@@ -68,7 +69,7 @@ for(i in 1:nparams){
 rm(list=c('params','nparams','i'))
 ```
 
-###Rejected Samples
+###Equipment Blank Rejected Samples
 ```{r, echo=FALSE}
 #truncate the EB file
 EBs<-unique(EB[c('chemical_name','result_value','sample_date','pass')])
@@ -114,7 +115,7 @@ data<-data[!is.na(data$chemical_name),]
 rm(dataset)
 
 #finally, calculate error flag if any
-data$EBpass<-ifelse(is.na(data$blank),"A",ifelse(data$result_value<=3*(data$blank),"R",ifelse(data$result_value<=5*(data$blank),"trend",ifelse(data$result_value<=10*(data$blank),"J","A"))))
+data$EBpass<-ifelse(is.na(data$blank),"A",ifelse(data$result_value<=3*(data$blank),"R",ifelse(data$result_value<=5*(data$blank),"T",ifelse(data$result_value<=10*(data$blank),"J","A"))))
 ```
 
 ```{r message=FALSE, warning=FALSE, results='asis'}

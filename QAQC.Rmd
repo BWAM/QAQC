@@ -18,22 +18,19 @@ knitr::opts_chunk$set(echo = FALSE)
 The components of our quality review are:
 
 * Laboratory QAQC
-    + Checking that laboratory analyses met all internal QAQC checks.  
+    + Checking that laboratory analyses met all internal QAQC checks  
 * Accuracy
-    + A matrix spike is used to document the bias of a method in a given sample matrix.   
-    + designated 'spike' samples are spiked with a known concentration. The difference between the concentration before and after divided by the spiked amount is the percent recovery. Spike samples are acceptable if the percent recovery is 100% +/- the accuracy criteria established by the standard methods manual and listed in tables 3 and 4.  Otherwise, the spike and it's associated samples are flagged as rejected.
-    + NOTE: the QAPP only requires that we analyze spikes for nutrients, metals and minerals (see section II.5.A.b)! I’m presuming this excludes solids, turbidity, conductivity, and hardness in addition to in situ parameters, alkalinity, DOC, and chlorophyll a
-    + NOTE: we only examine the matrix spike samples. The matrix spike duplicate samples would only be analyzed when we are meausring organics. That's not the case in any BWAM programs.     
-    + NOTE: The spike fails I calculated, do not match the spike fails calculated by the lab (flagged star in the qc_spike_status column). This is because the lab has diffierent accuracy limits.
+    + Assessing the bias of a method in a given sample matrix Using a sample matrix spike   
 * Precision   
-    + Duplicate samples are analyzed from the same date/location to assess the method's precision.    
-    + Previously, the % difference between these samples must satisfy the precision criteria set forth in table 3 (screening) and table 4 (routine). In this document, we propose using a new method developed by Ohio EPA that offers a curved threshold.    
-* Equipment Blank exceedances  (result > reporting limit)  
-    + Step 1: identify a reporting limit based on the data collected in 2017+18
-    + Step 2: pull EB values that exceed these reporting limits
-    + Step 3: flag sample values that are less than 10x (flagged calculated), 5x (flagged trend), and 3x (rejected)
-* Parameter Pairs where A is the total and B is the component, B should not be > A
+    + Assessing method precision using duplicate samples analyzed from the same date/location    
+* Equipment Blank exceedances  
+    + Assessing the influence of field errors using equipment blank samples  
+* Parameter Pairs 
+    + Flagging samples where component parameters exceed total concentrations
 * Holding time exceedances  
+    + Flagging samples where holding times were exceeded  
+
+The accuracy, precision, and equipment blank assessments are performed on a subset of samples. The errors discovered with these QC assessments are applied to all normal samples. This is done by associating normal samples to those QC samples closest in date/time to each sample. 
 
 ##Formatting Sample data for analysis
 
@@ -165,4 +162,10 @@ rm(list=c('samples','blanksamples','dupsamples','spikesamples'))
 
 ```{r, child = 'sections/Conclusions.Rmd'}
 
+```
+
+```{r, echo=FALSE}
+#creating final data set
+forprint<-unique(data[c('sys_sample_code','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers')])
+write.csv(forprint,file="output/dataqqaqcd.csv",row.names = FALSE)
 ```

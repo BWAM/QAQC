@@ -1,39 +1,42 @@
-chemical_name,Holding.Time,Holding.Time.Hrs,Added Wiggle Room,Holding,units
-"ALKALINITY, TOTAL (AS CaCO3)",14 days,336,12,348,hours
-"Carbon, Dissolved Organic (DOC)",28 days,672,12,684,hours
-CHLORIDE (AS CL),28 days,672,12,684,hours
-Conductivity at 25 Degrees Celsius,28 days,672,12,684,hours
-"Fluoride, undistilled",28 days,672,12,684,hours
-Mercury,28 days,672,12,684,hours
-Nitrate+Nitrite as Nitrogen,28 days,672,12,684,hours
-"Nitrogen, ammonia (As N)",28 days,672,12,684,hours
-"NITROGEN, KJELDAHL, TOTAL",28 days,672,12,684,hours
-"PHENOLICS, TOTAL RECOVERABLE",28 days,672,12,684,hours
-"PHOSPHORUS, TOTAL (AS P)",28 days,672,12,684,hours
-SULFATE (AS SO4),28 days,672,12,684,hours
-TOTAL ORGANIC CARBON,28 days,672,12,684,hours
-SPECIFIC CONDUCTANCE,28 days ,672,12,684,hours
-"NITROGEN, NITRATE (AS N)",48 hrs,48,12,60,hours
-"NITROGEN, NITRITE",48 hrs,48,12,60,hours
-TURBIDITY,48 hrs,48,12,60,hours
-"Orthophosphate as Phosphorus, Dissolved",48 hrs.,48,12,60,hours
-Aluminum,6months,4320,12,4332,hours
-Arsenic,6months,4320,12,4332,hours
-Cadmium,6months,4320,12,4332,hours
-Copper,6months,4320,12,4332,hours
-Iron,6months,4320,12,4332,hours
-Lead,6months,4320,12,4332,hours
-Manganese,6months,4320,12,4332,hours
-Nickel,6months,4320,12,4332,hours
-Silver,6months,4320,12,4332,hours
-TOTAL SOLIDS,7 days,168,12,180,hours
-Total Suspended Solids,7 days,168,12,180,hours
-TOTAL VOLATILE SOLIDS,7 days,168,12,180,hours
-HARDNESS (AS CACO3),7 days or 28 days depending on mehtod,672,12,684,hours
-Calcium,7 days or 28 days depending on method,672,12,684,hours
-Magnesium,7 days or 28 days depending on method,672,12,684,hours
-Potassium,7 days or 28 days depending on method,672,12,684,hours
-Sodium,7 days or 28 days depending on method,672,12,684,hours
-"TOTAL DISSOLVED SOLIDS (RESIDUE, FILTERABLE)",7days,168,12,180,hours
-PH,NA,NA,12,NA,hours
-Temperature of pH Analysis,NA,NA,12,NA,hours
+ANALYTIC_METHOD,cas_rn,chemical_name,nobuffer,Holding,Notes
+SM 2320 B,ALK,"ALKALINITY, TOTAL (AS CaCO3)",336,348,
+E200.8,7429-90-5,Aluminum,4320,4332,
+E200.8,7440-38-2,Arsenic,4320,4332,
+E200.8,7440-43-9,Cadmium,4320,4332,
+E200.7,7440-70-2,Calcium,4320,4332,
+E300.0,16887-00-6,CHLORIDE (AS CL),672,684,
+E120.1,COND,Conductivity,672,684,
+E200.8,7440-50-8,Copper,4320,4332,
+SM5310C,DOC,Dissolved Organic Carbon,672,684,
+E360.1,DISS_OXYGEN,Dissolved Oxygen,0.25,99.25,"Analyzed Immediately, On-site parameter. The lab may run this as well, but HT should be applied to field measurements. Added 99 b/c will always fail."
+E300.0,16984-48-8,Fluoride,672,684,
+SM 2340 C,HARD,HARDNESS (AS CACO3),4320,4332,
+E200.7,7439-89-6,Iron,4320,4332,
+E200.8,7439-92-1,Lead,4320,4332,
+E200.7,7439-95-4,Magnesium,4320,4332,
+E200.7,7439-96-5,Manganese,4320,4332,
+E1631,7439-97-6,Mercury,2160,2172,
+E200.8,7440-02-0,Nickel,4320,4332,
+D6919-09,7664-41-7,"Nitrogen, Ammonia (As N)",672,684,
+E351.2,KN,"NITROGEN, KJELDAHL, TOTAL",672,684,
+CALC,14797-55-8,"NITROGEN, NITRATE (AS N)",48,999,"RIBS samples are not run for Nitrate as a stand-alone test, it is determined by calculation (NO2/NO3 - NO2), the holding time here does not apply in most cases. Set HT limit to 999"
+E353.2,14797-65-0,"NITROGEN, NITRITE",48,60,
+E353.2,ARC-NO3NO2N,"Nitrogen, Nitrite + Nitrate",672,684,
+SM 4500-H+B,PH,pH,0.25,999.25,"Analyzed Immediately, On-site parameter. The lab may run this as well, but HT should be applied to field measurements. Added 999 b/c will always fail."
+E420.4,TOTPHEN,"Phenolics, Total Recoverable",672,684,
+E365.1,7723-14-0,"PHOSPHORUS, TOTAL (AS P)",672,684,
+E365.1,PDORTHO,"Phosphorus, Dissolved Orthophosphate (As P)",48,60,
+E200.7,9/7/7440,Potassium,4320,4332,
+E200.8,7440-22-4,Silver,4320,4332,
+E200.7,7440-23-5,Sodium,4320,4332,
+E120.1,SC,Specific Conductance,672,684,
+E300.0,14808-79-8,Sulfate (As SO4),672,684,
+E170.1,TEMP,Temperature,0.25,999.25,"Analyzed Immediately, On-site parameter. The lab may run this as well, but HT should be applied to field measurements. Added 999 b/c will always fail."
+SM5310C,7440-44-0,Total Carbon,672,684,
+SM2540C,TDS,"TOTAL DISSOLVED SOLIDS (RESIDUE, FILTERABLE)",168,180,
+SM5310C,TOC,Total Organic Carbon,672,684,
+SM2540B,TSO,Total Solids,168,180,
+SM2540D,TSS,Total Suspended Solids,168,180,
+SM2540E,TVS,Total Volatile Solids,168,180,
+E180.1,TURB,TURBIDITY,48,60,
+E200.8,7440-66-6,Zinc,4320,4332,

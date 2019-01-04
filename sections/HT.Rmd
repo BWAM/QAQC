@@ -16,7 +16,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ##Holding Time
 The analysis date - sample date should not exceed holding time limits held in the holding.times look up table    
-NOTE: I don't understand why the NO3NO2 analysis is performed later than the NO2 or NO3 analyses. I've sent this question to Janice.  
 ```{r message=FALSE, warning=FALSE, results='asis'}
 # Load holding times reference table
 holdingtimes <- read.csv("data/Holding.Times.csv")
@@ -42,7 +41,7 @@ data<-merge(data,HT,by=c('sys_sample_code','chemical_name','short','sample_date'
 data<-data[!is.na(data$chemical_name),]
 ```
 
-###Rejected samples
+###Holding Time Rejected samples
 ```{r message=FALSE, warning=FALSE, results='asis'}
 #plotting the sample failures
 #count fails and passes

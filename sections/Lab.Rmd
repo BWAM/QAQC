@@ -15,33 +15,65 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 ```
 
-## Laboratory QC
-Conclusions drawn from reading lab reports  
-I have to read these when I get back. Here are all the SDGs associated with these data:  
+## Laboratory QC    
+Checking that laboratory analyses met all internal QAQC checks  
+
+###Conclusions from the lab reports   
+
+In order to reveiw the narrative reports, you will need the following list of lab_sdg s associated with these data:  
 ```{r message=FALSE, warning=FALSE, results='asis'}
-unique(data$lab_sdg)
+qualifiers<-unique(data[c('lab_sdg','lab_qualifiers')])
+qualifiers$lab_qualifiers<-NA
+qualifiers<-unique(qualifiers[c('lab_sdg','lab_qualifiers')])
+names(qualifiers)[names(qualifiers)=='lab_qualifiers']<-'list'
+
+knitr::kable(qualifiers)
+rm(qualifiers)
 ```
 
+Errors noted in the narrative reports:  
+```{r message=FALSE, warning=FALSE, results='asis'}
+errors<-read.csv("data/laberrors.csv")
+
+knitr::kable(errors)
+rm(errors)
+```
+
+
+###Lab applied flags
 The laboratory applied these flags: 
 ```{r message=FALSE, warning=FALSE, results='asis'}
+flags<-unique(data[c('lab_qualifiers','fraction')])
+flags$fraction<-"present"
+names(flags)[names(flags)=='fraction']<-'present'
 knitr::kable(flags)
 rm(flags)
 ```
 
 Which are based on ALS flag codes:  
 
-![ALS Error Flags.](sections/data/ALSflags.png)
+![](sections/data/ALSflags.png)
 
-These were converted to simplified flags:  
-B, N  -> R
-E, J  -> J
-U, UE, UN  -> U
+These were converted to simplified flags (in this priority):  
+B,N,*,D, or W  -> R  
+E or J  -> J  
+U -> U  
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
-data$labpass<-ifelse(data$lab_qualifiers=="N"|data$lab_qualifiers=="B","R",ifelse(data$lab_qualifiers=="U"|data$lab_qualifiers=="UE"|data$lab_qualifiers=="UN","U",ifelse(data$lab_qualifiers=="J"|data$lab_qualifiers=="E","J","A")))
+data$labpass<-data$lab_qualifiers
+data$labpass<-as.character(data$labpass)
+data$labpass<-ifelse(grepl("B",data$labpass),"R",data$labpass)
+data$labpass<-ifelse(grepl("N",data$labpass),"R",data$labpass)
+data$labpass<-ifelse(grepl("\\*",data$labpass),"R",data$labpass)
+data$labpass<-ifelse(grepl("D",data$labpass),"R",data$labpass)
+data$labpass<-ifelse(grepl("W",data$labpass),"R",data$labpass)
+data$labpass<-ifelse(grepl("U",data$labpass),"U",data$labpass)
+data$labpass<-ifelse(grepl("E",data$labpass),"J",data$labpass)
+data$labpass<-ifelse(grepl("J",data$labpass),"J",data$labpass)
+data$labpass<-ifelse(data$labpass=="","A",data$labpass)
 ```
 
-###Rejected samples
+###Lab Rejected samples
 ```{r message=FALSE, warning=FALSE, results='asis'}
 #plotting the sample failures
 #count fails and passes

@@ -28,9 +28,13 @@ x = sample / detection limit
 %RPD = [diff(duplicate pair)/av(duplicate pair)]*100  
 NOTE: I used the maximum of the two samples to calculate x  
 
+The precision assessments are performed on a subset of samples. The errors discovered with these QC assessments are applied to all normal samples. This is done by associating normal samples to those QC samples closest in date/time to each sample. 
+
+
 ###plots  
 To examin failures visually, I plotted sample/DL versus %RPD as well as the threshold equation described above.  
-Any point above the line should be rejected. Any point below the line is accepted. If the line isn't visible, that means it is above the range of the graph and all the points would be accepted.    
+Any point above the line should be rejected. Any point below the line is accepted. If the line isn't visible, that means it is above the range of the graph and all the points would be accepted.  
+NOTE: I only plotted parameters that had at least one failed duplicate sample result.  
 ```{r, echo=FALSE}
 #converting non-detects to 0
 dup$result_value.dup <- ifelse(dup$lab_qualifiers.dup=="U",0,dup$result_value.dup)
@@ -55,7 +59,8 @@ dup$pass<-ifelse((dup$eq>dup$RPD)|(dup$RPD==0),"pass","fail")
 #ohio's line of acceptability
 eq = function(x){(0.9465*(x^(-0.344)))*100+5}
 
-params<-unique(dup$chemical_name)
+params<-dup[dup$pass=="fail",]
+params<-unique(params$chemical_name)
 nparams<-length(params)
 
 for(i in 1:nparams){
@@ -69,9 +74,7 @@ for(i in 1:nparams){
 rm(list=c('i','params','nparams','eq'))
 ```
 
-###Rejected Samples  
-NOTE: I'm associate QC samples with those nearest in time. 
-Originally, we were going to associate QC samples to all those samples collected by the same team but the field data available at this time are incomplete so I wasn't able to do this. It still is a good option for future analyses.
+###Precision Rejected Samples  
 ```{r, echo=FALSE}
 #truncate the dup file
 dups<-unique(dup[c('chemical_name','pass','sample_date.parent')])
