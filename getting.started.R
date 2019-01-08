@@ -24,7 +24,7 @@ errors<-read.csv("sections/data/projectData/wallkill2018/laberrors.csv")
 #truncate this file to only the necessary fields
 #this shortened file is saved as Wallkill.short.csv
 data<-unique(data[c('sys_sample_code','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
-                    'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured','qc_spike_status',
+                    'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
                     'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
                     'DEC_sample_type','analysis_date')])
 

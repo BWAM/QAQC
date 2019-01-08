@@ -42,7 +42,7 @@ rm(rlimits)
 
 #pulling spike dataset
 spike<-data[data$sample_type_code=="MS",]
-spike<-unique(spike[c('sys_sample_code','lab_sdg','sample_date','chemical_name','short','fraction','result_value','result_unit','quantitation_limit','method_detection_limit','detection_limit_unit','lab_qualifiers','qc_original_conc','qc_spike_added','qc_spike_measured','qc_spike_status','accuracy')])
+spike<-unique(spike[c('sys_sample_code','lab_sdg','sample_date','chemical_name','short','fraction','result_value','result_unit','quantitation_limit','method_detection_limit','detection_limit_unit','lab_qualifiers','qc_original_conc','qc_spike_added','qc_spike_measured','accuracy')])
 spike<-spike[!is.na(spike$chemical_name),]
 
 #for all other data sets I need to first restrict the raw data to only that listed as "field"
