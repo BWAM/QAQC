@@ -56,6 +56,10 @@ for(i in 1:nparams){
     temp1<-temp[temp$sys_sample_code==sites[j],]
     temps1<-temps[which(abs(temps$sample_date-temp1$sample_date)==min(abs(temps$sample_date-temp1$sample_date))),]
     temp1$pass<-temps1$pass[1]
+    
+    #Somewhere in this code block, add code to print out (into new field) which QC sample was used to determine flag?
+    #Would need to do for all child Rmd's
+    
     if(exists("dataset")){
       dataset<-merge(dataset,temp1,all=TRUE)
     }
