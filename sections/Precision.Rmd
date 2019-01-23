@@ -63,15 +63,19 @@ params<-dup[dup$pass=="fail",]
 params<-unique(params$chemical_name)
 nparams<-length(params)
 
-for(i in 1:nparams){
+if (nparams > 0) {
+  for(i in 1:nparams){
+  print(params[i])
   temp<-dup[dup$chemical_name==params[i],]
   #plot the result values
   plot(temp$ratio,temp$RPD,type="p",lwd=4,col="forestgreen",main=params[i],xlab="sample/DL ratio",ylab="RPD")
   abline(h=20)
   lines(eq(1:1000),type="l",lwd=4,col="deepskyblue")
  rm(temp) 
+  }
+  rm("i")
 }
-rm(list=c('i','params','nparams','eq'))
+rm(list=c('params','nparams','eq'))
 ```
 
 ###Precision Rejected Samples  
