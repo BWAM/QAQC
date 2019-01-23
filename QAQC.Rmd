@@ -63,6 +63,8 @@ dup<-dup[dup$DEC_sample_type=="DUP",]
 #remove -DUP from sys sample code for merge
 dup$sys_sample_code<-gsub("-DUP","",dup$sys_sample_code)
 dup$sys_sample_code<-gsub(" DUP","",dup$sys_sample_code)
+dup$sys_sample_code<-gsub("WSDUP","WS",dup$sys_sample_code)
+
 #convert both sys_sample_code fields to character
 dup$sys_sample_code<-as.character(dup$sys_sample_code)
 dupparent$sys_sample_code<-as.character(dupparent$sys_sample_code)
