@@ -1,0 +1,28 @@
+chemical_name,reporting_limit,reporting_units,,,what's actually in the data
+"ALKALINITY, TOTAL (AS CACO3)",1,mg/L,,,                         Characteristic.Name Result.Unit
+AMMONIA,,,,,"1                  NITROGEN, KJELDAHL, TOTAL        mg/l"
+ARSENIC,,,,,2                                 PHOSPHORUS        mg/l
+CALCIUM,,,,,"3               ALKALINITY, TOTAL (AS CACO3)        mg/l"
+CHLOROPHYLL A,,,,,"5                  NITROGEN, NITRATE-NITRITE        mg/l"
+COPPER,,,,,6                                    AMMONIA        mg/l
+"DEPTH, SECCHI DISK DEPTH",,,,,7                       TOTAL ORGANIC CARBON        mg/l
+DISSOLVED ORGANIC CARBON,,,,,8                                 TRUE COLOR         pcu
+INORGANIC NITROGEN (NITRATE AND NITRITE),,,,,9                              CHLOROPHYLL A        µg/L
+IRON,,,,,"42                  DEPTH, SECCHI DISK DEPTH           m"
+MANGANESE,,,,,45                                      <NA>        <NA>
+"NITROGEN, KJELDAHL, TOTAL",,,,,94  INORGANIC NITROGEN (NITRATE AND NITRITE)        mg/l
+"NITROGEN, NITRATE-NITRITE",,,,,106                    PH FOR COLOR ANALYSIS    ph units
+PH FOR COLOR ANALYSIS,,,,,113                               TRUE COLOR  color unit
+PHOSPHORUS,,,,,147                                  ARSENIC        mg/l
+SULFATE (AS SO4),,,,,148                                     IRON        mg/l
+TOTAL ORGANIC CARBON,,,,,149                                  CALCIUM        mg/l
+TRUE COLOR,,,,,150                                   UV 254        1/CM
+UV 254,,,,,154                                   COPPER        µg/L
+,,,,,158                 DISSOLVED ORGANIC CARBON        mg/l
+,,,,,159                                MANGANESE        mg/l
+,,,,,252                         SULFATE (AS SO4)        mg/l
+,,,,,264                    PH FOR COLOR ANALYSIS    pH units
+,,,,,267                                   UV 254        1/cm
+,,,,,299                                     IRON        µg/L
+,,,,,305                                MANGANESE        µg/L
+,,,,,307                                  ARSENIC        µg/L
