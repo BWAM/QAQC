@@ -60,12 +60,12 @@ dup$pass<-ifelse((dup$eq>dup$RPD)|(dup$RPD==0),"pass","fail")
 eq = function(x){(0.9465*(x^(-0.344)))*100+5}
 
 params<-dup[dup$pass=="fail",]
+params<-params[!is.na(params$pass),]
 params<-unique(params$chemical_name)
 nparams<-length(params)
 
 if (nparams > 0) {
   for(i in 1:nparams){
-  print(params[i])
   temp<-dup[dup$chemical_name==params[i],]
   #plot the result values
   plot(temp$ratio,temp$RPD,type="p",lwd=4,col="forestgreen",main=params[i],xlab="sample/DL ratio",ylab="RPD")

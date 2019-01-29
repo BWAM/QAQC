@@ -19,10 +19,10 @@
 #The output is a flagged data set and a quality report summarizing the flagging process
 
 #first load the data file
-data<-read.csv("sections/data/projectData/Streams/2018_FingerLakes_RAS/FL_RAS_2018_QAQC_input.csv")
+data<-read.csv("sections/data/projectData/wallkill2018/Wallkill_2018_chem.csv")
 
 #This file is a list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". See General Chemistry and Metals (not always present)
-errors<-read.csv("sections/data/projectData/Streams/2018_FingerLakes_RAS/laberrors.csv")
+errors<-read.csv("sections/data/projectData/wallkill2018/laberrors.csv")
 
 #truncate the input file to only the necessary fields
 #this shortened file is saved as Wallkill.short.csv

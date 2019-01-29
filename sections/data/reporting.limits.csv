@@ -1,36 +1,41 @@
-chemical_name,reporting_limit,reporting_units,short,accuracy,smaller
-"ALKALINITY, TOTAL (AS CaCO3)",2,mg/L,alkalinity,25,NA
-Aluminum,50,u/L,aluminum,25,NA
-Arsenic,1,u/L,arsenic,25,NA
-Cadmium,1,u/L,cadmium,25,NA
-CHLORIDE (AS CL),0.2,mg/L,chloride,25,NA
-Copper,1,ug/L,copper,25,NA
-HARDNESS (AS CACO3),2,mg/L,hardness,25,NA
-Iron,100,ug/L,iron,25,NA
-Lead,1,ug/L,lead,25,NA
-Magnesium,1000,ug/L,magnesium,25,NA
-Nickel,1,ug/L,nickel,25,NA
-Nitrate+Nitrite as Nitrogen,0.05,guessed,NO3+NO2,25,Nitrogen
-"Nitrogen, ammonia (As N)",0.01,mg/L,NH4,25,Nitrogen
-"NITROGEN, NITRATE (AS N)",0.05,mg/L,NO3,25,Nitrate+Nitrite as Nitrogen
-"NITROGEN, NITRITE",0.05,guessed,NO2,25,Nitrate+Nitrite as Nitrogen
-"PHOSPHORUS, TOTAL (AS P)",0.003,mg/L,phosphorus,25,NA
-Silver,1,ug/L,silver,25,NA
-TURBIDITY,0.1,NTU,turbidity,10,NA
-Zinc,10,ug/L,zinc,25,NA
-Calcium,100,ug/L,calcium,25,NA
-"NITROGEN, KJELDAHL, TOTAL",0.1,mg/L,TKN,25,Nitrogen
-Nitrogen,0.05,guessed,nitrogen,25,NA
-Chlorophyll A,0.4,ug/L,ChlA,5,NA
-"TOTAL DISSOLVED SOLIDS (RESIDUE, FILTERABLE)",10,mg/L,TDS,25,NA
-"Carbon, Dissolved Organic (DOC)",1,mg/L,DOC,25,NA
-"Fluoride, undistilled",0.1,mg/L,fluoride,25,NA
-Manganese,10,ug/L,manganese,25,NA
-"Orthophosphate as Phosphorus, Dissolved",0.005,mg/L,orthoP,25,"PHOSPHORUS, TOTAL (AS P)"
-Potassium,2,mg/L,potassium,25,NA
-Sodium,1,mg/L,sodium,25,NA
-SULFATE (AS SO4),0.2,mg/L,sulfate,25,NA
-Conductivity at 25 Degrees Celsius,100,guessed,conductivity,25,NA
-PH,100,guessed,ph,25,NA
-Temperature of pH Analysis,100,guessed,tempph,25,NA
-Mercury,1,ng/L,mercury,25,NA
+chemical_name,reporting_limit,reporting_units,short,accuracy,smaller,,,
+"ALKALINITY, TOTAL (AS CaCO3)",2,mg/L,alkalinity,25,NA,,,
+Aluminum,50,u/L,aluminum,25,NA,,,
+Arsenic,1,u/L,arsenic,25,NA,,,
+Cadmium,1,u/L,cadmium,25,NA,,,
+Calcium,100,ug/L,calcium,25,NA,,,
+"Carbon, Dissolved Organic (DOC)",1,mg/L,DOC,25,TOTAL ORGANIC CARBON,,,
+CHLORIDE (AS CL),0.2,mg/L,chloride,25,NA,,,
+Chlorophyll A,0.4,ug/L,ChlA,5,NA,,,
+Conductivity at 25 Degrees Celsius,100,guessed,conductivity,25,NA,,,
+Copper,1,ug/L,copper,25,NA,,,
+"Fluoride, undistilled",0.1,mg/L,fluoride,25,NA,,,
+HARDNESS (AS CACO3),2,mg/L,hardness,25,NA,,,
+Iron,100,ug/L,iron,25,NA,,,
+Lead,1,ug/L,lead,25,NA,,,
+Magnesium,1000,ug/L,magnesium,25,NA,,,
+Manganese,10,ug/L,manganese,25,NA,,,
+Mercury,1,ng/L,mercury,25,NA,,,
+Nickel,1,ug/L,nickel,25,NA,,,
+Nitrate+Nitrite as Nitrogen,0.05,guessed,NO3+NO2,25,Nitrogen,,,
+Nitrogen,0.05,guessed,nitrogen,25,NA,,,
+"Nitrogen, ammonia (As N)",0.01,mg/L,NH4,25,Nitrogen,,,
+"NITROGEN, KJELDAHL, TOTAL",0.1,mg/L,TKN,25,Nitrogen,,,
+"NITROGEN, NITRATE (AS N)",0.05,mg/L,NO3,25,Nitrate+Nitrite as Nitrogen,,,
+"NITROGEN, NITRITE",0.05,guessed,NO2,25,Nitrate+Nitrite as Nitrogen,,,
+"Orthophosphate as Phosphorus, Dissolved",0.005,mg/L,orthoP,25,"PHOSPHORUS, TOTAL (AS P)",,,
+PH,100,guessed,ph,25,NA,,,
+"PHOSPHORUS, TOTAL (AS P)",0.003,mg/L,phosphorus,25,NA,,,
+Potassium,2,mg/L,potassium,25,NA,,,
+Silver,1,ug/L,silver,25,NA,,,
+Sodium,1,mg/L,sodium,25,NA,,,
+SULFATE (AS SO4),0.2,mg/L,sulfate,25,NA,,,
+Temperature of pH Analysis,100,guessed,tempph,25,NA,,,
+"TOTAL DISSOLVED SOLIDS (RESIDUE, FILTERABLE)",10,mg/L,TDS,25,NA,,,
+TURBIDITY,0.1,NTU,turbidity,10,NA,,,
+Zinc,10,ug/L,zinc,25,NA,,,
+"Color, True",,color unit,color,25,NA,,,
+pH of Color Analysis,,pH units,ph_color,25,NA,,,
+UV 254,,1/cm,UV254,25,NA,,,
+"PHOSPHORUS, DISSOLVED (AS P)",,mg/l,diss_phosphorus,25,"PHOSPHORUS, TOTAL (AS P)",,,
+TOTAL ORGANIC CARBON,,mg/L,TOC,25,NA,,,

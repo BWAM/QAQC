@@ -40,9 +40,8 @@ NOTE: I turn non-detects into 0 which I know they are not but for the purpose of
 ```{r message=FALSE, results='asis'}
 #create pass column - pass if less than reporting limit; reject if more than reporting limit
 #convert non-detects to 0
-EB$result_value <- ifelse(EB$lab_qualifiers=="U",0,EB$result_value)
-EB$result_value <- ifelse(EB$lab_qualifiers=="UN",0,EB$result_value)
-EB$result_value <- ifelse(EB$lab_qualifiers=="UE",0,EB$result_value)
+EB$lab_qualifiers<-as.character(EB$lab_qualifiers)
+EB$result_value <- ifelse(grepl("U",EB$lab_qualifiers),0,EB$result_value)
 
 #create pass column
 EB$pass<-ifelse(EB$result_value>EB$quantitation_limit,"fail","pass")
@@ -54,6 +53,7 @@ EB$sample_date <- as.Date(EB$sample_date,"%m/%d/%Y")
 #plot the EBt result value / day for each param 
 #pull only those parameters with failures
 params<-EB[EB$pass!="pass",]
+params<-params[!is.na(params$chemical_name),]
 params<-unique(params$chemical_name)
 nparams<-length(params)
 
