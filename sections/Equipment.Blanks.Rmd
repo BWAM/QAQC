@@ -70,7 +70,7 @@ rm(list=c('params','nparams','i'))
 ```
 
 ###Equipment Blank Rejected Samples
-```{r, echo=FALSE}
+```{r, echo=FALSE,warning=FALSE}
 #truncate the EB file
 EBs<-unique(EB[c('chemical_name','result_value','sample_date','pass')])
 names(EBs)[names(EBs)=='result_value']<-'blank'

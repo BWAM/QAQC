@@ -79,7 +79,7 @@ rm(list=c('params','nparams','eq'))
 ```
 
 ###Precision Rejected Samples  
-```{r, echo=FALSE}
+```{r, echo=FALSE,warning=FALSE}
 #truncate the dup file
 dups<-unique(dup[c('chemical_name','pass','sample_date.parent')])
 names(dups)[names(dups)=='sample_date.parent']<-'sample_date'

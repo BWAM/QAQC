@@ -133,6 +133,7 @@ print(ggplot() +
   ylab("sample types")+
   xlab("sample date"))
 rm(list=c('samples','blanksamples','dupsamples','spikesamples'))
+
 ```
 
 ```{r, child = 'sections/Lab.Rmd'}
