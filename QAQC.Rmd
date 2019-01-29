@@ -40,6 +40,16 @@ rlimits<-read.csv("sections/data/reporting.limits.csv")
 data<-merge(data,rlimits,by=c('chemical_name'),all=FALSE)
 rm(rlimits)
 
+# Convert dates from factors to POSIXct objects
+library(lubridate)
+if (all(stringr::str_count(data$sample_date, ':') == 2)){
+  data$sample_date <- mdy_hms(data$sample_date)
+  data$analysis_date <- mdy_hms(data$analysis_date)
+} else{
+  data$sample_date <- mdy_hm(data$sample_date)
+  data$analysis_date <- mdy_hm(data$analysis_date)
+}
+
 #pulling spike dataset
 spike<-data[data$sample_type_code=="MS",]
 spike<-unique(spike[c('sys_sample_code','lab_sdg','sample_date','chemical_name','short','fraction','result_value','result_unit','quantitation_limit','method_detection_limit','detection_limit_unit','lab_qualifiers','qc_original_conc','qc_spike_added','qc_spike_measured','accuracy')])
@@ -96,10 +106,8 @@ data<-data[data$DEC_sample_type=="N"|data$DEC_sample_type=="N_DUPPARENT",]
 
 #creating a holding time subset
 HT<-unique(data[c('sys_sample_code','lab_sdg','sample_date','chemical_name','short','analysis_date')])
-# Convert dates from factors to POSIXct objects
-library(lubridate)
-HT$sample_date <- mdy_hm(HT$sample_date)
-HT$analysis_date <- mdy_hm(HT$analysis_date)
+
+
 ```
 
 Plotting the sample dates to understand how best to associate them.  
