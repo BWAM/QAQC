@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 * Equipment Blank exceedances  (result > quantitation limit)  
     + Step 1: pull EB values that exceed the quantitation limt
-    + Step 2: flag sample values associated with EB exceedences that are less than 10x (flagged calculated), 5x (flagged trend), and 3x (rejected) the equipment blank value   
+    + Step 2: flag sample values associated with EB exceedences that are less than 10x (flagged estimated), 5x (flagged trend), and 3x (rejected, needs verificaiton) the equipment blank value   
 
 IT'S IMPORTANT TO NOTE: that the quantitation limit is NOT the method detection limit. Both are set by the lab and can vary week to week. The quantitation limit is the practical limt the lab was able to achieve and has confidence in on that date.       
 

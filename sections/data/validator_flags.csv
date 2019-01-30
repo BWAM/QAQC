@@ -3,4 +3,4 @@ A,Accepted data
 J,Consider the sample result to be an estimated concentration but still suitable for most data uses
 trend,Likely indication that the analyte is present but poor confidence in the numerical result - generally limit data use to data trend applications
 U,Analyte was analyzed for but not detected
-R,Rejected samples
+R,Rejected samples need verification
