@@ -20,10 +20,10 @@
 
 #first load the data file
 
-data<-read.csv("sections/data/projectData/Streams/2018_Ramapo/2018-Ramapo_EDD-merge-bind.csv")
+data<-read.csv("sections/data/projectData/wallkill2018/Wallkill_2018_chem.csv")
 
 #This file is a list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". See General Chemistry and Metals (not always present)
-errors<-read.csv("sections/data/projectData/Streams/2018_Ramapo/laberrors.csv")
+errors<-read.csv("sections/data/projectData/wallkill2018/laberrors.csv")
 
 
 #truncate the input file to only the necessary fields

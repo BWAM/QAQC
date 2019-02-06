@@ -41,14 +41,14 @@ data<-merge(data,rlimits,by=c('chemical_name'),all=FALSE)
 rm(rlimits)
 
 # Convert dates from factors to POSIXct objects
-library(lubridate)
-if (all(stringr::str_count(data$sample_date, ':') == 2)){
-  data$sample_date <- mdy_hms(data$sample_date)
-  data$analysis_date <- mdy_hms(data$analysis_date)
-} else{
-  data$sample_date <- mdy_hm(data$sample_date)
-  data$analysis_date <- mdy_hm(data$analysis_date)
-}
+#library(lubridate)
+#if (all(stringr::str_count(data$sample_date, ':') == 2)){
+#  data$sample_date <- mdy_hms(data$sample_date)
+#  data$analysis_date <- mdy_hms(data$analysis_date)
+#} else{
+#  data$sample_date <- mdy_hm(data$sample_date)
+#  data$analysis_date <- mdy_hm(data$analysis_date)
+#}
 
 #pulling spike dataset
 spike<-data[data$sample_type_code=="MS",]

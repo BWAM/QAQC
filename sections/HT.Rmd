@@ -27,6 +27,10 @@ holdingtimes <- unique(holdingtimes[c("chemical_name","Holding")])
 HT <- merge(HT, holdingtimes, by=c("chemical_name"), all.x = TRUE)
 rm(holdingtimes)
 
+#format dates
+library(lubridate)
+HT$sample_date<-mdy_hm(HT$sample_date)
+HT$analysis_date<-mdy_hm(HT$analysis_date)
 # Calculate difference between sample datetimes and analysis datetimes (actual holding times)
 HT$HTactual <- difftime(HT$analysis_date ,HT$sample_date , units = c("hours"))
 
