@@ -19,10 +19,13 @@
 #The output is a flagged data set and a quality report summarizing the flagging process
 
 #first load the data file
+
 data<-read.csv("sections/data/projectData/LCI.2018/2018data.csv")
 
+
 #This file is a list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". See General Chemistry and Metals (not always present)
-errors<-read.csv("sections/data/projectData/LCI.2018/laberrors.csv")
+errors<-read.csv("sections/data/projectData/Streams/2018_Ramapo/laberrors.csv")
+
 
 #truncate the input file to only the necessary fields
 #this shortened file is saved as Wallkill.short.csv
@@ -37,6 +40,8 @@ data<-unique(data[c('sys_sample_code','chemical_name','cas_rn','fraction','lab_q
 rmarkdown::render("QAQC.Rmd", params = inputs)
 
 #write the data output
-write.csv(forprint,file="sections/data/projectData/LCI.2018/LCI2018.output.csv",row.names = FALSE)
+
+write.csv(forprint,file="sections/data/projectData/Streams/2018_Ramapo/2018_Ramapo_qaqcd_1-23-19.csv",row.names = FALSE)
+
 rm(forprint)
 
