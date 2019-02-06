@@ -1,4 +1,5 @@
 #This script will reformat LCI Data from the EDDs to a format that will go into the Filemaker database more efficiently
+#The input for this script is the output from the "getting.started.R" Script which is used to run the data througha QA check
 
 #read the data
 data<-read.csv("sections/data/projectData/LCI.2018/LCI2018.output.csv")

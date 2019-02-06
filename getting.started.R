@@ -19,7 +19,7 @@
 #The output is a flagged data set and a quality report summarizing the flagging process
 
 #first load the data file
-data<-read.csv("sections/data/projectData/LCI.2018/LCI.2018.data.csv")
+data<-read.csv("sections/data/projectData/LCI.2018/2018data.csv")
 
 #This file is a list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". See General Chemistry and Metals (not always present)
 errors<-read.csv("sections/data/projectData/LCI.2018/laberrors.csv")

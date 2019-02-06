@@ -1,10 +1,4 @@
-## Program:  Combine_RIBS_EDDs_v3.R
-## Purpose: Combnines multiple RIBS EDD files ("sample" and "result" files) and adds column headers. 
-##            First merges result and sample files for single EDD, then binds all files.
-##            Outputs separate merged EDD sample/result files in addition to a single bound files for all input EDDs.
-## Author: Gavin Lemley
-## Created 3/6/2018
-## Last updated: 3/22/2018
+#The purpose of this script is to combine EDDS from 2017 LCI data
 
 ## Instructions: Specify input and output directories. Place EDD folders in input directory.
 ##### BE SURE TO CLEAR WORKSPACE BEFORE RUNNING #####
@@ -12,8 +6,8 @@
 
 ####### Define input/output directories  #########
 
-input_dir <- "C:/Rscripts/QAQC/sections/data/projectData/LCI.2018/raw/"
-ouput_dir <- "C:/Rscripts/QAQC/sections/data/projectData/LCI.2018/output/"
+input_dir <- "L:/DOW/BWAM/LMAS/Lakes Stuff/LCI/LCI_EDD/2016/EDD/"
+ouput_dir <- "C:/Rscripts/QAQC/sections/data/projectData/LCI.2016/"
 
 ##################################################
 
@@ -59,4 +53,4 @@ for (i in 1:nfolder_list){
 # Bind all data frames in "list of data frames" together into a single data frame and write to a CSV
 setwd(ouput_dir)
 RIBSdata = do.call(rbind, RSfile_list)
-write.table(RIBSdata, file="LCI2018.csv",sep=",", row.names = FALSE)
+write.table(RIBSdata, file="2016data.csv",sep=",", row.names = FALSE)
