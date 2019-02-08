@@ -83,10 +83,10 @@ rm(list=c('params','nparams','eq'))
 #truncate the dup file
 dups<-unique(dup[c('chemical_name','pass','sample_date.parent')])
 names(dups)[names(dups)=='sample_date.parent']<-'sample_date'
-dups$sample_date<-as.Date(dups$sample_date,"%m/%d/%Y")
+# dups$sample_date<-as.Date(dups$sample_date,"%m/%d/%Y")
 
 samples<-unique(data[c('sys_sample_code','chemical_name','sample_date')])
-samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
+# samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
 
 params<-unique(dups$chemical_name)
 nparams<-length(params)
@@ -94,11 +94,11 @@ nparams<-length(params)
 dataset <- bind_nearest_date(sample.df = samples,
                           match.df = dups,
                           match.col = "pass") %>% 
-  rename(duppass = pass)
+  dplyr::rename(duppass = pass)
 
 #merge with final data dataset
 #first convert data date to a date
-data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
+# data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
 data<-merge(data,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
 data<-data[!is.na(data$chemical_name),]
 rm(dataset)

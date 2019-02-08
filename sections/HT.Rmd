@@ -29,8 +29,8 @@ rm(holdingtimes)
 
 #format dates
 library(lubridate)
-HT$sample_date<-mdy_hm(HT$sample_date)
-HT$analysis_date<-mdy_hm(HT$analysis_date)
+# HT$sample_date<-mdy_hm(HT$sample_date)
+# HT$analysis_date<-mdy_hm(HT$analysis_date)
 # Calculate difference between sample datetimes and analysis datetimes (actual holding times)
 HT$HTactual <- difftime(HT$analysis_date ,HT$sample_date , units = c("hours"))
 
@@ -40,7 +40,7 @@ HT$HTpass <- as.numeric(HT$HTpass)
 HT$HTpass<-ifelse(HT$HTpass<0,"R","A")
 HT<-unique(HT[c('chemical_name','sys_sample_code','lab_sdg','sample_date','short','HTpass')])
 #add these flags to the larger data set
-data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
+# data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
 data<-merge(data,HT,by=c('sys_sample_code','chemical_name','short','sample_date','lab_sdg'),all=TRUE)
 data<-data[!is.na(data$chemical_name),]
 ```

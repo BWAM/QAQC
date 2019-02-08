@@ -46,7 +46,7 @@ EB$result_value <- ifelse(grepl("U",EB$lab_qualifiers),0,EB$result_value)
 #create pass column
 EB$pass<-ifelse(EB$result_value>EB$quantitation_limit,"fail","pass")
 #format date
-EB$sample_date <- as.Date(EB$sample_date,"%m/%d/%Y")
+# EB$sample_date <- as.Date(EB$sample_date,"%m/%d/%Y")
 ```
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
@@ -59,7 +59,7 @@ nparams<-length(params)
 
 for(i in 1:nparams){
   temp<-EB[EB$chemical_name==params[i],]
-  temp$sample_date<-as.Date(temp$sample_date,"%m/%d/%Y")
+  # temp$sample_date<-as.Date(temp$sample_date,"%m/%d/%Y")
   reporting<-temp$quantitation_limit[1]
   #plot the result values
   plot(temp$sample_date,temp$result_value,type="p",lwd=4,col="black",main=params[i],xlab="date",ylab="equipment blank result value")
@@ -75,11 +75,11 @@ rm(list=c('params','nparams','i'))
 EBs<-unique(EB[c('chemical_name','result_value','sample_date','pass')])
 names(EBs)[names(EBs)=='result_value']<-'blank'
 EBs$blank<-ifelse(EBs$pass=="fail",EBs$blank,NA)
-EBs$sample_date<-as.Date(EBs$sample_date,"%m/%d/%Y")
+# EBs$sample_date<-as.Date(EBs$sample_date,"%m/%d/%Y")
 EBs<-unique(EBs[c('chemical_name','blank','sample_date')])
 
 samples<-unique(data[c('sys_sample_code','chemical_name','sample_date')])
-samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
+# samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
 
 params<-unique(EBs$chemical_name)
 nparams<-length(params)
@@ -90,7 +90,7 @@ dataset <- bind_nearest_date(sample.df = samples,
 
 #merge with final data dataset
 #first convert data date to a date
-data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
+# data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
 data<-merge(data,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
 data<-data[!is.na(data$chemical_name),]
 rm(dataset)

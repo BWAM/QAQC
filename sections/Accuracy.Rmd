@@ -57,7 +57,7 @@ dataset <- bind_nearest_date(sample.df = samples,
 data<-merge(data,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
 data<-data[!is.na(data$chemical_name),]
 #convert date back to simple date
-data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
+# data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
 # rm(dataset)
 ```
 
