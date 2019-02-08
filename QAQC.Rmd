@@ -43,14 +43,14 @@ data<-merge(data,rlimits,by=c('chemical_name'),all=FALSE)
 rm(rlimits)
 
 # Convert dates from factors to POSIXct objects
-#library(lubridate)
-#if (all(stringr::str_count(data$sample_date, ':') == 2)){
-#  data$sample_date <- mdy_hms(data$sample_date)
-#  data$analysis_date <- mdy_hms(data$analysis_date)
-#} else{
-#  data$sample_date <- mdy_hm(data$sample_date)
-#  data$analysis_date <- mdy_hm(data$analysis_date)
-#}
+library(lubridate)
+if (all(stringr::str_count(data$sample_date, ':') == 2)){
+ data$sample_date <- mdy_hms(data$sample_date)
+ data$analysis_date <- mdy_hms(data$analysis_date)
+} else{
+ data$sample_date <- mdy_hm(data$sample_date)
+ data$analysis_date <- mdy_hm(data$analysis_date)
+}
 
 #pulling spike dataset
 spike<-data[data$sample_type_code=="MS",]
@@ -150,6 +150,30 @@ rm(list=c('samples','blanksamples','dupsamples','spikesamples'))
 
 ```
 
+```{r}
+
+bind_nearest_date <- function(sample.df, match.df, match.col) {
+
+final.df <- lapply(unique(match.df$chemical_name), function(param.i) {
+  sample.param.i <- sample.df[sample.df$chemical_name == param.i, ]
+  match.param.i <- match.df[match.df$chemical_name == param.i,]
+  
+  site.df <- lapply(unique(sample.param.i$sys_sample_code), function(site.i) {
+    sample.sub <- sample.param.i[sample.param.i$sys_sample_code == site.i, ]
+    match.param.i$abs <- abs(match.param.i$sample_date - sample.sub$sample_date) 
+    match.param.i$min <- min(abs(match.param.i$sample_date - sample.sub$sample_date))
+    match.param.i <- match.param.i[which(match.param.i$abs == match.param.i$min), ]
+    sample.sub[, match.col] <- match.param.i[, match.col][1]
+    return(sample.sub)
+  }) %>% 
+    dplyr::bind_rows()
+
+}) %>% 
+ dplyr::bind_rows() 
+
+return(final.df)
+}
+```
 
 
 ```{r, child = 'sections/Accuracy.Rmd'}

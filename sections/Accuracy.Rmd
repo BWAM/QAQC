@@ -38,50 +38,27 @@ spike$pass<-ifelse(spike$spikeamount>4,NA,
 #create a separate file with the samples flagged as pass / fail to merge with parent file later (safety precaution)
 #format date to date/time because multiple spike samples in one day
 library(lubridate)
-spike$sample_date <- mdy_hm(spike$sample_date)
+# spike$sample_date <- mdy_hm(spike$sample_date)
 spikes<-unique(spike[c('chemical_name','sample_date','pass')])
 
 samples<-unique(data[c('sys_sample_code','chemical_name','sample_date')])
-samples$sample_date <- mdy_hm(samples$sample_date)
+# samples$sample_date <- mdy_hm(samples$sample_date)
 
 params<-unique(spikes$chemical_name)
 nparams<-length(params)
 
-for(i in 1:nparams){
-  temp<-samples[samples$chemical_name==params[i],]
-  temps<-spikes[spikes$chemical_name==params[i],]
-  sites<-unique(temp$sys_sample_code)
-  nsites<-length(sites)
-  for(j in 1:nsites){
-    temp1<-temp[temp$sys_sample_code==sites[j],]
-    temps1<-temps[which(abs(temps$sample_date-temp1$sample_date)==min(abs(temps$sample_date-temp1$sample_date))),]
-    temp1$pass<-temps1$pass[1]
-    
-    #Somewhere in this code block, add code to print out (into new field) which QC sample was used to determine flag?
-    #Would need to do for all child Rmd's
-    
-    if(exists("dataset")){
-      dataset<-merge(dataset,temp1,all=TRUE)
-    }
-    if(!exists("dataset")){
-      dataset<-temp1
-    }
-    rm(list=c('temp1','temps1'))
-  }
-  rm(list=c('temp','temps','sites','nsites','j'))
-}
-rm(list=c('params','nparams','i','samples','spikes'))
-
-#rename pass to spikepass
-names(dataset)[names(dataset)=='pass']<-'spikepass'
+dataset <- bind_nearest_date(sample.df = samples,
+                          match.df = spikes,
+                          match.col = "pass") %>% 
+  dplyr::rename(spikepass = pass)
 #merge with final dataset
 #first convert data date to a date
-data$sample_date<-mdy_hm(data$sample_date)
+# data$sample_date<-mdy_hm(data$sample_date)
 data<-merge(data,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
 data<-data[!is.na(data$chemical_name),]
 #convert date back to simple date
 data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
-rm(dataset)
+# rm(dataset)
 ```
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
@@ -109,7 +86,7 @@ theme_set(theme_pubr())
   samplefails, spikefails, labels = c("associated sample fails", "individual spike fails"),
   common.legend = TRUE, legend = "bottom"
   ))
- rm(list=c('spikefails','samplefails','spike'))
+ # rm(list=c('spikefails','samplefails','spike'))
 ```
 
 ```{r message=FALSE, warning=FALSE, results='asis'}

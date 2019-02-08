@@ -91,31 +91,11 @@ samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
 params<-unique(dups$chemical_name)
 nparams<-length(params)
 
-for(i in 1:nparams){
-  temp<-samples[samples$chemical_name==params[i],]
-  tempd<-dups[dups$chemical_name==params[i],]
-  tempd$sample_date<-as.Date(tempd$sample_date,"%m/%d/%Y")
-  sites<-unique(temp$sys_sample_code)
-  nsites<-length(sites)
-  for(j in 1:nsites){
-    temp1<-temp[temp$sys_sample_code==sites[j],]
-    temp1$sample_date<-as.Date(temp1$sample_date,"%m/%d/%Y")
-    tempd1<-tempd[which(abs(tempd$sample_date-temp1$sample_date)==min(abs(tempd$sample_date-temp1$sample_date))),]
-    temp1$pass<-tempd1$pass[1]
-    if(exists("dataset")){
-      dataset<-merge(dataset,temp1,all=TRUE)
-    }
-    if(!exists("dataset")){
-      dataset<-temp1
-    }
-    rm(list=c('temp1','tempd1'))
-  }
-  rm(list=c('temp','tempd','sites','nsites','j'))
-}
-rm(list=c('params','nparams','i','samples','dups'))
+dataset <- bind_nearest_date(sample.df = samples,
+                          match.df = dups,
+                          match.col = "pass") %>% 
+  rename(duppass = pass)
 
-#rename pass to duppass
-names(dataset)[names(dataset)=='pass']<-'duppass'
 #merge with final data dataset
 #first convert data date to a date
 data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")

@@ -84,28 +84,9 @@ samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
 params<-unique(EBs$chemical_name)
 nparams<-length(params)
 
-for(i in 1:nparams){
-  temp<-samples[samples$chemical_name==params[i],]
-  tempb<-EBs[EBs$chemical_name==params[i],]
-  tempb$sample_date<-as.Date(tempb$sample_date,"%m/%d/%Y")
-  sites<-unique(temp$sys_sample_code)
-  nsites<-length(sites)
-  for(j in 1:nsites){
-    temp1<-temp[temp$sys_sample_code==sites[j],]
-    temp1$sample_date<-as.Date(temp1$sample_date,"%m/%d/%Y")
-    tempb1<-tempb[which(abs(tempb$sample_date-temp1$sample_date)==min(abs(tempb$sample_date-temp1$sample_date))),]
-    temp1$blank<-tempb1$blank[1]
-    if(exists("dataset")){
-      dataset<-merge(dataset,temp1,all=TRUE)
-    }
-    if(!exists("dataset")){
-      dataset<-temp1
-    }
-    rm(list=c('temp1','tempb1'))
-  }
-  rm(list=c('temp','tempb','sites','nsites','j'))
-}
-rm(list=c('params','nparams','i','samples','EBs'))
+dataset <- bind_nearest_date(sample.df = samples,
+                          match.df = EBs,
+                          match.col = "blank")
 
 #merge with final data dataset
 #first convert data date to a date

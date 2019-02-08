@@ -1,0 +1,51 @@
+---
+title: "Untitled"
+author: "Gavin Lemley"
+date: "February 8, 2019"
+output: html_document
+---
+
+```{r}
+
+bind_nearest_date <- function(sample.df, match.df, match.col) {
+
+final.df <- lapply(unique(match.df$chemical_name), function(param.i) {
+  sample.param.i <- sample.df[sample.df$chemical_name == param.i, ]
+  match.param.i <- match.df[match.df$chemical_name == param.i,]
+  
+  site.df <- lapply(unique(sample.param.i$sys_sample_code), function(site.i) {
+    sample.sub <- sample.param.i[sample.param.i$sys_sample_code == site.i, ]
+    match.param.i$abs <- abs(match.param.i$sample_date - sample.sub$sample_date) 
+    match.param.i$min <- min(abs(match.param.i$sample_date - sample.sub$sample_date))
+    match.param.i <- match.param.i[which(match.param.i$abs == match.param.i$min), ]
+    sample.sub[, match.col] <- match.param.i[, match.col][1]
+    return(sample.sub)
+  }) %>% 
+    dplyr::bind_rows()
+
+}) %>% 
+ dplyr::bind_rows() 
+
+return(final.df)
+}
+
+samples <- unique(data[c('sys_sample_code','chemical_name','sample_date')])
+spike$percrecovery<-((abs(spike$qc_spike_measured-spike$qc_original_conc))/spike$qc_spike_added)*100
+spike$spikeamount<-spike$qc_original_conc/spike$qc_spike_added
+spike$pass<-ifelse(spike$spikeamount>4,NA,
+            ifelse(spike$percrecover>(100+spike$accuracy)|spike$percrecovery<(100-spike$accuracy),"fail","pass"))
+spikes<-unique(spike[c('chemical_name','sample_date','pass')])
+library(tidyverse)
+
+test <- bind_nearest_date(samples.df = samples,
+                          match.df = spikes,
+                          match.col = "pass") %>% 
+  rename(spikepass = pass)
+
+test %>% 
+  arrange(sys_sample_code) %>% 
+  
+  identical(dataset)
+
+```
+
