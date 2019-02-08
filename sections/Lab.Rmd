@@ -13,7 +13,7 @@ output:
 knitr::opts_chunk$set(echo = FALSE)
 #file.copy("sections/images", ".", recursive = TRUE)
 ```
-```
+
 
 ## Laboratory QC    
 Checking that laboratory analyses met all internal QAQC checks  

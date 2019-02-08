@@ -24,4 +24,4 @@ data$"Results Detection Condition"<-ifelse(grepl("U",data$"Results Detection Con
 data$"Results Detection Condition"<-ifelse(grepl("J",data$"Results Detection Condition"),"Reporting Limit, less than",data$"Results Detection Condition")
 
 #save data as csv in folder
-write.csv(data, file="sections/data/projectData/LCI.2018/2018reformdata.csv")
+write.csv(data, file="sections/data/projectData/LCI.2018/2018reformdata.csv",row.names=FALSE)
