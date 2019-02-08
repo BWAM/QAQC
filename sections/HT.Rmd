@@ -29,8 +29,13 @@ rm(holdingtimes)
 
 #format dates
 library(lubridate)
-# HT$sample_date<-mdy_hm(HT$sample_date)
-# HT$analysis_date<-mdy_hm(HT$analysis_date)
+
+#Added on 2/8/19 to account for new handing of date formatting at beginning of script (QAQC.Rmd)
+HT$sample_date<-format(HT$sample_date, "%m-%d-%Y %H:%M")
+HT$analysis_date<-format(HT$analysis_date, "%m-%d-%Y %H:%M")
+
+HT$sample_date<-mdy_hm(HT$sample_date)
+HT$analysis_date<-mdy_hm(HT$analysis_date)
 # Calculate difference between sample datetimes and analysis datetimes (actual holding times)
 HT$HTactual <- difftime(HT$analysis_date ,HT$sample_date , units = c("hours"))
 
