@@ -21,11 +21,12 @@
 #first load the data file
 
 # data<-read.csv("sections/data/projectData/LCI.2018/2018data.csv")
-data<-read.csv("sections/data/projectData/Streams/2017_minnewaska/Minnewaska_chem_2017_raw.csv")
+# data<-read.csv("sections/data/projectData/Streams/2017_minnewaska/Minnewaska_chem_2017_raw.csv")
+data<-read.csv("sections/data/projectData/wallkill2018/Wallkill_2018_chem.csv")
 
 #This file is a list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". See General Chemistry and Metals (not always present)
 # errors<-read.csv("sections/data/projectData/LCI.2018/laberrors.csv")
-errors<-read.csv("sections/data/projectData/Streams/2017_minnewaska/laberrors.csv")
+errors<-read.csv("sections/data/projectData/wallkill2018/laberrors.csv")
 
 
 #truncate the input file to only the necessary fields
@@ -42,8 +43,8 @@ rmarkdown::render("QAQC.Rmd", params = inputs)
 
 #write the data output
 
-# write.csv(forprint,file="sections/data/projectData/Streams/2018_Ramapo/2018_Ramapo_qaqcd_1-23-19.csv",row.names = FALSE)
-write.csv(forprint,file="sections/data/projectData/Streams/2017_minnewaska/Minnewaska_2017_chem_qaqcd_2-8-19_test_2.csv",row.names = FALSE)
+write.csv(forprint,file="sections/data/projectData/wallkill2018/mastertest_2018_Wallkill_qaqcd_2-11-19.csv",row.names = FALSE)
+# write.csv(forprint,file="sections/data/projectData/Streams/2017_minnewaska/Minnewaska_2017_chem_qaqcd_2-8-19_test_2.csv",row.names = FALSE)
 
 rm(forprint)
 
