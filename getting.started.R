@@ -50,7 +50,7 @@ rmarkdown::render("QAQC.Rmd", params = inputs)
 #write the data output
 
 # write.csv(forprint,file="sections/data/projectData/Streams/2018_Ramapo/devtest_2018_Ramapo_qaqcd_2-11-19.csv",row.names = FALSE)
-write.csv(forprint,file="sections/data/projectData/wallkill2018/devtest_qaqcd_2-11-19.csv",row.names = FALSE)
+write.csv(forprint,file="sections/data/projectData/wallkill2018/devtest_wallkill_qaqcd_2-11-19_3.csv",row.names = FALSE)
 # write.csv(forprint,file="sections/data/projectData/Streams/2017_minnewaska/Minnewaska_2017_chem_qaqcd_2-8-19_test.csv",row.names = FALSE)
 
 rm(forprint)

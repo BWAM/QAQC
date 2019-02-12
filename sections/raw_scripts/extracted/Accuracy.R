@@ -1,34 +1,8 @@
----
-title: "Accuracy"
-author: "Alene Onion"
-date: "December 29, 2018"
-output:
-  html_document:
-    toc: true
-    toc_depth: 6
-    toc_float: true
----
-
-```{r setuA, include=FALSE}
+## ----setuA, include=FALSE------------------------------------------------
 knitr::opts_chunk$set(echo = FALSE)
 #file.copy("sections/images", ".", recursive = TRUE)
-```
 
-##Accuracy Assessment
-
-* Accuracy
-    + A sample matrix spike is used to document the bias of a method in a given sample matrix.   
-    + Matrix Spike Samples are collected along with regular water quality samples and spiked in the analytic laboratory with a known concentration of analyte. The samples are then analyzed to determine the accuracy (percent recovery) of the analytic results for a given matrix. Spike samples are acceptable if the percent recovery is 100% +/- the accuracy criteria established by the standard methods manual and listed in tables 3 and 4.  Otherwise, the spike and it's associated samples are flagged as rejected, needs verification. Furthermore, if the sample is >4x the spiked amount, the spike assessment is irrelevant and flagged NA.
-    + NOTE: the QAPP only requires that we analyze spikes for nutrients, metals and minerals (see section II.5.A.b). I am presuming this excludes solids, turbidity, conductivity, and hardness in addition to in situ parameters, alkalinity, DOC, and chlorophyll a  
-    + NOTE: we only examine the matrix spike samples. The matrix spike duplicate samples would only be analyzed when we are meausring organics. That's not the case in any BWAM programs.
-    + NOTE: keep in mind that there may be some parameters where samples would be flagged but they shouldn't be because the spike is diluted even when the sample is <4x the spiked amount.
-    + NOTE: Both the laboratory and RoseAnn recommend using higher thresholds for acceptable %recovery than what is listed in the QAPP. Because of this, I have changed the threshold for all parameters except turbidity and chlorophyll to +/- 25% rather than +/-20%.
-
-The accuracy assessments are performed on a subset of samples. The errors discovered with these QC assessments are applied to all normal samples. This is done by associating normal samples to those QC samples closest in date/time to each sample. 
-
-    
-###Accuracy Rejected Samples  
-```{r message=FALSE, warning=FALSE, results='asis'}
+## ----message=FALSE, warning=FALSE, results='asis'------------------------
 #calculate the failures myself rather than depending on the lab
 spike$percrecovery<-((abs(spike$qc_spike_measured-spike$qc_original_conc))/spike$qc_spike_added)*100
 spike$spikeamount<-spike$qc_original_conc/spike$qc_spike_added
@@ -59,9 +33,8 @@ data<-data[!is.na(data$chemical_name),]
 #convert date back to simple date
 # data$sample_date<-as.Date(data$sample_date,"%m/%d/%Y")
 rm(dataset)
-```
 
-```{r message=FALSE, warning=FALSE, results='asis'}
+## ----message=FALSE, warning=FALSE, results='asis'------------------------
 #plotting the sample failures
 #count fails and passes
 library(plyr)
@@ -87,11 +60,10 @@ theme_set(theme_pubr())
   common.legend = TRUE, legend = "bottom"
   ))
  rm(list=c('spikefails','samplefails','spike'))
-```
 
-```{r message=FALSE, warning=FALSE, results='asis'}
+## ----message=FALSE, warning=FALSE, results='asis'------------------------
 #This bit of script converts pass faill to R (reject) and A (Accept)
 data$spikepass<-gsub("pass","A",data$spikepass)
 data$spikepass<-gsub("fail","R",data$spikepass)
 
-```
+
