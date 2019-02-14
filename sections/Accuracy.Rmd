@@ -51,6 +51,7 @@ dataset <- bind_nearest_date(sample.df = samples,
                           match.df = spikes,
                           match.col = "pass") %>% 
   dplyr::rename(spikepass = pass)
+
 #merge with final dataset
 #first convert data date to a date
 # data$sample_date<-mdy_hm(data$sample_date)

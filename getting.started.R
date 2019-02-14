@@ -23,35 +23,42 @@ library(lubridate)
 library(purrr)
 #first load the data file
 
-data<-read.csv("sections/data/projectData/wallkill2018/Wallkill_2018_chem.csv")
-# data<-read.csv("sections/data/projectData/Streams/2018_Ramapo/2018-Ramapo_EDD-merge-bind.csv")
-# data<-read.csv("sections/data/projectData/Streams/2018_Ramapo/2018-Ramapo_EDD-merge-bind_2-11-19.csv")
-
+# data<-read.csv("sections/data/projectData/wallkill2018/Wallkill_2018_chem.csv")
+# data<-read.csv("sections/data/projectData/Streams/2018_Ramapo/2018_Ramapo_chem_2-12-19.csv")
 # data<-read.csv("sections/data/projectData/Streams/2017_minnewaska/Minnewaska_chem_2017_raw.csv")
+data<-read.csv("sections/data/projectData/Streams/2018/Cohocton/2018_Cohocton_2-14-19.csv")
+# data<-read.csv("sections/data/projectData/LCI.2018/2018data_2.csv")
+# data$SiteID <- NA
 
 #This file is a list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". See General Chemistry and Metals (not always present)
-errors<-read.csv("sections/data/projectData/wallkill2018/laberrors.csv")
+# errors<-read.csv("sections/data/projectData/wallkill2018/laberrors.csv")
 # errors<-read.csv("sections/data/projectData/Streams/2018_Ramapo/laberrors.csv")
-# errors<-read.csv("sections/data/projectData/Streams/2017_minnewaska/laberrors.csv")
+# errors<-read.csv("sections/data/projectData/Streams/2017_minnewaska/laberrors.csv")○
+errors<-read.csv("sections/data/projectData/Streams/2018/Cohocton/laberrors.csv")
 
 #truncate the input file to only the necessary fields
 #this shortened file is saved as Wallkill.short.csv
 # May want to add a SiteID field to the input data for carrying through. Would this be applicable to lakes data?
 
+#### Add if statement for SiteID (streams vs lakes data input; if SiteID exists in data...) ###
 data<-unique(data[c('sys_sample_code','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
                     'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
                     'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
-                    'DEC_sample_type','analysis_date')])
+                    'DEC_sample_type','analysis_date','SiteID')]) 
+# %>% 
+#   mutate(sys_sample_code = ifelse(sys_sample_code == "18LIS053", paste0(sys_sample_code, sample_date), as.character(sys_sample_code))) 
 
 #first a QC check to make sure this script accoutns for all the possible lab error codes:
 #run the rmarkdown script for this list
-rmarkdown::render("QAQC.Rmd", params = inputs)
+rmarkdown::render("QAQC.Rmd")
 
 #write the data output
 
-# write.csv(forprint,file="sections/data/projectData/Streams/2018_Ramapo/devtest_2018_Ramapo_qaqcd_2-11-19.csv",row.names = FALSE)
-write.csv(forprint,file="sections/data/projectData/wallkill2018/devtest_wallkill_qaqcd_2-11-19_3.csv",row.names = FALSE)
+# write.csv(forprint,file="sections/data/projectData/Streams/2018_Ramapo/devtest_2018_Ramapo_qaqcd_2-12-19.csv",row.names = FALSE)
+write.csv(forprint,file="sections/data/projectData/Streams/2018/Cohocton/2018_Cohocton_qaqcd_2-14-19.csv",row.names = FALSE)
+# write.csv(forprint,file="sections/data/projectData/wallkill2018/devtest_wallkill_qaqcd_2-11-19_3.csv",row.names = FALSE)
 # write.csv(forprint,file="sections/data/projectData/Streams/2017_minnewaska/Minnewaska_2017_chem_qaqcd_2-8-19_test.csv",row.names = FALSE)
+# write.csv(forprint,file="sections/data/projectData/LCI.2018/2018data_qaqc_devtest_2-14-19.csv",row.names = FALSE)
 
 rm(forprint)
 

@@ -7,10 +7,6 @@ OHIO<-read.csv("data/Ohio.Qualifiers.csv")
 knitr::kable(OHIO)
 rm(OHIO)
 
-## ------------------------------------------------------------------------
-EB2 <- EB %>% 
-  dplyr::filter(sys_sample_code == "13-DWAR-2.0-07102018-W")
-
 ## ----message=FALSE, results='asis'---------------------------------------
 #create pass column - pass if less than reporting limit; reject if more than reporting limit
 #convert non-detects to 0
@@ -50,7 +46,6 @@ EBs$blank<-ifelse(EBs$pass=="fail",EBs$blank,NA)
 EBs<-unique(EBs[c('chemical_name','blank','sample_date')])
 
 samples<-unique(data[c('sys_sample_code','chemical_name','sample_date')])
-  
 # samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
 
 params<-unique(EBs$chemical_name)

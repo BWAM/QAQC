@@ -28,10 +28,10 @@ library(lubridate)
 library(purrr)
 #first load the data file
 
-data<-read.csv("sections/data/projectData/wallkill2018/Wallkill_2018_chem.csv")
+# data<-read.csv("sections/data/projectData/wallkill2018/Wallkill_2018_chem.csv")
 # data<-read.csv("sections/data/projectData/Streams/2018_Ramapo/2018-Ramapo_EDD-merge-bind.csv")
 # data<-read.csv("sections/data/projectData/Streams/2018_Ramapo/2018-Ramapo_EDD-merge-bind_2-11-19.csv")
-
+data<-read.csv("sections/data/projectData/LCI.2018/2018data.csv")
 # data<-read.csv("sections/data/projectData/Streams/2017_minnewaska/Minnewaska_chem_2017_raw.csv")
 
 #This file is a list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". See General Chemistry and Metals (not always present)

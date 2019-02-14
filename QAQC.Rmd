@@ -124,18 +124,30 @@ blanksamples<-unique(EB[c('sample_date','lab_sdg')])
 blanksamples$freq<-2
 blanksamples$type<-"equipment blanks"
 blanksamples$sample_date<-as.Date(blanksamples$sample_date,"%m/%d/%Y")
-dupsamples<-unique(dup[c('sample_date.parent','lab_sdg')])
-dupsamples$freq<-3
-dupsamples$type<-"duplicates"
-names(dupsamples)[names(dupsamples)=="sample_date.parent"]<-"sample_date"
-dupsamples$sample_date<-as.Date(dupsamples$sample_date,"%m/%d/%Y")
+
+# if (nrow(dup) > 0 ) {
+#   print("1")
+# }else{
+#   print("2")
+# }
+
+if (nrow(dup) > 0 ) {
+  dupsamples<-unique(dup[c('sample_date.parent','lab_sdg')])
+  dupsamples$freq<-3
+  dupsamples$type<-"duplicates"
+  names(dupsamples)[names(dupsamples)=="sample_date.parent"]<-"sample_date"
+  dupsamples$sample_date<-as.Date(dupsamples$sample_date,"%m/%d/%Y")
+}
+
 spikesamples<-unique(spike[c('sample_date','lab_sdg')])
 spikesamples$freq<-4
 spikesamples$type<-"spike samples"
 spikesamples$sample_date<-as.Date(spikesamples$sample_date,"%m/%d/%Y")
 #merge together
 samples<-merge(samples,blanksamples,all=TRUE)
-samples<-merge(samples,dupsamples,all=TRUE)
+if(nrow(dup) > 0){
+  samples<-merge(samples,dupsamples,all=TRUE)
+}
 samples<-merge(samples,spikesamples,all=TRUE)
 
 library(ggplot2)
@@ -203,5 +215,5 @@ return(final.df)
 
 ```{r, echo=FALSE}
 #creating final data set
-forprint<-unique(data[c('sys_sample_code','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers')])
+forprint<-unique(data[c('SiteID','sys_sample_code','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers')])
 ```
