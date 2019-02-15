@@ -137,13 +137,13 @@ if (nrow(dup) > 0 ) {
     common.legend = TRUE, legend = "bottom"
     ))
    rm(list=c('dupfails','samplefails'))
-   rm(dup)
+   # rm(dup)
 }
 
 ```
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
-#This bit of script converts pass faill to R (reject) and A (Accept)
+#This bit of script converts pass fail to R (reject) and A (Accept)
 if (nrow(dup) > 0 ) {
   data$duppass<-gsub("pass","A",data$duppass)
   data$duppass<-gsub("fail","R",data$duppass)

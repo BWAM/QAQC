@@ -215,5 +215,9 @@ return(final.df)
 
 ```{r, echo=FALSE}
 #creating final data set
-forprint<-unique(data[c('SiteID','sys_sample_code','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers')])
+if("SiteID" %in% colnames(data) & "Project_name" %in% colnames(data)){
+  forprint<-unique(data[c('Project_name','SiteID','sys_sample_code','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers')])
+} else{
+    forprint<-unique(data[c('sys_sample_code','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers')])
+}
 ```

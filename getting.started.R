@@ -21,44 +21,45 @@
 library(tidyverse)
 library(lubridate)
 library(purrr)
-#first load the data file
 
-# data<-read.csv("sections/data/projectData/wallkill2018/Wallkill_2018_chem.csv")
-# data<-read.csv("sections/data/projectData/Streams/2018_Ramapo/2018_Ramapo_chem_2-12-19.csv")
-# data<-read.csv("sections/data/projectData/Streams/2017_minnewaska/Minnewaska_chem_2017_raw.csv")
-data<-read.csv("sections/data/projectData/Streams/2018/Cohocton/2018_Cohocton_2-14-19.csv")
-# data<-read.csv("sections/data/projectData/LCI.2018/2018data_2.csv")
-# data$SiteID <- NA
+###### User-defined variables ######
 
-#This file is a list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". See General Chemistry and Metals (not always present)
-# errors<-read.csv("sections/data/projectData/wallkill2018/laberrors.csv")
-# errors<-read.csv("sections/data/projectData/Streams/2018_Ramapo/laberrors.csv")
-# errors<-read.csv("sections/data/projectData/Streams/2017_minnewaska/laberrors.csv")○
-errors<-read.csv("sections/data/projectData/Streams/2018/Cohocton/laberrors.csv")
+project.name <- "FingerLakes RAS 2018"  # Used for naming report file and adding Project_name field to Streams data.
+project.dir <- "sections/data/projectData/Streams/2018_FingerLakes_RAS/"
+input.data <- "FL_RAS_2018_QAQC_input.csv"
+output.filename <- "2018_FingerLakesRAS_qaqcd_2-15-19.csv"
 
-#truncate the input file to only the necessary fields
-#this shortened file is saved as Wallkill.short.csv
-# May want to add a SiteID field to the input data for carrying through. Would this be applicable to lakes data?
+####################################
 
-#### Add if statement for SiteID (streams vs lakes data input; if SiteID exists in data...) ###
-data<-unique(data[c('sys_sample_code','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
-                    'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
-                    'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
-                    'DEC_sample_type','analysis_date','SiteID')]) 
-# %>% 
-#   mutate(sys_sample_code = ifelse(sys_sample_code == "18LIS053", paste0(sys_sample_code, sample_date), as.character(sys_sample_code))) 
+# Load input data
+data<-read.csv(paste0(project.dir,input.data))
 
-#first a QC check to make sure this script accoutns for all the possible lab error codes:
+# (For streams data) Add project name field for carrying through to final output
+data$Project_name <- project.name
+
+# Load list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". Copy both General Chemistry and Metals sections (not both always present).
+errors<-read.csv(paste0(project.dir,"laberrors.csv"))
+
+# Trim to only necessary fields. Checks if SiteID and Project_name fields exist (streams data) and include if yes. These fieds are not used in QAQC process but are carried through to the final data output.
+if("SiteID" %in% colnames(data) & "Project_name" %in% colnames(data)){
+  data<-unique(data[c('sys_sample_code','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
+                      'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
+                      'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
+                      'DEC_sample_type','analysis_date','SiteID','Project_name')]) 
+} else{
+  data<-unique(data[c('sys_sample_code','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
+                      'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
+                      'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
+                      'DEC_sample_type','analysis_date')]) 
+}
+
 #run the rmarkdown script for this list
 rmarkdown::render("QAQC.Rmd")
 
-#write the data output
+# Write the data output
+# For streams, manually copy to L:\DOW\SMAS\StreamDatabase\Chemistry\final_QAQCd_data\[year]\
+  # Will automate this step after L drive is reorganized.
+write.csv(forprint,file=paste0(project.dir,output.filename),row.names = FALSE)
 
-# write.csv(forprint,file="sections/data/projectData/Streams/2018_Ramapo/devtest_2018_Ramapo_qaqcd_2-12-19.csv",row.names = FALSE)
-write.csv(forprint,file="sections/data/projectData/Streams/2018/Cohocton/2018_Cohocton_qaqcd_2-14-19.csv",row.names = FALSE)
-# write.csv(forprint,file="sections/data/projectData/wallkill2018/devtest_wallkill_qaqcd_2-11-19_3.csv",row.names = FALSE)
-# write.csv(forprint,file="sections/data/projectData/Streams/2017_minnewaska/Minnewaska_2017_chem_qaqcd_2-8-19_test.csv",row.names = FALSE)
-# write.csv(forprint,file="sections/data/projectData/LCI.2018/2018data_qaqc_devtest_2-14-19.csv",row.names = FALSE)
-
-rm(forprint)
-
+# Copy report file to output directory and rename
+file.copy("QAQC.html",paste0(project.dir,project.name,"_QAQC report_",Sys.Date(),".html"), overwrite = TRUE)
