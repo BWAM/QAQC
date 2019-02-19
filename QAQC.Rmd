@@ -72,7 +72,10 @@ dup<-unique(dup[c('DEC_sample_type','sys_sample_code','lab_sdg','sample_date','c
 #separate the parent and duplicate data sets
 dupparent<-dup[dup$DEC_sample_type=="N_DUPPARENT",]
 dup<-dup[dup$DEC_sample_type=="DUP",]
+
+
 #remove -DUP from sys sample code for merge, including all instances of upper and lower case.
+### ACCOUNT FOR DUPs labeled as "QC"? doesn't the new QAPP say to use this instead??
 dup$sys_sample_code<-gsub("-[Dd][Uu][Pp]","",dup$sys_sample_code)
 dup$sys_sample_code<-gsub(" [Dd][Uu][Pp]","",dup$sys_sample_code)
 dup$sys_sample_code<-gsub("WS[Dd][Uu][Pp]","WS",dup$sys_sample_code)

@@ -24,18 +24,21 @@ library(purrr)
 
 ###### User-defined variables ######
 
-project.name <- "FingerLakes RAS 2018"  # Used for naming report file and adding Project_name field to Streams data.
-project.dir <- "sections/data/projectData/Streams/2018_FingerLakes_RAS/"
-input.data <- "FL_RAS_2018_QAQC_input.csv"
-output.filename <- "2018_FingerLakesRAS_qaqcd_2-15-19.csv"
+project.name <- "Finger Lakes RAS 2018"  # Used for naming report file and adding Project_name field to Streams data.
+project.dir <- "sections/data/projectData/Streams/2018_FingerLakes_RAS_v2/"
+input.data <- "2018_FingerLakes_chem_raw_2-19-19.csv"
+output.filename <- "2018_FingerLakes_chem_QAQCd_2-19-19.csv"
 
-####################################
+####################################This was the only dataset we’ve encountered so far with only totals in the fraction column (and no dissolved), so it is the only one affected by the logical class issue. I added a fix for this before rerunning. 
 
 # Load input data
-data<-read.csv(paste0(project.dir,input.data))
+# Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
+data<-read.csv(paste0(project.dir,input.data), colClasses = c(fraction="character"))
 
 # (For streams data) Add project name field for carrying through to final output
-data$Project_name <- project.name
+if("SiteID" %in% colnames(data)){
+  data$Project_name <- project.name
+}
 
 # Load list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". Copy both General Chemistry and Metals sections (not both always present).
 errors<-read.csv(paste0(project.dir,"laberrors.csv"))
