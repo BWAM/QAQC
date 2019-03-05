@@ -61,7 +61,7 @@ data<-data[!is.na(data$chemical_name),]
 ```{r message=FALSE, warning=FALSE, results='asis'}
 #plotting the sample failures
 #count fails and passes
-library(plyr)
+# library(plyr)
 pairfails<-count(pair[c('short','pairpass')])
 names(pairfails)[names(pairfails)=='pairpass']<-'legend'
 

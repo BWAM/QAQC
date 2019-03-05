@@ -18,16 +18,15 @@
 
 #The output is a flagged data set and a quality report summarizing the flagging process
 
-library(tidyverse)
+library(plyr)
 library(lubridate)
-library(purrr)
 
 ###### User-defined variables ######
 
-project.name <- "Finger Lakes RAS 2018"  # Used for naming report file and adding Project_name field to Streams data.
-project.dir <- "sections/data/projectData/Streams/2018_FingerLakes_RAS_v2/"
-input.data <- "2018_FingerLakes_chem_raw_2-19-19.csv"
-output.filename <- "2018_FingerLakes_chem_QAQCd_3-5-19_test.csv"
+project.name <- "LCI 2018 TEST"  # Used for naming report file and adding Project_name field to Streams data.
+project.dir <- "sections/data/projectData/LCI.2018/"
+input.data <- "2018data_FIXED.csv"
+output.filename <- "2018LCI-TEST_QAQCd_3-5-19.csv"
 
 ####################################This was the only dataset we’ve encountered so far with only totals in the fraction column (and no dissolved), so it is the only one affected by the logical class issue. I added a fix for this before rerunning. 
 

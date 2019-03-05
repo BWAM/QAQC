@@ -114,7 +114,7 @@ if (nrow(dup) > 0 ) {
 #plotting the sample failures
 #count fails and passes
 if (nrow(dup) > 0 ) {
-  library(plyr)
+  # library(plyr)
   dupfails<-count(dup[c('short','pass')])
   samplefails<-count(data[c('short','duppass')])
   names(samplefails)[names(samplefails)=='duppass']<-'legend'
