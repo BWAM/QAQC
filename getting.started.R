@@ -23,10 +23,10 @@ library(lubridate)
 
 ###### User-defined variables ######
 
-project.name <- "LCI 2018 TEST"  # Used for naming report file and adding Project_name field to Streams data.
+project.name <- "LCI 2018"  # Used for naming report file and adding Project_name field to Streams data.
 project.dir <- "sections/data/projectData/LCI.2018/"
-input.data <- "2018data_FIXED.csv"
-output.filename <- "2018LCI-TEST_QAQCd_3-5-19.csv"
+input.data <- "LCI.raw.with.DEC.INFO.TYPE.csv"
+output.filename <- "2018LCI-QAQCd_3-6-19.csv"
 
 ####################################This was the only dataset we’ve encountered so far with only totals in the fraction column (and no dissolved), so it is the only one affected by the logical class issue. I added a fix for this before rerunning. 
 

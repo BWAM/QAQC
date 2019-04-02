@@ -20,7 +20,7 @@ knitr::opts_chunk$set(echo = FALSE)
     + Duplicate samples are analyzed from the same date/location to assess the method's precision.    
     + Previously, the % difference between these samples must satisfy the precision criteria set forth in table 3 (screening) and table 4 (routine). In this document, we propose using a new method developed by Ohio EPA that offers a curved threshold.    
 
-The details of this method are given here: (https://www.epa.ohio.gov/portals/35/documents/sw_samplingmanual.pdf)
+The details of this method are given here: (https://epa.ohio.gov/Portals/35/documents/SW-Sampling-Manual-2018-AppIV.pdf)
 
 In short, they reject any duplicate sample pair where the %RPD > (0.9465x^-0.344)100 +5  
 where:
