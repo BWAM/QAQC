@@ -26,7 +26,7 @@ SM 4500-H+B,PH,pH,0.25,999.25,"Analyzed Immediately, On-site parameter. The lab 
 E420.4,TOTPHEN,"Phenolics, Total Recoverable",672,684,
 E365.1,7723-14-0,"PHOSPHORUS, TOTAL (AS P)",672,684,
 E365.1,PDORTHO,"Phosphorus, Dissolved Orthophosphate (As P)",48,60,
-E200.7,9/7/7440,Potassium,4320,4332,
+E200.7,7440-09-7,Potassium,4320,4332,
 E200.8,7440-22-4,Silver,4320,4332,
 E200.7,7440-23-5,Sodium,4320,4332,
 E120.1,SC,Specific Conductance,672,684,
