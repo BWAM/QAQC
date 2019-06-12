@@ -18,15 +18,16 @@
 
 #The output is a flagged data set and a quality report summarizing the flagging process
 
+library(tidyverse)
 library(plyr)
 library(lubridate)
 
 ###### User-defined variables ######
 
-project.name <- "LCI 2018 TEST"  # Used for naming report file and adding Project_name field to Streams data.
-project.dir <- "sections/data/projectData/LCI.2018/"
-input.data <- "2018data_FIXED.csv"
-output.filename <- "2018LCI-TEST_QAQCd_3-5-19.csv"
+project.name <- "Ramapo RAS 2018_v4"  # Used for naming report file and adding Project_name field to Streams data.
+project.dir <- "sections/data/projectData/Streams/2018_Ramapo/"
+input.data <- "2018_Ramapo_chem_raw_2-15-19.csv"
+output.filename <- "2018_Ramapo_chem_qaqcd_2019-06-12_d.csv"
 
 ####################################This was the only dataset we’ve encountered so far with only totals in the fraction column (and no dissolved), so it is the only one affected by the logical class issue. I added a fix for this before rerunning. 
 
@@ -44,12 +45,12 @@ errors<-read.csv(paste0(project.dir,"laberrors.csv"))
 
 # Trim to only necessary fields. Checks if SiteID and Project_name fields exist (streams data) and include if yes. These fieds are not used in QAQC process but are carried through to the final data output.
 if("SiteID" %in% colnames(data) & "Project_name" %in% colnames(data)){
-  data<-unique(data[c('sys_sample_code','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
+  data<-unique(data[c('sys_sample_code','lab_anl_method_name','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
                       'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
                       'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
                       'DEC_sample_type','analysis_date','SiteID','Project_name')]) 
 } else{
-  data<-unique(data[c('sys_sample_code','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
+  data<-unique(data[c('sys_sample_code','lab_anl_method_name','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
                       'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
                       'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
                       'DEC_sample_type','analysis_date')]) 

@@ -129,7 +129,7 @@ knitr::kable(flags)
 rm(flags)
 ```    
   
-```{r message=FALSE, warning=FALSE, results='asis'}
+```{r message=FALSE, warning=FALSE, results='asis', fig.height=5.5}
 #plotting the sample failures
 #count fails and passes
 # library(plyr)
@@ -142,14 +142,15 @@ theme_set(theme_pubr())
 
  print(labfails<-(ggplot() +
     geom_col(data=labfails,aes(short,freq,fill=legend)) +
+      scale_fill_manual(values = c("A" = "#00BFC4", "J" = "#C77CFF", "U" = "gray", "R" = "#F8766D", "T" = "#7CAE00")) +
       coord_flip() +
-      theme(axis.title.x = element_blank(),axis.title.y = element_blank())))
-rm(list=c('labfails'))
+      theme(axis.title.x = element_blank(),axis.title.y = element_blank()))) 
+# rm(list=c('labfails'))
 ```
 
 ###Interpreted Flags  
 Plotting the interpreted flags to see the reason the data were flagged  
-```{r message=FALSE, warning=FALSE, results='asis'}
+```{r message=FALSE, warning=FALSE, results='asis', fig.height=5.5}
 #plot the result value / day for each param 
 #color the points based on flags
 labfails<-unique(data$chemical_name)
@@ -159,19 +160,22 @@ names(labfails)[names(labfails)=='interpreted_qualifiers']<-'legend'
 
 library(ggplot2)
 library(ggpubr)
+library(pals)
 theme_set(theme_pubr())
 
 
  #plot the graph without the legend
  print((ggplot() +
     geom_col(data=labfails,aes(short,freq,fill=legend)) +
+      scale_fill_manual(values= c("gray", (as.vector(alphabet2(19))))) +
       coord_flip() +
-      theme(axis.title.x = element_blank(),axis.title.y = element_blank(),legend.position="none")))
+      theme(axis.title.x = element_blank(),axis.title.y = element_blank(),legend.position="none"))) 
 #plot just the legend
  legend<-(ggplot() +
                   geom_col(data=labfails,aes(short,freq,fill=legend)) +
                   coord_flip() +
-                  theme_void())
+                  theme_void()) +
+         scale_fill_manual(values= c("gray", (as.vector(alphabet2(19)))))
 legend<-get_legend(legend)
 as_ggplot(legend)
 rm(legend)

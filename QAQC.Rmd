@@ -36,11 +36,26 @@ The accuracy, precision, and equipment blank assessments are performed on a subs
 
 ##Formatting Sample data for analysis
 
-```{r, echo=FALSE}
+
+```{r}
 #associate the data with the reporting limts file
 rlimits<-read.csv("sections/data/reporting.limits.csv")
 data<-merge(data,rlimits,by=c('chemical_name'),all=FALSE)
 rm(rlimits)
+
+data <- data %>%
+  mutate(short = case_when(
+    # fraction %in% "T" ~ paste0(as.character(short), " (total)"),
+    fraction %in% "D" ~ paste0(as.character(short), " (dissolved)"),
+    TRUE ~ as.character(short)
+  )
+  # ,
+  # short = factor(short, sort(unique(short), decreasing = TRUE))
+  )
+```
+
+
+```{r, echo=FALSE}
 
 # Convert dates from factors to POSIXct objects
 library(lubridate)
