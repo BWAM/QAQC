@@ -27,7 +27,7 @@ library(lubridate)
 project.name <- "Ramapo RAS 2018_v4"  # Used for naming report file and adding Project_name field to Streams data.
 project.dir <- "sections/data/projectData/Streams/2018_Ramapo/"
 input.data <- "2018_Ramapo_chem_raw_2-15-19.csv"
-output.filename <- "2018_Ramapo_chem_qaqcd_2019-06-12_d.csv"
+output.filename <- "2018_Ramapo_chem_qaqcd_2019-06-27_b.csv"
 
 ####################################This was the only dataset we’ve encountered so far with only totals in the fraction column (and no dissolved), so it is the only one affected by the logical class issue. I added a fix for this before rerunning. 
 
