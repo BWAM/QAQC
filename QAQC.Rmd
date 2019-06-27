@@ -48,9 +48,8 @@ data <- data %>%
     # fraction %in% "T" ~ paste0(as.character(short), " (total)"),
     fraction %in% "D" ~ paste0(as.character(short), " (dissolved)"),
     TRUE ~ as.character(short)
-  )
-  # ,
-  # short = factor(short, sort(unique(short), decreasing = TRUE))
+  ),
+  short = factor(short, sort(unique(short), decreasing = TRUE))
   )
 ```
 
@@ -119,7 +118,7 @@ dup<-unique(dup[c('sys_sample_code','lab_sdg','chemical_name','short','sample_da
 dupparent<-unique(dupparent[c('sys_sample_code','lab_sdg','chemical_name','short','sample_date.parent','result_value.parent','result_unit.parent','quantitation_limit.parent','method_detection_limit.parent','detection_limit_unit.parent','lab_qualifiers.parent')])
 #merge the two into one data set
 dup<-merge(dup,dupparent,by=c('sys_sample_code','lab_sdg','chemical_name','short'),all=TRUE)
-rm(dupparent)
+# rm(dupparent)
 
 
 #remove qc from complete data set
