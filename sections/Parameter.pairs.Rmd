@@ -16,7 +16,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ##Parameter Pairs
 
-Parameter Pairs where A is the total and B is the component, B should not be > A
+Parameter Pairs where A is the total and B is the component, B should not be > A.
 
 The pairs we examined were as follows:
 ```{r message=FALSE, warning=FALSE, results='asis'}

@@ -18,12 +18,12 @@ knitr::opts_chunk$set(echo = FALSE)
 ##Equipment Blanks
 
 * Equipment Blank exceedances  (result > quantitation limit)  
-    + Step 1: pull EB values that exceed the quantitation limt
-    + Step 2: flag sample values associated with EB exceedences that are less than 10x (flagged estimated), 5x (flagged trend), and 3x (rejected, needs verificaiton) the equipment blank value   
+    + Step 1: Pull EB values that exceed the quantitation limit.
+    + Step 2: Flag sample values associated with EB exceedences that are less than 10x (flagged estimated), 5x (flagged trend), and 3x (rejected, needs verificaiton) the equipment blank value.   
 
-IT'S IMPORTANT TO NOTE: that the quantitation limit is NOT the method detection limit. Both are set by the lab and can vary week to week. The quantitation limit is the practical limt the lab was able to achieve and has confidence in on that date.       
+IMPORTANT NOTE: The quantitation limit is NOT the method detection limit. Both are set by the lab and can vary week to week. The quantitation limit is the practical limt the lab was able to achieve and has confidence in on that date.       
 
-These flags and their thresholds are again taken from OHIO EPA methods (https://www.epa.ohio.gov/portals/35/documents/sw_samplingmanual.pdf). Their detailed description is replicated below:  
+These flags and their thresholds are again taken from OHIO EPA methods (https://epa.ohio.gov/Portals/35/documents/SW-Sampling-Manual-2018-AppIV.pdf). Their detailed description is replicated below:  
 ```{r, echo=FALSE}
 OHIO<-read.csv("data/Ohio.Qualifiers.csv")
 knitr::kable(OHIO)
@@ -33,9 +33,9 @@ rm(OHIO)
 The equipment blank assessments are performed on a subset of samples. The errors discovered with these QC assessments are applied to all normal samples. This is done by associating normal samples to those QC samples closest in date/time to each sample. 
 
 ###plots    
-I only plotted parameters with EB failures.  
+Only parameters with EB failures are plotted.  
 The purpose of these plots is to see whether the failures were outliers or were part of an underlying noise. If the latter, then we should consider raising the reporting limit.  
-NOTE: I turn non-detects into 0 which I know they are not but for the purpose of identifying failed EBs, I feel this is ok.
+NOTE: Non-detects are converted to 0 values strictly for the purpose of identifying failed EBs.
 
 ```{r message=FALSE, results='asis'}
 #create pass column - pass if less than reporting limit; reject if more than reporting limit

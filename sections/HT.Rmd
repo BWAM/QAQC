@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 ##Holding Time
-The analysis date - sample date should not exceed holding time limits held in the holding.times look up table    
+The analysis date - sample date should not exceed holding time limits in the holding time look up table.    
 ```{r message=FALSE, warning=FALSE, results='asis'}
 # Load holding times reference table
 holdingtimes <- read.csv("data/Holding.Times.csv")

@@ -18,9 +18,9 @@ knitr::opts_chunk$set(echo = FALSE)
 Checking that laboratory analyses met all internal QAQC checks  
 
 ###Conclusions from the lab reports  
-NOTE: sometimes a result is flagged * because of a holding time violation which we actually feel is an okay exceedence of HT.  
+<!-- NOTE: Results are sometimes flagged '*' because of a holding time violation which we actually feel is an okay exceedence of HT.   -->
 
-In order to reveiw the narrative reports, you will need the following list of lab_sdg s associated with these data:  
+In order to review the narrative reports, you will need the following list of lab_sdg's associated with these data:  
 ```{r message=FALSE, warning=FALSE, results='asis'}
 qualifiers<-unique(data[c('lab_sdg','lab_qualifiers')])
 qualifiers$lab_qualifiers<-NA

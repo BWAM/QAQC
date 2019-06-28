@@ -26,15 +26,15 @@ In short, they reject any duplicate sample pair where the %RPD > (0.9465x^-0.344
 where:
 x = sample / detection limit
 %RPD = [diff(duplicate pair)/av(duplicate pair)]*100  
-NOTE: I used the maximum of the two samples to calculate x  
+NOTE: We use the maximum of the two samples to calculate x  
 
 The precision assessments are performed on a subset of samples. The errors discovered with these QC assessments are applied to all normal samples. This is done by associating normal samples to those QC samples closest in date/time to each sample. 
 
 
 ###plots  
-To examin failures visually, I plotted sample/DL versus %RPD as well as the threshold equation described above.  
+To examine failures visually, we plot sample/DL versus %RPD as well as the threshold equation described above.  
 Any point above the line should be rejected. Any point below the line is accepted. If the line isn't visible, that means it is above the range of the graph and all the points would be accepted.  
-NOTE: I only plotted parameters that had at least one failed duplicate sample result.  
+NOTE: We only plotted parameters that had at least one failed duplicate sample result.  
 ```{r, echo=FALSE}
 #converting non-detects to 0
 if (nrow(dup) > 0 ) {

@@ -1,7 +1,6 @@
 ---
-title: "dataQAQC"
-author: "Alene Onion"
-date: "December 29, 2018"
+title: "`r paste0(project.name, ' - Chemistry QAQC results')`"
+date: "`r Sys.Date()`"
 output:
   html_document:
     toc: true
@@ -20,37 +19,37 @@ knitr::opts_chunk$set(echo = FALSE)
 The components of our quality review are:
 
 * Laboratory QAQC
-    + Checking that laboratory analyses met all internal QAQC checks  
+    + Checking that laboratory analyses met all internal QAQC checks.  
 * Accuracy
-    + Assessing the bias of a method in a given sample matrix Using a sample matrix spike   
+    + Assessing the bias of a method in a given sample matrix Using a sample matrix spike.   
 * Precision   
-    + Assessing method precision using duplicate samples analyzed from the same date/location    
+    + Assessing method precision using duplicate samples analyzed from the same date/location.    
 * Equipment Blank exceedances  
-    + Assessing the influence of field errors using equipment blank samples  
+    + Assessing the influence of field errors using equipment blank samples.  
 * Parameter Pairs 
-    + Flagging samples where component parameters exceed total concentrations
+    + Flagging samples where component parameters exceed total concentrations.
 * Holding time exceedances  
-    + Flagging samples where holding times were exceeded  
+    + Flagging samples where holding times were exceeded.  
 
 The accuracy, precision, and equipment blank assessments are performed on a subset of samples. The errors discovered with these QC assessments are applied to all normal samples. This is done by associating normal samples to those QC samples closest in date/time to each sample. 
 
-##Formatting Sample data for analysis
+##QAQC Samples Overview
 
 
 ```{r}
 #associate the data with the reporting limts file
 rlimits<-read.csv("sections/data/reporting.limits.csv")
 data<-merge(data,rlimits,by=c('chemical_name'),all=FALSE)
-rm(rlimits)
+# rm(rlimits)
 
 data <- data %>%
   mutate(short = case_when(
     # fraction %in% "T" ~ paste0(as.character(short), " (total)"),
     fraction %in% "D" ~ paste0(as.character(short), " (dissolved)"),
     TRUE ~ as.character(short)
-  ),
-  short = factor(short, sort(unique(short), decreasing = TRUE))
-  )
+  )) %>% 
+  mutate(short = factor(short, sort(unique(short), decreasing = TRUE)))
+  
 ```
 
 
@@ -130,9 +129,9 @@ HT<-unique(data[c('sys_sample_code','lab_sdg','sample_date','chemical_name','sho
 
 ```
 
-Plotting the sample dates to understand how best to associate them.  
+<!-- Plotting the sample dates to understand how best to associate them. -->
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE}
 samples<-unique(data[c('sample_date','lab_sdg')])
 samples$freq<-1
 samples$type<-"standard samples"
