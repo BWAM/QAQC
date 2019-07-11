@@ -65,8 +65,8 @@ theme_set(theme_pubr())
  print(HTfails<-(ggplot() +
     geom_col(data=HTfails,aes(short,freq,fill=legend)) +
       coord_flip() +
-      theme(axis.title.x = element_blank(),axis.title.y = element_blank()))) +
-      scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")
-rm(list=c('HTfails','HT'))
+      theme(axis.title.x = element_blank(),axis.title.y = element_blank()) +
+      scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")))
+# rm(list=c('HTfails','HT'))
 ```
 

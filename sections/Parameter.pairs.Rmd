@@ -72,7 +72,7 @@ theme_set(theme_pubr())
  print(pairfails<-(ggplot() +
     geom_col(data=pairfails,aes(short,freq,fill=legend)) +
       coord_flip() +
-      theme(axis.title.x = element_blank(),axis.title.y = element_blank()))) +
-      scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"))
-rm(list=c('pairfails','pair'))
+      theme(axis.title.x = element_blank(),axis.title.y = element_blank()) +
+      scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")))
+# rm(list=c('pairfails','pair'))
 ```
