@@ -2,6 +2,7 @@
 #Alene Onion
 #December 2018
 
+
 #The purpose of this script is to QAQC data files #This script requires:
 #data.csv: raw data files with the added DEC_sample_type column which identifies the same as a normal sample, blank, matrix spike, duplicate, or duplicate parent
 #reporting.limits.csv: reporting limits file that includes accuracy limits, paired parameters that components should be samler than, and an abbreviated name column
@@ -24,10 +25,10 @@ library(lubridate)
 
 ###### User-defined variables ######
 
-project.name <- "Ramapo RAS 2018_v4"  # Used for naming report file and adding Project_name field to Streams data.
-project.dir <- "sections/data/projectData/Streams/2018_Ramapo/"
-input.data <- "2018_Ramapo_chem_raw_2-15-19.csv"
-output.filename <- "2018_Ramapo_chem_qaqcd_2019-06-27_b.csv"
+project.name <- "Routine April 2019"  # Used for naming report file and adding Project_name field to Streams data.
+project.dir <- "sections/data/projectData/Streams/2019/routine/april/"
+input.data <- "2019_routine-april_chem_raw_07-10-19.csv"
+output.filename <- "2018_routine-april_chem_qaqcd_2019-07-10.csv"
 
 ####################################This was the only dataset we’ve encountered so far with only totals in the fraction column (and no dissolved), so it is the only one affected by the logical class issue. I added a fix for this before rerunning. 
 
