@@ -119,13 +119,11 @@ dupparent<-unique(dupparent[c('sys_sample_code','lab_sdg','chemical_name','short
 dup<-merge(dup,dupparent,by=c('sys_sample_code','lab_sdg','chemical_name','short'),all=TRUE)
 # rm(dupparent)
 
-
 #remove qc from complete data set
-data<-data[data$DEC_sample_type=="N"|data$DEC_sample_type=="N_DUPPARENT",]
+data<-data[data$DEC_sample_type %in% c("N", "N_DUPPARENT"),]
 
 #creating a holding time subset
 HT<-unique(data[c('sys_sample_code','lab_sdg','sample_date','chemical_name','short','analysis_date')])
-
 
 ```
 

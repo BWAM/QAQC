@@ -7,7 +7,7 @@
 #data.csv: raw data files with the added DEC_sample_type column which identifies the same as a normal sample, blank, matrix spike, duplicate, or duplicate parent
 #reporting.limits.csv: reporting limits file that includes accuracy limits, paired parameters that components should be samler than, and an abbreviated name column
 #Ohio.Qualifiers.csv: A table of Ohio data qualifiers
-#Holding.Times.csv: a lookup table for holding times
+#Holding.Times_v2.csv: a lookup table for holding times
 #ALSflags.png: to see the ALs flags
 #laberrors.csv: a list of all the errors noted in the written lab reports
 #validator_flags: a list of all the possible flags applied to the validator_flag column
@@ -25,10 +25,12 @@ library(lubridate)
 
 ###### User-defined variables ######
 
-project.name <- "Routine R5 Apr-June"  # Used for naming report file and adding Project_name field to Streams data.
-project.dir <- "sections/data/projectData/Streams/2019/routine/r5_ht_test/"
-input.data <- "2019_routine-r5_ht_test_chem_raw_11-05-19.csv"
-output.filename <- "2019_routine-r5_ht_test_chem_qaqcd_11-05-19.csv"
+# Used for naming report file and adding Project_name field to Streams data. 
+#   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
+project.name <- "Mohawk 2019"  
+project.dir <- "sections/data/projectData/Streams/2019/mohawk/"
+input.data <- "2019_Mohawk_chem_preQAQC_2020-01-02.csv"
+output.filename <- "2019_mohawk_chem_qaqcd-2020-01-02.csv"
 
 ####################################This was the only dataset we’ve encountered so far with only totals in the fraction column (and no dissolved), so it is the only one affected by the logical class issue. I added a fix for this before rerunning. 
 
@@ -66,4 +68,4 @@ rmarkdown::render("QAQC.Rmd")
 write.csv(forprint,file=paste0(project.dir,output.filename),row.names = FALSE)
 
 # Copy report file to output directory and rename
-file.copy("QAQC.html",paste0(project.dir,project.name,"_QAQC report_",Sys.Date(),".html"), overwrite = TRUE)
+file.copy("QAQC.html",paste0(project.dir,project.name,"_QAQC-report_",Sys.Date(),".html"), overwrite = TRUE)

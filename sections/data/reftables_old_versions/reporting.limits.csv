@@ -39,7 +39,3 @@ pH of Color Analysis,,pH units,ph_color,25,NA
 UV 254,,1/cm,UV254,25,NA
 "PHOSPHORUS, DISSOLVED (AS P)",,mg/l,diss_phosphorus,25,"PHOSPHORUS, TOTAL (AS P)"
 TOTAL ORGANIC CARBON,,mg/L,TOC,25,NA
-Chloroform,1,ug/L,chloroform,25,NA
-Dibromochloromethane,1,ug/L,dibromochloromethane,25,NA
-Bromodichloromethane,1,ug/L,dromodichloromethane,25,NA
-Bromoform,1,ug/L,bromoform,25,NA

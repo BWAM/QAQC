@@ -41,7 +41,3 @@ SM2540E,TVS,Total Volatile Solids,168,168,
 E180.1,TURB,TURBIDITY,48,48,
 E200.8,7440-66-6,Zinc,4320,4320,
 SM10200H,479-61-8,Chlorophyll A,672,672,"This is the holding time for frozen filters. Samples must be filtered by the lab within 48 hours of collection. This is indicated in the 'prep_date' field."
-E624,67-66-3,Chloroform,336,336,
-E624,124-48-1,Dibromochloromethane,336,336,
-E624,75-27-4,Bromodichloromethane,336,336,
-E624,75-25-2,Bromoform,336,336,

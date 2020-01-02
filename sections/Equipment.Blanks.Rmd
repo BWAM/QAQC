@@ -43,6 +43,8 @@ NOTE: Non-detects are converted to 0 values strictly for the purpose of identify
 EB$lab_qualifiers<-as.character(EB$lab_qualifiers)
 EB$result_value <- ifelse(grepl("U",EB$lab_qualifiers),0,EB$result_value)
 
+# Add step here to add buffer to turbidity QL (create new column and add 0.1 to only turbidity?)
+
 #create pass column
 EB$pass<-ifelse(EB$result_value>EB$quantitation_limit,"fail","pass")
 #format date
