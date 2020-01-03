@@ -27,10 +27,11 @@ library(lubridate)
 
 # Used for naming report file and adding Project_name field to Streams data. 
 #   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
-project.name <- "Mohawk 2019"  
+project.name <- "Mohawk 2019"
 project.dir <- "sections/data/projectData/Streams/2019/mohawk/"
 input.data <- "2019_Mohawk_chem_preQAQC_2020-01-02.csv"
 output.filename <- "2019_mohawk_chem_qaqcd-2020-01-02.csv"
+
 
 ####################################This was the only dataset we’ve encountered so far with only totals in the fraction column (and no dissolved), so it is the only one affected by the logical class issue. I added a fix for this before rerunning. 
 
