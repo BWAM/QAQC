@@ -20,8 +20,15 @@ Parameter Pairs where A is the total and B is the component, B should not be > A
 
 The pairs we examined were as follows:
 ```{r message=FALSE, warning=FALSE, results='asis'}
-component<-c('NITROGEN, NITRATE (AS N)','NITROGEN, NITRITE','Nitrate+Nitrite as Nitrogen','Nitrogen, ammonia (As N)','NITROGEN, KJELDAHL, TOTAL','Orthophosphate as Phosphorus, Dissolved')
-of<-c('Nitrate+Nitrite as Nitrogen','Nitrate+Nitrite as Nitrogen','Nitrogen','Nitrogen','Nitrogen','PHOSPHORUS, TOTAL (AS P)')
+
+# Removed TKN and NO2+NO3 checks because Nitrogen field is not actually TN (at least for 2019 season data)
+component<-c('NITROGEN, NITRATE (AS N)','NITROGEN, NITRITE','Nitrogen, ammonia (As N)','Orthophosphate as Phosphorus, Dissolved')
+of<-c('Nitrate+Nitrite as Nitrogen','Nitrate+Nitrite as Nitrogen','Nitrogen','PHOSPHORUS, TOTAL (AS P)')
+
+# Old code below
+# component<-c('NITROGEN, NITRATE (AS N)','NITROGEN, NITRITE','Nitrate+Nitrite as Nitrogen','Nitrogen, ammonia (As N)','NITROGEN, KJELDAHL, TOTAL','Orthophosphate as Phosphorus, Dissolved')
+# of<-c('Nitrate+Nitrite as Nitrogen','Nitrate+Nitrite as Nitrogen','Nitrogen','Nitrogen','Nitrogen','PHOSPHORUS, TOTAL (AS P)')
+
 table<-data.frame(component,of)
 knitr::kable(table)
 rm(list=c('component','of','table'))

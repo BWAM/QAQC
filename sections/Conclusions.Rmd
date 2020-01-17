@@ -35,6 +35,9 @@ The components of our quality review are:
 The accuracy, precision, and equipment blank assessments are performed on a subset of samples. The errors discovered with these QC assessments are applied to all normal samples. This is done by associating normal samples to those QC samples closest in date/time to each sample. 
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
+# Add date of QAQC run
+data$qaqc_date <- Sys.Date()
+
 #creating one flag to rule them all and interpetation of this flag
 
 #convert all NA values in pass fields to A
