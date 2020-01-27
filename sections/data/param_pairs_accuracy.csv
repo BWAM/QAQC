@@ -32,7 +32,8 @@ Sodium,sodium,25,NA
 SULFATE (AS SO4),sulfate,25,NA
 Temperature of pH Analysis,tempph,25,NA
 "TOTAL DISSOLVED SOLIDS (RESIDUE, FILTERABLE)",TDS,25,NA
-TURBIDITY,turbidity,10,NA
+"Total Suspended Solids",TSS,25,NA
+TURBIDITY,turbidity,25,NA
 Zinc,zinc,25,NA
 "Color, True",color,25,NA
 pH of Color Analysis,ph_color,25,NA
