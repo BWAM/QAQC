@@ -14,11 +14,12 @@ knitr::opts_chunk$set(echo = FALSE)
 #file.copy("sections/images", ".", recursive = TRUE)
 ```
 
-##Holding Time
+## Holding Time
 The analysis date - sample date should not exceed holding time limits in the holding time look up table.    
 ```{r message=FALSE, warning=FALSE, results='asis'}
 # Load holding times reference table
 # Updated holding times table on 11/5/19 to remove 12 hour buffers
+# Udpated holding times again on 1/31/20 to add 1 hr buffer for HTs of 72 hours and below, and 1 day for those beyond (as per 1/29/20 email with Vicky Collam, ALS Quality Manager)
 holdingtimes <- read.csv("data/Holding.Times_v2.csv")
 holdingtimes$Holding<-as.numeric(holdingtimes$Holding)
 
@@ -52,7 +53,7 @@ data<-merge(data,HT,by=c('sys_sample_code','chemical_name','short','sample_date'
 data<-data[!is.na(data$chemical_name),]
 ```
 
-###Holding Time Rejected samples
+### Holding Time Rejected samples
 ```{r message=FALSE, warning=FALSE, results='asis', fig.height=5.5}
 #plotting the sample failures
 #count fails and passes

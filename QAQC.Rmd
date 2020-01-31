@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = FALSE)
 #file.copy("sections/images", ".", recursive = TRUE)
 ```
 
-##QAQC overview
+## QAQC overview
 
 The components of our quality review are:
 
@@ -33,7 +33,7 @@ The components of our quality review are:
 
 The accuracy, precision, and equipment blank assessments are performed on a subset of samples. The errors discovered with these QC assessments are applied to all normal samples. This is done by associating normal samples to those QC samples closest in date/time to each sample. 
 
-##QAQC Samples Overview
+## QAQC Samples Overview
 
 
 ```{r}

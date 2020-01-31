@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = FALSE)
 #file.copy("sections/images", ".", recursive = TRUE)
 ```
 
-##Accuracy Assessment
+## Accuracy Assessment
 
 * Accuracy
     + A sample matrix spike is used to document the bias of a method in a given sample matrix.   
@@ -27,7 +27,7 @@ knitr::opts_chunk$set(echo = FALSE)
 The accuracy assessments are performed on a subset of samples. The errors discovered with these QC assessments are applied to all normal samples. This is done by associating normal samples to those QC samples closest in date/time to each sample. 
 
     
-###Accuracy Rejected Samples  
+### Accuracy Rejected Samples  
 ```{r message=FALSE, warning=FALSE, results='asis'}
 #calculate the failures myself rather than depending on the lab
 spike$percrecovery<-((abs(spike$qc_spike_measured-spike$qc_original_conc))/spike$qc_spike_added)*100

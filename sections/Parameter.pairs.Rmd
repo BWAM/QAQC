@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = FALSE)
 #file.copy("sections/images", ".", recursive = TRUE)
 ```
 
-##Parameter Pairs
+## Parameter Pairs
 
 Parameter Pairs where A is the total and B is the component, B should not be > A.
 
@@ -64,7 +64,7 @@ data<-merge(data,pair,by=c('sys_sample_code','chemical_name','short','sample_dat
 data<-data[!is.na(data$chemical_name),]
 ```
 
-###Paired Rejected sampes
+### Paired Rejected sampes
 ```{r message=FALSE, warning=FALSE, results='asis'}
 #plotting the sample failures
 #count fails and passes

@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-##Equipment Blanks
+## Equipment Blanks
 
 * Equipment Blank exceedances  (result > quantitation limit)  
     + Step 1: Pull EB values that exceed the quantitation limit.
@@ -32,7 +32,7 @@ rm(OHIO)
 
 The equipment blank assessments are performed on a subset of samples. The errors discovered with these QC assessments are applied to all normal samples. This is done by associating normal samples to those QC samples closest in date/time to each sample. 
 
-###plots    
+### Plots    
 Only parameters with EB failures are plotted.  
 The purpose of these plots is to see whether the failures were outliers or were part of an underlying noise. If the latter, then we should consider raising the reporting limit.  
 NOTE: Non-detects are converted to 0 values strictly for the purpose of identifying failed EBs.
@@ -71,7 +71,7 @@ for(i in 1:nparams){
 rm(list=c('params','nparams','i'))
 ```
 
-###Equipment Blank Rejected Samples
+### Equipment Blank Rejected Samples
 ```{r, echo=FALSE,warning=FALSE}
 #truncate the EB file
 EBs<-unique(EB[c('chemical_name','result_value','sample_date','pass')])
