@@ -27,17 +27,21 @@ library(lubridate)
 
 # Used for naming report file and adding Project_name field to Streams data. 
 #   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
-project.name <- "Finger Lakes Tribs 2019"
-project.dir <- "sections/data/projectData/Streams/2019/fingerlakes/"
-input.data <- "2019_FingerLakes_chem_preqaqc_2020-01-03.csv"
-output.filename <- "2019_fingerlakes_chem_qaqcd-2020-01-31_TEST.csv"
+project.name <- "Chlorophyll pull 2020-02-25"
+project.dir <- "sections/data/projectData/Streams/2019/chlorophyll_pull/"
+input.data <- "2019_chlorophyll_chem_preqaqc_2020-02-25.csv"
+output.filename <- "2019_chlorophyll_pull_chem_qaqcq_2020-02-25.csv"
 
+# project.name <- "Finger Lakes Tribs 2019"
+# project.dir <- "sections/data/projectData/Streams/2019/fingerlakes/"
+# input.data <- "2019_FingerLakes_chem_preqaqc_2020-01-03.csv"
+# output.filename <- "2019_fingerlakes_chem_qaqcd-2020-02-04_TEST_2.csv"
 
 ####################################This was the only dataset we’ve encountered so far with only totals in the fraction column (and no dissolved), so it is the only one affected by the logical class issue. I added a fix for this before rerunning. 
 
 # Load input data
 # Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
-data<-read.csv(paste0(project.dir,input.data), colClasses = c(fraction="character"))
+data<-read.csv(paste0(project.dir,input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE)
 
 # (For streams data) Add project name field for carrying through to final output
 if("SiteID" %in% colnames(data)){
@@ -48,8 +52,9 @@ if("SiteID" %in% colnames(data)){
 errors<-read.csv(paste0(project.dir,"laberrors.csv"))
 
 # Trim to only necessary fields. Checks if SiteID and Project_name fields exist (streams data) and include if yes. These fieds are not used in QAQC process but are carried through to the final data output.
+  # Added in SDG for streams data 2/25/2020
 if("SiteID" %in% colnames(data) & "Project_name" %in% colnames(data)){
-  data<-unique(data[c('sys_sample_code','lab_anl_method_name','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
+  data<-unique(data[c('sys_sample_code','sample_delivery_group','lab_anl_method_name','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
                       'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
                       'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
                       'DEC_sample_type','analysis_date','SiteID','Project_name')]) 

@@ -45,3 +45,8 @@ Order,ANALYTIC_METHOD,cas_rn,chemical_name,nobuffer,Holding,Notes
 44,E624,124-48-1,Dibromochloromethane,336,360,
 45,E624,75-27-4,Bromodichloromethane,336,360,
 46,E624,75-25-2,Bromoform,336,360,
+47,E552.2,631-64-1,Dibromoacetic Acid,336,360
+48,E552.2,47,79-43-6,DICHLOROACETIC ACID,336,360
+49,E552.2,79-08-3,Monobromoacetic Acid,336,360
+50,E552.2,79-11-8,Monochloroacetic Acid,336,360
+51,E552.2,76-03-9,Trichloroacetic Acid,336,360
