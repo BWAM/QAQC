@@ -170,7 +170,7 @@ theme_set(theme_pubr())
  #plot the graph without the legend
  print((ggplot() +
     geom_col(data=labfails,aes(short,freq,fill=legend)) +
-      scale_fill_manual(values= c("gray", (as.vector(alphabet2(19))))) +
+      scale_fill_manual(values= c("gray", (as.vector(alphabet2(22))))) +
       coord_flip() +
       theme(axis.title.x = element_blank(),axis.title.y = element_blank(),legend.position="none"))) 
 #plot just the legend
@@ -178,7 +178,7 @@ theme_set(theme_pubr())
                   geom_col(data=labfails,aes(short,freq,fill=legend)) +
                   coord_flip() +
                   theme_void()) +
-         scale_fill_manual(values= c("gray", (as.vector(alphabet2(19)))))
+         scale_fill_manual(values= c("gray", (as.vector(alphabet2(22)))))
 legend<-get_legend(legend)
 as_ggplot(legend)
 rm(legend)

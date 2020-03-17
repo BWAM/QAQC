@@ -27,10 +27,10 @@ library(lubridate)
 
 # Used for naming report file and adding Project_name field to Streams data. 
 #   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
-project.name <- "Chlorophyll pull 2020-02-25"
-project.dir <- "sections/data/projectData/Streams/2019/chlorophyll_pull/"
-input.data <- "2019_chlorophyll_chem_preqaqc_2020-02-25.csv"
-output.filename <- "2019_chlorophyll_pull_chem_qaqcq_2020-02-25.csv"
+project.name <- "Routine Test 2020-03-13"
+project.dir <- "sections/data/projectData/Streams/2019/Routine/all_test_2020-03-13/"
+input.data <- "2019_chem_routine_pre-qaqc_2020-03-13.csv"
+output.filename <- "2019_chem_routine_qaqcq_2020-03-13.csv"
 
 # project.name <- "Finger Lakes Tribs 2019"
 # project.dir <- "sections/data/projectData/Streams/2019/fingerlakes/"
@@ -64,6 +64,10 @@ if("SiteID" %in% colnames(data) & "Project_name" %in% colnames(data)){
                       'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
                       'DEC_sample_type','analysis_date')]) 
 }
+
+# Change turbidity quanitation limit to 1.0 NTU, as per Jason Fagel, 3/12/20
+data <- data %>% 
+  mutate(quantitation_limit = ifelse(chemical_name == "TURBIDITY", 1.0, quantitation_limit))
 
 #run the rmarkdown script for this list
 rmarkdown::render("QAQC.Rmd")

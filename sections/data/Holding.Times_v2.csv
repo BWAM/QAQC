@@ -7,9 +7,9 @@ Order,ANALYTIC_METHOD,cas_rn,chemical_name,nobuffer,Holding,Notes
 6,E300.0,16887-00-6,CHLORIDE (AS CL),672,696,
 7,E120.1,COND,Conductivity,672,696,
 8,E200.8,7440-50-8,Copper,4320,4344,
-9,SM5310C,DOC,Dissolved Organic Carbon,672,696,
+9,SM5310C,DOC,"Carbon, Dissolved Organic (DOC)",672,696,
 10,E360.1,DISS_OXYGEN,Dissolved Oxygen,0.25,99.25,"Analyzed Immediately, On-site parameter. The lab may run this as well, but HT should be applied to field measurements. Added 99 b/c will always fail."
-11,E300.0,16984-48-8,Fluoride,672,696,
+11,E300.0,16984-48-8,"Fluoride, undistilled",672,696,
 12,SM 2340 C,HARD,HARDNESS (AS CACO3),4320,4344,
 13,E200.7,7439-89-6,Iron,4320,4344,
 14,E200.8,7439-92-1,Lead,4320,4344,
@@ -30,7 +30,7 @@ Order,ANALYTIC_METHOD,cas_rn,chemical_name,nobuffer,Holding,Notes
 29,E200.8,7440-22-4,Silver,4320,4344,
 30,E200.7,7440-23-5,Sodium,4320,4344,
 31,E120.1,SC,Specific Conductance,672,696,
-32,E300.0,14808-79-8,Sulfate (As SO4),672,696,
+32,E300.0,14808-79-8,SULFATE (AS SO4),672,696,
 33,E170.1,TEMP,Temperature,0.25,999.25,"Analyzed Immediately, On-site parameter. The lab may run this as well, but HT should be applied to field measurements. Added 999 b/c will always fail."
 34,SM5310C,7440-44-0,Total Carbon,672,696,
 35,SM2540C,TDS,"TOTAL DISSOLVED SOLIDS (RESIDUE, FILTERABLE)",168,192,
@@ -46,7 +46,8 @@ Order,ANALYTIC_METHOD,cas_rn,chemical_name,nobuffer,Holding,Notes
 45,E624,75-27-4,Bromodichloromethane,336,360,
 46,E624,75-25-2,Bromoform,336,360,
 47,E552.2,631-64-1,Dibromoacetic Acid,336,360
-48,E552.2,47,79-43-6,DICHLOROACETIC ACID,336,360
+48,E552.2,79-43-6,DICHLOROACETIC ACID,336,360
 49,E552.2,79-08-3,Monobromoacetic Acid,336,360
 50,E552.2,79-11-8,Monochloroacetic Acid,336,360
 51,E552.2,76-03-9,Trichloroacetic Acid,336,360
+52,7782-49-2,Selenium,4320,4344,
