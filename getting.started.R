@@ -27,10 +27,10 @@ library(lubridate)
 
 # Used for naming report file and adding Project_name field to Streams data. 
 #   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
-project.name <- "Routine Test 2020-03-13"
-project.dir <- "sections/data/projectData/Streams/2019/Routine/all_test_2020-03-13/"
-input.data <- "2019_chem_routine_pre-qaqc_2020-03-13.csv"
-output.filename <- "2019_chem_routine_qaqcq_2020-03-13.csv"
+project.name <- "SBU-Mohawk chem 2019"
+project.dir <- "sections/data/projectData/Streams/ITS_tables_2020-03-27/"
+input.data <- "2019_chem_preqaqc_ALL-SBU_Mohawk_complete_2020-03-27.csv"
+output.filename <- paste0("2019_chem_qaqc_ALL-SBU_Mohawk_complete_",Sys.Date(),".csv")
 
 # project.name <- "Finger Lakes Tribs 2019"
 # project.dir <- "sections/data/projectData/Streams/2019/fingerlakes/"
@@ -44,20 +44,20 @@ output.filename <- "2019_chem_routine_qaqcq_2020-03-13.csv"
 data<-read.csv(paste0(project.dir,input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE)
 
 # (For streams data) Add project name field for carrying through to final output
-if("SiteID" %in% colnames(data)){
+if("SITE_ID" %in% colnames(data)){
   data$Project_name <- project.name
 }
 
 # Load list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". Copy both General Chemistry and Metals sections (not both always present).
 errors<-read.csv(paste0(project.dir,"laberrors.csv"))
 
-# Trim to only necessary fields. Checks if SiteID and Project_name fields exist (streams data) and include if yes. These fieds are not used in QAQC process but are carried through to the final data output.
+# Trim to only necessary fields. Checks if SITE_ID and Project_name fields exist (streams data) and include if yes. These fieds are not used in QAQC process but are carried through to the final data output.
   # Added in SDG for streams data 2/25/2020
-if("SiteID" %in% colnames(data) & "Project_name" %in% colnames(data)){
+if("SITE_ID" %in% colnames(data) & "Project_name" %in% colnames(data)){
   data<-unique(data[c('sys_sample_code','sample_delivery_group','lab_anl_method_name','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
                       'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
                       'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
-                      'DEC_sample_type','analysis_date','SiteID','Project_name')]) 
+                      'DEC_sample_type','analysis_date','SITE_ID','Project_name')]) 
 } else{
   data<-unique(data[c('sys_sample_code','lab_anl_method_name','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
                       'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',

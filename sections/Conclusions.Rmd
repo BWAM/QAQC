@@ -66,7 +66,7 @@ if (nrow(dup) > 0 ) {
 #first create the field
 data$interpreted_qualifiers<-"Normal"
 
-#For lab errors
+## For lab errors
 #R flags
 data$interpreted_qualifiers<-ifelse(data$interpreted_qualifiers=="Normal",
                                 ifelse(data$labpass=="R","lab error","Normal"),
@@ -80,7 +80,7 @@ data$interpreted_qualifiers<-ifelse(data$interpreted_qualifiers=="Normal",
                                 ifelse(data$labpass=="U","Analyte was analyzed for but not detected","Normal"),
                                 ifelse(data$labpass=="U",paste(data$interpreted_qualifiers," ; Analyte was analyzed for but not detected",sep=""),data$interpreted_qualifiers))
 
-#For EB errors
+## For EB errors
 #R flags
 data$interpreted_qualifiers<-ifelse(data$interpreted_qualifiers=="Normal",
                                 ifelse(data$EBpass=="R","Equipment Blank error","Normal"),
@@ -90,13 +90,13 @@ data$interpreted_qualifiers<-ifelse(data$interpreted_qualifiers=="Normal",
                                 ifelse(data$EBpass=="J","estimated value due to Equipment Blank error","Normal"),
                                 ifelse(data$EBpass=="J",paste(data$interpreted_qualifiers," ; estimated value due to Equipment Blank error",sep=""),data$interpreted_qualifiers))
 
-#For spike errors
+## For spike errors
 #R flags
 data$interpreted_qualifiers<-ifelse(data$interpreted_qualifiers=="Normal",
                                 ifelse(data$spikepass=="R","Accuracy error","Normal"),
                                 ifelse(data$spikepass=="R",paste(data$interpreted_qualifiers," ; Accuracy error",sep=""),data$interpreted_qualifiers))
 
-#For dup errors
+## For dup errors
 #R flags
 if (nrow(dup) > 0 ) {
   data$interpreted_qualifiers<-ifelse(data$interpreted_qualifiers=="Normal",
@@ -104,13 +104,13 @@ if (nrow(dup) > 0 ) {
                                   ifelse(data$duppass=="R",paste(data$interpreted_qualifiers," ; Precision error",sep=""),data$interpreted_qualifiers))
 }
 
-#For pair errors
+## For pair errors
 #R flags
 data$interpreted_qualifiers<-ifelse(data$interpreted_qualifiers=="Normal",
                                 ifelse(data$pairpass=="R","Result should be less than the total","Normal"),
                                 ifelse(data$pairpass=="R",paste(data$interpreted_qualifiers," ; Result should be less than the total",sep=""),data$interpreted_qualifiers))
 
-#For HT errors
+## For HT errors
 #R flags
 data$interpreted_qualifiers<-ifelse(data$interpreted_qualifiers=="Normal",
                                 ifelse(data$HTpass=="R","Holding Time error","Normal"),
@@ -153,7 +153,7 @@ theme_set(theme_pubr())
 
 ### Interpreted Flags  
 Plotting the interpreted flags to see the reason the data were flagged:  
-```{r message=FALSE, warning=FALSE, results='asis', fig.height=5.5}
+```{r message=FALSE, warning=FALSE, results='asis', fig.height=5.5, fig.width= 12}
 #plot the result value / day for each param 
 #color the points based on flags
 labfails<-unique(data$chemical_name)
@@ -167,18 +167,52 @@ library(pals)
 theme_set(theme_pubr())
 
 
- #plot the graph without the legend
+# Commented code below is experimental for large color palettes (needed when param list is >26).
+    # Think of better way to visualize this data. Probably a table?
+
+# library(RColorBrewer)
+# # Define the number of colors you want
+# nb.cols <- 30
+# 
+# mycolors <- colorRampPalette(brewer.pal(8, "Paired"))(nb.cols)
+# 
+# qual_col_pals <- brewer.pal.info[brewer.pal.info$category == 'qual',]
+# col_vector <- unlist(mapply(brewer.pal, qual_col_pals$maxcolors, rownames(qual_col_pals)))
+# pie(rep(1,nb.cols), col=sample(col_vector, nb.cols))
+# 
+# color = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
+# 
+# #plot the graph without the legend
+#  print((ggplot() +
+#     geom_col(data=labfails,aes(short,freq,fill=legend)) +
+#       scale_fill_manual(values= c("gray", mycolors)) +
+#       coord_flip() +
+#       theme(axis.title.x = element_blank(),axis.title.y = element_blank(),legend.position="none")))
+# #plot just the legend
+#  legend<-(ggplot() +
+#                   geom_col(data=labfails,aes(short,freq,fill=legend)) +
+#                   coord_flip() +
+#                   theme_void()) +
+#          scale_fill_manual(values= c("gray", mycolors))
+
+ 
+ 
+
+# plot the graph without the legend
  print((ggplot() +
     geom_col(data=labfails,aes(short,freq,fill=legend)) +
-      scale_fill_manual(values= c("gray", (as.vector(alphabet2(22))))) +
+      scale_fill_manual(values= c("gray", (as.vector(alphabet2(30))))) +
       coord_flip() +
-      theme(axis.title.x = element_blank(),axis.title.y = element_blank(),legend.position="none"))) 
+      theme(axis.title.x = element_blank(),axis.title.y = element_blank(),legend.position="none")))
 #plot just the legend
  legend<-(ggplot() +
                   geom_col(data=labfails,aes(short,freq,fill=legend)) +
                   coord_flip() +
                   theme_void()) +
-         scale_fill_manual(values= c("gray", (as.vector(alphabet2(22)))))
+         scale_fill_manual(values= c("gray", (as.vector(alphabet2(30)))))
+ 
+ 
+ 
 legend<-get_legend(legend)
 as_ggplot(legend)
 rm(legend)
