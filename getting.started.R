@@ -8,7 +8,7 @@
 #reporting.limits.csv: reporting limits file that includes accuracy limits, paired parameters that components should be samler than, and an abbreviated name column
 #Ohio.Qualifiers.csv: A table of Ohio data qualifiers
 #Holding.Times_v2.csv: a lookup table for holding times
-#ALSflags.png: to see the ALs flags
+#ALSflags.png: to see the ALS flags
 #laberrors.csv: a list of all the errors noted in the written lab reports
 #validator_flags: a list of all the possible flags applied to the validator_flag column
 
@@ -27,21 +27,25 @@ library(lubridate)
 
 # Used for naming report file and adding Project_name field to Streams data. 
 #   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
-project.name <- "SBU-Mohawk chem 2019"
-project.dir <- "sections/data/projectData/Streams/ITS_tables_2020-03-27/"
+project.dir <- "sections/data/projectData/Streams/"
+input.dir <- "ITS_tables_2020-03-27/"
 input.data <- "2019_chem_preqaqc_ALL-SBU_Mohawk_complete_2020-03-27.csv"
-output.filename <- paste0("2019_chem_qaqc_ALL-SBU_Mohawk_complete_",Sys.Date(),".csv")
+### ^^^ FILTER BY SDG BELOW in "data" DF if needed ^^^ ###
+project.name <- "Oneida Tribs 2019 v2"
+output.dir <- "2019/oneida/"
+output.filename <- paste0("2019_chem_qaqc_ONEIDA_TRIBS_v2",Sys.Date(),".csv")
 
-# project.name <- "Finger Lakes Tribs 2019"
-# project.dir <- "sections/data/projectData/Streams/2019/fingerlakes/"
-# input.data <- "2019_FingerLakes_chem_preqaqc_2020-01-03.csv"
-# output.filename <- "2019_fingerlakes_chem_qaqcd-2020-02-04_TEST_2.csv"
+# Load input data and filter if needed
+  # Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
+data <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE) %>% 
+  filter(sample_delivery_group %in% c(
+    "R1905772",
+    "R1906451",
+    "R1907499",
+    "R1909548"
+  ))
 
-####################################This was the only dataset we’ve encountered so far with only totals in the fraction column (and no dissolved), so it is the only one affected by the logical class issue. I added a fix for this before rerunning. 
-
-# Load input data
-# Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
-data<-read.csv(paste0(project.dir,input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE)
+####################################
 
 # (For streams data) Add project name field for carrying through to final output
 if("SITE_ID" %in% colnames(data)){
@@ -49,7 +53,7 @@ if("SITE_ID" %in% colnames(data)){
 }
 
 # Load list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". Copy both General Chemistry and Metals sections (not both always present).
-errors<-read.csv(paste0(project.dir,"laberrors.csv"))
+errors<-read.csv(paste0(project.dir, input.dir, "laberrors.csv"))
 
 # Trim to only necessary fields. Checks if SITE_ID and Project_name fields exist (streams data) and include if yes. These fieds are not used in QAQC process but are carried through to the final data output.
   # Added in SDG for streams data 2/25/2020
@@ -75,7 +79,7 @@ rmarkdown::render("QAQC.Rmd")
 # Write the data output
 # For streams, manually copy to L:\DOW\SMAS\StreamDatabase\Chemistry\final_QAQCd_data\[year]\
   # Will automate this step after L drive is reorganized.
-write.csv(forprint,file=paste0(project.dir,output.filename),row.names = FALSE)
+write.csv(forprint,file=paste0(project.dir, output.dir, output.filename),row.names = FALSE)
 
 # Copy report file to output directory and rename
-file.copy("QAQC.html",paste0(project.dir,project.name,"_QAQC-report_",Sys.Date(),".html"), overwrite = TRUE)
+file.copy("QAQC.html",paste0(project.dir, output.dir, project.name,"_QAQC-report_",Sys.Date(),".html"), overwrite = TRUE)
