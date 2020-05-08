@@ -31,9 +31,9 @@ project.dir <- "sections/data/projectData/Streams/"
 input.dir <- "ITS_tables_2020-03-27/"
 input.data <- "2019_chem_preqaqc_ALL-SBU_Mohawk_complete_2020-03-27.csv"
 ### ^^^ FILTER BY SDG BELOW in "data" DF if needed ^^^ ###
-project.name <- "Oneida Tribs 2019 v2"
+project.name <- "Oneida Tribs 2019"
 output.dir <- "2019/oneida/"
-output.filename <- paste0("2019_chem_qaqc_ONEIDA_TRIBS_v2",Sys.Date(),".csv")
+output.filename <- paste0("2019_chem_qaqc_ONEIDA_TRIBS",Sys.Date(),".csv")
 
 # Load input data and filter if needed
   # Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".

@@ -222,10 +222,11 @@ return(final.df)
 
 ```
 
+### PARAMETER PAIRS TEST IS DISABLED UNTIL UPDATES ARE IMPLEMENTED ###
 
-```{r, child = 'sections/Parameter.pairs.Rmd'}
-
-```
+# ```{r, child = 'sections/Parameter.pairs.Rmd'}
+# 
+# ```
 
 ```{r, child = 'sections/HT.Rmd'}
 
@@ -238,7 +239,7 @@ return(final.df)
 ```{r, echo=FALSE}
 #creating final data set
 if("SITE_ID" %in% colnames(data) & "Project_name" %in% colnames(data)){
-  forprint<-unique(data[c('Project_name','SITE_ID','sys_sample_code','sample_delivery_group','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers','qaqc_date')])
+  forprint<-unique(data[c('Project_name','SITE_ID','SITE_ID_CORR_IND','sys_sample_code','sample_delivery_group','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers','qaqc_date')])
 } else{
     forprint<-unique(data[c('sys_sample_code','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers','qaqc_date')])
 }
