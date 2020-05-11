@@ -78,7 +78,7 @@ if (nrow(dup) > 0 ) {
   }
   rm(list=c('params','nparams','eq'))
 } else{
-  print("No dupliate samples present!")
+  print("No duplicate samples present!")
 }
 ```
 

@@ -59,15 +59,20 @@ params<-params[!is.na(params$chemical_name),]
 params<-unique(params$chemical_name)
 nparams<-length(params)
 
-for(i in 1:nparams){
-  temp<-EB[EB$chemical_name==params[i],]
-  # temp$sample_date<-as.Date(temp$sample_date,"%m/%d/%Y")
-  reporting<-temp$quantitation_limit[1]
-  #plot the result values
-  plot(temp$sample_date,temp$result_value,type="p",lwd=4,col="black",main=params[i],xlab="date",ylab="equipment blank result value")
-  abline(h=c(reporting))
-  rm(list=c('temp','reporting'))
+if (length(params) > 0) {
+  for(i in 1:nparams){
+    temp<-EB[EB$chemical_name==params[i],]
+    # temp$sample_date<-as.Date(temp$sample_date,"%m/%d/%Y")
+    reporting<-temp$quantitation_limit[1]
+    #plot the result values
+    plot(temp$sample_date,temp$result_value,type="p",lwd=4,col="black",main=params[i],xlab="date",ylab="equipment blank result value")
+    abline(h=c(reporting))
+    rm(list=c('temp','reporting'))
+  }
+} else{
+  paste("No Equipment Blank Failures")
 }
+
 rm(list=c('params','nparams','i'))
 ```
 
