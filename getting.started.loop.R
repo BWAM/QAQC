@@ -27,18 +27,19 @@ library(furrr)
 ###### User-defined variables ######
 
 # Used for naming report file and adding Project_name field to Streams data. 
-#   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
 project.dir <- "sections/data/projectData/Streams/"
-input.dir <- "2019/all/"
-input.data <- "2019_chem_preqaqc_ALL-SMAS_complete_2020-05-11.csv"
-proj.list.file <- "ALS_project_list_FINAL_NYSDEC 2019_2019-12-04.xlsx"
-proj.year <- "2019"
 
-#Larger project name 
+# #2019
+# input.dir <- "2019/all/"
+# input.data <- "2019_chem_preqaqc_ALL-SMAS_complete_2020-05-11.csv"
+# proj.list.file <- "ALS_project_list_FINAL_NYSDEC 2019_2019-12-04.xlsx"
+# proj.year <- "2019"
 
-### ^^^ FILTER BY SDG BELOW in "data" DF if needed ^^^ ###
-# output.dir <- "2019/all/"
-# output.filename <- paste0("2019_chem_qaqc_ONEIDA_TRIBS",Sys.Date(),".csv")
+#2018
+input.dir <- "2018/all/"
+input.data <- "2018_chem_preqaqc_ALL_SMAS_complete_2020-05-08.csv"
+proj.list.file <- "ALS_2018_project_list_FINAL.xlsx"
+proj.year <- "2018"
 
 
 
@@ -48,20 +49,27 @@ proj.year <- "2019"
 
 proj.list <- readxl::read_excel(paste0(project.dir, input.dir, proj.list.file)) %>% 
   select("Folder#", "project_QAQC") %>% 
-  dplyr::rename("sample_delivery_group" = "Folder#")
+  dplyr::rename("sample_delivery_group" = "Folder#") %>% 
+  mutate(project_QAQC = str_replace_all(project_QAQC, " ", "_")) %>%
+  filter(project_QAQC != "Quassaic_Creek_RAS") %>% 
+  filter(project_QAQC != "Duane_Lake_RAS") %>% 
+  filter(project_QAQC != "Ausable_RAS")
+  
 
 data.proj <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE) %>% 
   left_join(proj.list, by = "sample_delivery_group") %>% 
-  dplyr::select(project_QAQC, everything())
+  dplyr::select(project_QAQC, everything()) %>%
+  filter(!is.na(project_QAQC))
 
 # Look for SDGs with no project name match
-# data.proj.na <- data.proj %>% 
-#   filter(is.na(project_QAQC)) 
-  # distinct(project_QAQC, sample_delivery_group)
+# data.proj.na <- data.proj %>%
+#   filter(is.na(project_QAQC))
+# distinct(project_QAQC, sample_delivery_group)
 
 proj.names <- unique(data.proj$project_QAQC)
 
-# name.i <- proj.names[15]
+# For troubleshooting single project
+# name.i <- proj.names[18]
 
 future::plan(multiprocess)
 furrr::future_map(proj.names, .progress = TRUE, function(name.i){
