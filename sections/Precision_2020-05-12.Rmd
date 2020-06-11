@@ -124,23 +124,21 @@ if (nrow(dup) > 0 ) {
   library(ggpubr)
   theme_set(theme_pubr())
   
-  samplefails<-(ggplot() +
-                  geom_col(data=samplefails,aes(short,freq,fill=legend)) +
-                  scale_fill_manual(values = c("pass" = "#00BFC4", "fail" = "#F8766D"), na.value = "gray") +
-                  coord_flip() +
-                  theme(axis.title.x = element_blank(),axis.title.y = element_blank())) +
-    ggtitle("Associated Sample Failures")
-  dupfails<-(ggplot() +
-               geom_col(data=dupfails,aes(short,freq,fill=legend)) +
-               scale_fill_manual(values = c("pass" = "#00BFC4", "fail" = "#F8766D"), na.value = "gray") +
-               coord_flip() +
-               theme(axis.title.x = element_blank(),axis.title.y = element_blank())) +
-    ggtitle("Individual Duplicate Failures")
-  print(ggarrange(
+   samplefails<-(ggplot() +
+      geom_col(data=samplefails,aes(short,freq,fill=legend)) +
+        coord_flip() +
+        theme(axis.title.x = element_blank(),axis.title.y = element_blank())) +
+      ggtitle("Associated Sample Failures")
+   dupfails<-(ggplot() +
+      geom_col(data=dupfails,aes(short,freq,fill=legend)) +
+        coord_flip() +
+        theme(axis.title.x = element_blank(),axis.title.y = element_blank())) +
+      ggtitle("Individual Duplicate Failures")
+   print(ggarrange(
     samplefails, dupfails,
     common.legend = TRUE, legend = "bottom"
-  ))
-  rm(list=c('dupfails','samplefails'))
+    ))
+   rm(list=c('dupfails','samplefails'))
 }
 
 ```
