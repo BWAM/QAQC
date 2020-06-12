@@ -30,16 +30,16 @@ library(furrr)
 project.dir <- "sections/data/projectData/Streams/"
 
 # #2019
-input.dir <- "2019/all/"
-input.data <- "2019_chem_preqaqc_ALL-SMAS_complete_2020-05-11.csv"
-proj.list.file <- "ALS_project_list_FINAL_NYSDEC 2019_2019-12-04.xlsx"
-proj.year <- "2019"
+# input.dir <- "2019/all/"
+# input.data <- "2019_chem_preqaqc_ALL-SMAS_complete_2020-05-11.csv"
+# proj.list.file <- "ALS_project_list_FINAL_NYSDEC 2019_2019-12-04.xlsx"
+# proj.year <- "2019"
 
 #2018
-# input.dir <- "2018/all/"
-# input.data <- "2018_chem_preqaqc_ALL_SMAS_complete_2020-05-08.csv"
-# proj.list.file <- "ALS_2018_project_list_FINAL.xlsx"
-# proj.year <- "2018"
+input.dir <- "2018/all/"
+input.data <- "2018_chem_preqaqc_ALL_SMAS_complete_2020-05-08.csv"
+proj.list.file <- "ALS_2018_project_list_FINAL.xlsx"
+proj.year <- "2018"
 
 
 
@@ -64,9 +64,6 @@ data.proj <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c
   filter(!is.na(project_QAQC)) %>% 
   mutate(chemical_name = ifelse(chemical_name %in% "magnesium", "Magnesium", chemical_name))
 
-data.proj.lowermg <- data.proj %>% 
-  filter(chemical_name %in% "magnesium")
-
 # Look for SDGs with no project name match
 # data.proj.na <- data.proj %>%
 #   filter(is.na(project_QAQC))
@@ -79,10 +76,10 @@ missing.sdgs <- anti_join(proj.list, data.proj, by = "sample_delivery_group")
 
 # For troubleshooting single project
 # name.i <- proj.names[10,15,17,22]
-name.i <- proj.names[22]
+name.i <- proj.names[1]
 
 future::plan(multiprocess)
-furrr::future_map(proj.names[22], .progress = TRUE, function(name.i){
+furrr::future_map(proj.names[1], .progress = TRUE, function(name.i){
 # lapply(proj.names[1:2], function(name.i){
     
   print(name.i)
