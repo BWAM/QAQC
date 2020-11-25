@@ -47,7 +47,11 @@ if (nrow(dup) > 0 ) {
   #Calculating RPD
   dup$RPD<-((dup$result_value.parent-dup$result_value.dup))
   #can't divide by 0 so I calculate the denominator first 
-  dup$RPD<-ifelse(dup$RPD==0,0,((dup$RPD)/(dup$result_value.parent+dup$result_value.dup/2))*100)
+  dup$RPD <- ifelse(
+    test = dup$RPD == 0,
+    yes = 0,
+    no = dup$RPD / ((dup$result_value.parent + dup$result_value.dup) / 2) * 100
+  )
   dup$RPD<-abs(dup$RPD)
   #remove parameters wihtout method detection limits
   dup<-dup[!is.na(dup$method_detection_limit.parent),]
