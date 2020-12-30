@@ -28,22 +28,23 @@ library(lubridate)
 # Used for naming report file and adding Project_name field to Streams data. 
 #   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
 project.dir <- "sections/data/projectData/Streams/"
-input.dir <- "ITS_tables_2020-03-27/"
-input.data <- "2019_chem_preqaqc_ALL-SBU_Mohawk_complete_2020-03-27.csv"
+input.dir <- "2020/canan_keuka/"
+input.data <- "2020_chem_preqaqc_ALL-canan_keuka_2020-12-30.csv"
 ### ^^^ FILTER BY SDG BELOW in "data" DF if needed ^^^ ###
-project.name <- "Oneida Tribs 2019"
-output.dir <- "2019/oneida/"
-output.filename <- paste0("2019_chem_qaqc_ONEIDA_TRIBS",Sys.Date(),".csv")
+project.name <- "Canandaigua-Keuka_2020"
+name.i <- project.name
+output.dir <- "2020/canan_keuka/"
+output.filename <- paste0("2020_chem_qaqc_CANAN_KEUK_",Sys.Date(),".csv")
 
 # Load input data and filter if needed
   # Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
-data <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE) %>% 
-  filter(sample_delivery_group %in% c(
-    "R1905772",
-    "R1906451",
-    "R1907499",
-    "R1909548"
-  ))
+data <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE) 
+  # filter(sample_delivery_group %in% c(
+  #   "R1905772",
+  #   "R1906451",
+  #   "R1907499",
+  #   "R1909548"
+  # ))
 
 ####################################
 
