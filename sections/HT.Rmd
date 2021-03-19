@@ -20,7 +20,7 @@ The analysis date - sample date should not exceed holding time limits in the hol
 # Load holding times reference table
 # Updated holding times table on 11/5/19 to remove 12 hour buffers
 # Udpated holding times again on 1/31/20 to add 1 hr buffer for HTs of 72 hours and below, and 1 day for those beyond (as per 1/29/20 email with Vicky Collam, ALS Quality Manager)
-holdingtimes <- read.csv("data/Holding.Times_v2.csv")
+holdingtimes <- read.csv("data/Holding.Times_v3.csv")
 holdingtimes$Holding<-as.numeric(holdingtimes$Holding)
 
 # Make simpler holding time lookup table with only two columns
