@@ -29,35 +29,23 @@ library(furrr)
 # Used for naming report file and adding Project_name field to Streams data. 
 project.dir <- "sections/data/projectData/Streams/"
 
-# #2019
-input.dir <- "2019/all/"
-input.data <- "2019_chem_preqaqc_ALL-SMAS_complete_2020-05-11.csv"
-proj.list.file <- "ALS_project_list_FINAL_NYSDEC 2019_2019-12-04.xlsx"
-proj.year <- "2019"
-
-#2018
-# input.dir <- "2018/all/"
-# input.data <- "2018_chem_preqaqc_ALL_SMAS_complete_2020-05-08.csv"
-# proj.list.file <- "ALS_2018_project_list_FINAL.xlsx"
-# proj.year <- "2018"
-
+input.dir <- "2020/all/"
+input.data <- "2020_chem_preqaqc_JOIN-ALL_2021-04-13.csv"
+proj.list.file <- file.path("L:/DOW/SMAS/data/chemistry/raw_lab_edds/2020", "nysdec 2020_Janice_ALS_proj_list_2021-02-12.xlsx")
+proj.year <- "2020"
 
 
 ####################################
 
 # Load input data and loop through by project 
 
-proj.list <- readxl::read_excel(paste0(project.dir, input.dir, proj.list.file)) %>% 
+proj.list <- readxl::read_excel(proj.list.file, sheet = "SMAS") %>% 
   select("Folder#", "project_QAQC") %>% 
   dplyr::rename("sample_delivery_group" = "Folder#") %>% 
-  mutate(project_QAQC = str_replace_all(project_QAQC, " - ", "_")) %>% 
-  mutate(project_QAQC = str_replace_all(project_QAQC, " ", "_")) %>% 
-  mutate(project_QAQC = toupper(project_QAQC))
+  filter(project_QAQC != "Lake_Biomonitoring") %>% 
+  mutate(project_QAQC = str_replace_all(project_QAQC, "/", "-")) %>%
+  mutate(project_QAQC = toupper(project_QAQC))  
   # filter(project_QAQC %in% c("FINGER_LAKES_ADV_MON", "SCREENING_DELAWARE"))
-  # filter(project_QAQC != "Quassaic_Creek_RAS") %>%
-  # filter(project_QAQC != "Duane_Lake_RAS") %>%
-  # filter(project_QAQC != "Ausable_RAS")
-  
 
 data.proj <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE) %>% 
   left_join(proj.list, by = "sample_delivery_group") %>% 
@@ -73,16 +61,17 @@ data.proj <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c
 proj.names <- unique(data.proj$project_QAQC)
 
 # For running single project
-# name.i <- proj.names[10,15,17,22]
-name.i <- proj.names[23]
+name.i <- proj.names[1:18]
+# name.i <- proj.names[17]
 ### Must also change in loop below at "future_map(proj.names[x]"
 
 # look for missing sdgs
 missing.sdgs <- anti_join(proj.list, data.proj, by = "sample_delivery_group")
+extra.sdgs <- anti_join(data.proj, proj.list, by = "sample_delivery_group")
 
-future::plan(multiprocess)
+future::plan(transparent)
 # furrr::future_map(proj.names, .progress = TRUE, function(name.i){
-furrr::future_map(proj.names[23], .progress = TRUE, function(name.i){
+furrr::future_map(proj.names[1:18], .progress = TRUE, function(name.i){
     # lapply(proj.names[1:2], function(name.i){
     
   print(name.i)

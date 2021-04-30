@@ -28,13 +28,13 @@ library(lubridate)
 # Used for naming report file and adding Project_name field to Streams data. 
 #   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
 project.dir <- "sections/data/projectData/Streams/"
-input.dir <- "2020/canan_keuka/"
-input.data <- "2020_chem_preqaqc_ALL-canan_keuka_2020-12-30.csv"
+input.dir <- "2020/oneida/"
+input.data <- "2020_chem_preqaqc_ALL-oneida_2021-03-19.csv"
 ### ^^^ FILTER BY SDG BELOW in "data" DF if needed ^^^ ###
-project.name <- "Canandaigua-Keuka_2020"
+project.name <- "Oneida_Tribs_2020"
 name.i <- project.name
-output.dir <- "2020/canan_keuka/"
-output.filename <- paste0("2020_chem_qaqc_CANAN_KEUK_",Sys.Date(),".csv")
+output.dir <- "2020/oneida/"
+output.filename <- paste0("2020_chem_qaqc_ONEIDA_",Sys.Date(),".csv")
 
 # Load input data and filter if needed
   # Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
@@ -50,7 +50,7 @@ data <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(frac
 
 # (For streams data) Add project name field for carrying through to final output
 if("SITE_ID" %in% colnames(data)){
-  data$Project_name <- project.name
+  data$project_name <- project.name
 }
 
 # Load list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". Copy both General Chemistry and Metals sections (not both always present).
@@ -58,11 +58,11 @@ errors<-read.csv(paste0(project.dir, input.dir, "laberrors.csv"))
 
 # Trim to only necessary fields. Checks if SITE_ID and Project_name fields exist (streams data) and include if yes. These fieds are not used in QAQC process but are carried through to the final data output.
   # Added in SDG for streams data 2/25/2020
-if("SITE_ID" %in% colnames(data) & "Project_name" %in% colnames(data)){
+if("SITE_ID" %in% colnames(data) & "project_name" %in% colnames(data)){
   data<-unique(data[c('sys_sample_code','sample_delivery_group','lab_anl_method_name','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
                       'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
                       'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
-                      'DEC_sample_type','analysis_date','SITE_ID','Project_name')]) 
+                      'DEC_sample_type','analysis_date','SITE_ID', 'SITE_ID_CORR_IND', 'project_name')]) 
 } else{
   data<-unique(data[c('sys_sample_code','lab_anl_method_name','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
                       'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
@@ -71,8 +71,9 @@ if("SITE_ID" %in% colnames(data) & "Project_name" %in% colnames(data)){
 }
 
 # Change turbidity quanitation limit to 1.0 NTU, as per Jason Fagel, 3/12/20
-data <- data %>% 
-  mutate(quantitation_limit = ifelse(chemical_name == "TURBIDITY", 1.0, quantitation_limit))
+# Commented out 4/9/21. Already done on ALS end.
+# data <- data %>% 
+#   mutate(quantitation_limit = ifelse(chemical_name == "TURBIDITY", 1.0, quantitation_limit))
 
 #run the rmarkdown script for this list
 rmarkdown::render("QAQC.Rmd")
