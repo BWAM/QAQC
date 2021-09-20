@@ -28,13 +28,12 @@ library(lubridate)
 # Used for naming report file and adding Project_name field to Streams data. 
 #   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
 project.dir <- "sections/data/projectData/Streams/"
-input.dir <- "2020/oneida/"
-input.data <- "2020_chem_preqaqc_ALL-oneida_2021-03-19.csv"
-### ^^^ FILTER BY SDG BELOW in "data" DF if needed ^^^ ###
-project.name <- "Oneida_Tribs_2020"
+
+input.dir <- "2021/dodge_creek/"
+input.data <- "2021_chem_preqaqc_JOIN-dodge_creek_2021-09-20.csv"
+project.name <- "Dodge_Creek_2021"
+output.filename <- paste0("chem_qaqc_", project.name, "_", Sys.Date(),".csv")
 name.i <- project.name
-output.dir <- "2020/oneida/"
-output.filename <- paste0("2020_chem_qaqc_ONEIDA_",Sys.Date(),".csv")
 
 # Load input data and filter if needed
   # Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
@@ -81,7 +80,7 @@ rmarkdown::render("QAQC.Rmd")
 # Write the data output
 # For streams, manually copy to L:\DOW\SMAS\StreamDatabase\Chemistry\final_QAQCd_data\[year]\
   # Will automate this step after L drive is reorganized.
-write.csv(forprint,file=paste0(project.dir, output.dir, output.filename),row.names = FALSE)
+write.csv(forprint,file=paste0(project.dir, input.dir, output.filename),row.names = FALSE)
 
 # Copy report file to output directory and rename
-file.copy("QAQC.html",paste0(project.dir, output.dir, project.name,"_QAQC-report_",Sys.Date(),".html"), overwrite = TRUE)
+file.copy("QAQC.html",paste0(project.dir, input.dir, project.name,"_QAQC-report_",Sys.Date(),".html"), overwrite = TRUE)
