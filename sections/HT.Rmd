@@ -70,6 +70,7 @@ theme_set(theme_pubr())
       coord_flip() +
       theme(axis.title.x = element_blank(),axis.title.y = element_blank()) +
       scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")))
+  knitr::kable(HT %>% filter(HTpass=="R"))
 # rm(list=c('HTfails','HT'))
 ```
 

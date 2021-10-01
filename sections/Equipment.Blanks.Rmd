@@ -137,6 +137,7 @@ theme_set(theme_pubr())
   samplefails, blankfails,
   common.legend = TRUE, legend = "bottom"
   ))
+ knitr::kable(EB %>% filter(pass=="fail"))
  rm(list=c('blankfails','samplefails'))
  rm(EB)
 ```

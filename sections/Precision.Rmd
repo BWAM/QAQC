@@ -144,7 +144,10 @@ if (nrow(dup) > 0 ) {
     samplefails, dupfails,
     common.legend = TRUE, legend = "bottom"
   ))
+  
   rm(list=c('dupfails','samplefails'))
+  
+    knitr::kable(dup %>% filter(pass=="fail"))
 }
 
 ```

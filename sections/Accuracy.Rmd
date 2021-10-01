@@ -91,7 +91,7 @@ theme_set(theme_pubr())
   samplefails, spikefails,
   common.legend = TRUE, legend = "bottom"
   )
- 
+ knitr::kable(spike %>% filter(pass=="fail"))
 ```
 
 ```{r message=FALSE, warning=FALSE, results='asis'}

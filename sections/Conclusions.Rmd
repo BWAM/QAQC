@@ -90,6 +90,11 @@ data$interpreted_qualifiers<-ifelse(data$interpreted_qualifiers=="Normal",
                                 ifelse(data$EBpass=="J","estimated value due to Equipment Blank error","Normal"),
                                 ifelse(data$EBpass=="J",paste(data$interpreted_qualifiers," ; estimated value due to Equipment Blank error",sep=""),data$interpreted_qualifiers))
 
+#T flags
+data$interpreted_qualifiers<-ifelse(data$interpreted_qualifiers=="Normal",
+                                ifelse(data$EBpass=="T","low confidence in value due to Equipment Blank error","Normal"),
+                                ifelse(data$EBpass=="T",paste(data$interpreted_qualifiers," ; low confidence in value due to Equipment Blank error",sep=""),data$interpreted_qualifiers))
+
 ## For spike errors
 #R flags
 data$interpreted_qualifiers<-ifelse(data$interpreted_qualifiers=="Normal",
