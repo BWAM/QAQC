@@ -80,6 +80,7 @@ data$labpass<-ifelse(data$labpass=="","A",data$labpass)
 #count fails and passes
 # library(plyr)
 labfails<-count(data[c('short','labpass')])
+
 names(labfails)[names(labfails)=='labpass']<-'legend'
 
 
