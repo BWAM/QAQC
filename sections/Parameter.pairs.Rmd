@@ -54,6 +54,8 @@ rm(paird)
 pair<-pair[!is.na(pair$result_value),]
 #check that the units are the same and flagg values larger than their total
 pair$pairpass<-ifelse(pair$result_unit!=pair$result_unit.total,"units don't match",ifelse(pair$result_value>(pair$result_value.total+pair$method_detection_limit),"R","A"))
+#save for plot later
+pairplot<-pair
 #restrict just to 
 pair<-unique(pair[c('sys_sample_code','chemical_name','short','sample_date','pairpass')])
 
@@ -69,6 +71,9 @@ data<-data[!is.na(data$chemical_name),]
 #plotting the sample failures
 #count fails and passes
 # library(plyr)
+pairplot<-pairplot %>% 
+  filter(pairpass=="R") %>% 
+  select(sys_sample_code,lab_sdg,sample_date,chemical_name,result_value,result_value.total,method_detection_limit) %>% distinct()
 pairfails<-count(pair[c('short','pairpass')])
 names(pairfails)[names(pairfails)=='pairpass']<-'legend'
 
@@ -81,6 +86,6 @@ theme_set(theme_pubr())
       coord_flip() +
       theme(axis.title.x = element_blank(),axis.title.y = element_blank()) +
       scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")))
-  knitr::kable(pair %>% filter(pairpass=="R"))
+  knitr::kable(pairplot)
 # rm(list=c('pairfails','pair'))
 ```
