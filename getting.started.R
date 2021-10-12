@@ -28,40 +28,40 @@ library(lubridate)
 # Used for naming report file and adding Project_name field to Streams data. 
 #   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
 project.dir <- "sections/data/projectData/Streams/"
-input.dir <- "ITS_tables_2020-03-27/"
-input.data <- "2019_chem_preqaqc_ALL-SBU_Mohawk_complete_2020-03-27.csv"
-### ^^^ FILTER BY SDG BELOW in "data" DF if needed ^^^ ###
-project.name <- "Oneida Tribs 2019"
-output.dir <- "2019/oneida/"
-output.filename <- paste0("2019_chem_qaqc_ONEIDA_TRIBS",Sys.Date(),".csv")
+
+input.dir <- "2021/dodge_creek/"
+input.data <- "2021_chem_preqaqc_JOIN-dodge_creek_2021-09-20.csv"
+project.name <- "Dodge_Creek_2021"
+output.filename <- paste0("chem_qaqc_", project.name, "_", Sys.Date(),".csv")
+name.i <- project.name
 
 # Load input data and filter if needed
-  # Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
-data <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE) %>% 
-  filter(sample_delivery_group %in% c(
-    "R1905772",
-    "R1906451",
-    "R1907499",
-    "R1909548"
-  ))
+# Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
+data <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE) 
+# filter(sample_delivery_group %in% c(
+#   "R1905772",
+#   "R1906451",
+#   "R1907499",
+#   "R1909548"
+# ))
 
 ####################################
 
 # (For streams data) Add project name field for carrying through to final output
 if("SITE_ID" %in% colnames(data)){
-  data$Project_name <- project.name
+  data$project_name <- project.name
 }
 
 # Load list of lab errors extracted from the ALS PDF reports on the first page of "Narrative Documents". Copy both General Chemistry and Metals sections (not both always present).
 errors<-read.csv(paste0(project.dir, input.dir, "laberrors.csv"))
 
 # Trim to only necessary fields. Checks if SITE_ID and Project_name fields exist (streams data) and include if yes. These fieds are not used in QAQC process but are carried through to the final data output.
-  # Added in SDG for streams data 2/25/2020
-if("SITE_ID" %in% colnames(data) & "Project_name" %in% colnames(data)){
+# Added in SDG for streams data 2/25/2020
+if("SITE_ID" %in% colnames(data) & "project_name" %in% colnames(data)){
   data<-unique(data[c('sys_sample_code','sample_delivery_group','lab_anl_method_name','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
                       'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
                       'method_detection_limit','detection_limit_unit','quantitation_limit','sample_source','sample_type_code',
-                      'DEC_sample_type','analysis_date','SITE_ID','Project_name')]) 
+                      'DEC_sample_type','analysis_date','SITE_ID', 'SITE_ID_CORR_IND', 'project_name')]) 
 } else{
   data<-unique(data[c('sys_sample_code','lab_anl_method_name','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
                       'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
@@ -70,16 +70,17 @@ if("SITE_ID" %in% colnames(data) & "Project_name" %in% colnames(data)){
 }
 
 # Change turbidity quanitation limit to 1.0 NTU, as per Jason Fagel, 3/12/20
-data <- data %>% 
-  mutate(quantitation_limit = ifelse(chemical_name == "TURBIDITY", 1.0, quantitation_limit))
+# Commented out 4/9/21. Already done on ALS end.
+# data <- data %>% 
+#   mutate(quantitation_limit = ifelse(chemical_name == "TURBIDITY", 1.0, quantitation_limit))
 
 #run the rmarkdown script for this list
 rmarkdown::render("QAQC.Rmd")
 
 # Write the data output
 # For streams, manually copy to L:\DOW\SMAS\StreamDatabase\Chemistry\final_QAQCd_data\[year]\
-  # Will automate this step after L drive is reorganized.
-write.csv(forprint,file=paste0(project.dir, output.dir, output.filename),row.names = FALSE)
+# Will automate this step after L drive is reorganized.
+write.csv(forprint,file=paste0(project.dir, input.dir, output.filename),row.names = FALSE)
 
 # Copy report file to output directory and rename
-file.copy("QAQC.html",paste0(project.dir, output.dir, project.name,"_QAQC-report_",Sys.Date(),".html"), overwrite = TRUE)
+file.copy("QAQC.html",paste0(project.dir, input.dir, project.name,"_QAQC-report_",Sys.Date(),".html"), overwrite = TRUE)

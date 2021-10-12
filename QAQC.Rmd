@@ -26,7 +26,7 @@ The components of our quality review are:
     + Assessing method precision using duplicate samples analyzed from the same date/location.    
 * Equipment Blank exceedances  
     + Assessing the influence of field errors using equipment blank samples.  
-* Parameter Pairs (CURRENTLY DISABLED)
+* Parameter Pairs
     + Flagging samples where component parameters exceed total concentrations.
 * Holding time exceedances  
     + Flagging samples where holding times were exceeded.  
