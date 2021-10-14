@@ -137,7 +137,12 @@ theme_set(theme_pubr())
   samplefails, blankfails,
   common.legend = TRUE, legend = "bottom"
   ))
- knitr::kable(EB %>% filter(pass=="fail"))
+ 
+ if (sum(grepl("fail", EB$pass)) > 0) {
+   cat("\n\nEQUIPMENT BLANK FAILURES:")
+   knitr::kable(EB %>% filter(pass=="fail"))
+ } else {cat("\nNo equipment blank failures present.")}
+ 
  rm(list=c('blankfails','samplefails'))
  rm(EB)
 ```

@@ -38,9 +38,12 @@ The accuracy, precision, and equipment blank assessments are performed on a subs
 
 ```{r}
 #associate the data with the parameter info file
-rlimits<-read.csv("sections/data/param_pairs_accuracy.csv")
-data<-merge(data,rlimits,by=c('chemical_name'),all.x = TRUE)
-# rm(rlimits)
+rlimits<-read.csv("sections/data/param_pairs_accuracy_v2.csv") %>% 
+  mutate(chemical_name = tolower(chemical_name))
+
+data <- data %>%
+  mutate(chemical_name = tolower(chemical_name)) %>%
+  merge(. ,rlimits,by=c('chemical_name'),all.x = TRUE)
 
 if (sum(is.na(data$accuracy)) > 0) {
   # cat("NOT ALL PARAMS JOINED WITH HOLDING TIMES") 
@@ -52,7 +55,7 @@ data <- data %>%
     # fraction %in% "T" ~ paste0(as.character(short), " (total)"),
     fraction %in% "D" ~ paste0(as.character(short), " (dissolved)"),
     TRUE ~ as.character(short)
-  )) %>% 
+  )) %>%
   mutate(short = factor(short, sort(unique(short), decreasing = TRUE)))
   
 ```

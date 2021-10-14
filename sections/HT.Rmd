@@ -20,7 +20,9 @@ The analysis date - sample date should not exceed holding time limits in the hol
 # Load holding times reference table
 # Updated holding times table on 11/5/19 to remove 12 hour buffers
 # Udpated holding times again on 1/31/20 to add 1 hr buffer for HTs of 72 hours and below, and 1 day for those beyond (as per 1/29/20 email with Vicky Collam, ALS Quality Manager)
-holdingtimes <- read.csv("data/Holding.Times_v3.csv")
+holdingtimes <- read.csv("data/Holding.Times_v4.csv") %>% 
+  mutate(chemical_name = tolower(chemical_name))
+
 holdingtimes$Holding<-as.numeric(holdingtimes$Holding)
 
 # Make simpler holding time lookup table with only two columns
@@ -33,7 +35,7 @@ if (sum(is.na(HT$Holding)) > 0) {
   stop("NOT ALL PARAMETERS JOINED WITH HOLDING TIMES TABLE")   
 }
 
-rm(holdingtimes)
+# rm(holdingtimes)
 
 #format dates
 library(lubridate)
@@ -71,16 +73,16 @@ library(ggplot2)
 library(ggpubr)
 theme_set(theme_pubr())
 
- print(HTfails<-(ggplot() +
-    geom_col(data=HTfails,aes(short,freq,fill=legend)) +
-      coord_flip() +
-      theme(axis.title.x = element_blank(),axis.title.y = element_blank()) +
-      scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")))
+  print(HTfails<-(ggplot() +
+                    geom_col(data=HTfails,aes(short,freq,fill=legend)) +
+                    coord_flip() +
+                    theme(axis.title.x = element_blank(),axis.title.y = element_blank()) +
+                    scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")))
+if (sum(grepl("R", HT$HTpass)) > 0) {
+  cat("\n\nHOLDING TIME FAILURES:")
+  knitr::kable(HT %>% filter(HTpass=="R"))
+} else {cat("\n\nNo holding time failures present.")}
 
- if (sum(grepl("R", HT$HTpass)) > 0) {
-   knitr::kable(HT %>% filter(HTpass=="R"))
- } else {cat("\nNo holding time failures.")}
- 
 # rm(list=c('HTfails','HT'))
 ```
 

@@ -81,8 +81,6 @@ if (nrow(dup) > 0 ) {
     rm("i")
   }
   rm(list=c('params','nparams','eq'))
-} else{
-  print("No duplicate samples present!")
 }
 ```
 
@@ -111,7 +109,7 @@ if (nrow(dup) > 0 ) {
   data<-merge(data,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
   data<-data[!is.na(data$chemical_name),]
   rm(dataset)
-}
+} else {cat("\nNO DUPLICATE SAMPLES PRESENT")}
 ```
 
 ```{r message=FALSE, warning=FALSE, results='asis', fig.height=5.5, fig.width=9}
@@ -146,8 +144,11 @@ if (nrow(dup) > 0 ) {
   ))
   
   rm(list=c('dupfails','samplefails'))
-  
+
+  if (sum(grepl("fail", dup$pass)) > 0) {
+    cat("\n\nPRECISION FAILURES:")
     knitr::kable(dup %>% filter(pass=="fail"))
+  } else {cat("\nNo duplicate failures present.")}
 }
 
 ```

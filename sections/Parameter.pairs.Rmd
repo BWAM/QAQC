@@ -66,7 +66,7 @@ data<-merge(data,pair,by=c('sys_sample_code','chemical_name','short','sample_dat
 data<-data[!is.na(data$chemical_name),]
 ```
 
-### Paired Rejected sampes
+### Paired Rejected samples
 ```{r message=FALSE, warning=FALSE, results='asis'}
 #plotting the sample failures
 #count fails and passes
@@ -81,11 +81,15 @@ library(ggplot2)
 library(ggpubr)
 theme_set(theme_pubr())
 
- print(pairfails<-(ggplot() +
-    geom_col(data=pairfails,aes(short,freq,fill=legend)) +
-      coord_flip() +
-      theme(axis.title.x = element_blank(),axis.title.y = element_blank()) +
-      scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")))
+if (nrow(pairplot) > 0) {
+  print(pairfails<-(ggplot() +
+                      geom_col(data=pairfails,aes(short,freq,fill=legend)) +
+                      coord_flip() +
+                      theme(axis.title.x = element_blank(),axis.title.y = element_blank()) +
+                      scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")))
+  cat("\n\nPARAMETER PAIR FAILURES:")
   knitr::kable(pairplot)
+} else {cat("\nNo parameter pair failures present.")} 
+
 # rm(list=c('pairfails','pair'))
 ```

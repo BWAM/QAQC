@@ -94,5 +94,10 @@ theme_set(theme_pubr())
       coord_flip() +
       theme(axis.title.x = element_blank(),axis.title.y = element_blank())))
 rm(list=c('labfails'))
- knitr::kable(data %>% filter(!(labpass %in% c("A",'U'))))
+
+if (sum(grepl("R|J", data$labpass)) > 0) {
+  cat("\n\nLAB FAILURES:")
+  knitr::kable(data %>% filter(!(labpass %in% c("A",'U'))))
+} else {cat("\nNo lab failures present.")}
+
 ```

@@ -91,7 +91,12 @@ theme_set(theme_pubr())
   samplefails, spikefails,
   common.legend = TRUE, legend = "bottom"
   )
- knitr::kable(spike %>% filter(pass=="fail"))
+ 
+ if (sum(grepl("fail", spike$pass)) > 0) {
+   cat("\n\nACCURACY FAILURES:")
+   knitr::kable(spike %>% filter(pass=="fail"))
+ } else {cat("\nNo accuracy failures present.")}
+ 
 ```
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
