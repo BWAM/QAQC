@@ -38,12 +38,11 @@ NOTE: We only plotted parameters that had at least one failed duplicate sample r
 ```{r, echo=FALSE}
 #converting non-detects to 0
 if (nrow(dup) > 0 ) {
-  dup$result_value.dup <- ifelse(dup$lab_qualifiers.dup=="U",0,dup$result_value.dup)
-  dup$result_value.dup <- ifelse(dup$lab_qualifiers.dup=="UN",0,dup$result_value.dup)
-  dup$result_value.dup <- ifelse(dup$lab_qualifiers.dup=="UE",0,dup$result_value.dup)
-  dup$result_value.parent <- ifelse(dup$lab_qualifiers.parent=="U",0,dup$result_value.parent)
-  dup$result_value.parent <- ifelse(dup$lab_qualifiers.parent=="UN",0,dup$result_value.parent)
-  dup$result_value.parent <- ifelse(dup$lab_qualifiers.parent=="UE",0,dup$result_value.parent)
+  dup$result_value.dup <- ifelse(grepl("*U",dup$lab_qualifiers.dup),dup$method_detection_limit.dup,dup$result_value.dup)
+  dup$result_value.parent <- ifelse(grepl("*U",dup$lab_qualifiers.parent),dup$method_detection_limit.parent,dup$result_value.parent)
+  dup<-dup %>% 
+    mutate(result_value.dup=ifelse(result_value.dup==0,method_detection_limit.dup,result_value.dup),
+           result_value.parent=ifelse(result_value.parent==0,method_detection_limit.parent,result_value.parent))
   #Calculating RPD
   dup$RPD<-((dup$result_value.parent-dup$result_value.dup))
   #can't divide by 0 so I calculate the denominator first 
@@ -55,10 +54,6 @@ if (nrow(dup) > 0 ) {
   dup$RPD<-abs(dup$RPD)
   #remove parameters wihtout method detection limits
   dup<-dup[!is.na(dup$method_detection_limit.parent),]
-  #convert 0 values to the DL 
-  dup<-dup %>% 
-    mutate(result_value.dup=ifelse(result_value.dup==0,method_detection_limit.dup,result_value.dup),
-           result_value.parent=ifelse(result_value.parent==0,method_detection_limit.parent,result_value.parent))
   #this step is necessary to make sure you're using the max sample value
   dup$ratio<-ifelse(pmax(dup$result_value.parent, dup$result_value.dup)==dup$result_value.parent,
                     ifelse(dup$result_value.parent==0,0,(dup$result_value.parent/dup$method_detection_limit.parent)),
