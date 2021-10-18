@@ -39,7 +39,8 @@ The accuracy, precision, and equipment blank assessments are performed on a subs
 ```{r}
 #associate the data with the parameter info file
 rlimits<-read.csv("sections/data/param_pairs_accuracy_v2.csv") %>% 
-  mutate(chemical_name = tolower(chemical_name))
+  mutate(chemical_name = tolower(chemical_name)) %>% 
+  mutate(smaller = tolower(smaller))
 
 data <- data %>%
   mutate(chemical_name = tolower(chemical_name)) %>%
