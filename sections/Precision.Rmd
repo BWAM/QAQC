@@ -38,12 +38,11 @@ NOTE: We only plotted parameters that had at least one failed duplicate sample r
 ```{r, echo=FALSE}
 #converting non-detects to 0
 if (nrow(dup) > 0 ) {
-  dup$result_value.dup <- ifelse(dup$lab_qualifiers.dup=="U",0,dup$result_value.dup)
-  dup$result_value.dup <- ifelse(dup$lab_qualifiers.dup=="UN",0,dup$result_value.dup)
-  dup$result_value.dup <- ifelse(dup$lab_qualifiers.dup=="UE",0,dup$result_value.dup)
-  dup$result_value.parent <- ifelse(dup$lab_qualifiers.parent=="U",0,dup$result_value.parent)
-  dup$result_value.parent <- ifelse(dup$lab_qualifiers.parent=="UN",0,dup$result_value.parent)
-  dup$result_value.parent <- ifelse(dup$lab_qualifiers.parent=="UE",0,dup$result_value.parent)
+  dup$result_value.dup <- ifelse(grepl("*U",dup$lab_qualifiers.dup),dup$method_detection_limit.dup,dup$result_value.dup)
+  dup$result_value.parent <- ifelse(grepl("*U",dup$lab_qualifiers.parent),dup$method_detection_limit.parent,dup$result_value.parent)
+  dup<-dup %>% 
+    mutate(result_value.dup=ifelse(result_value.dup==0,method_detection_limit.dup,result_value.dup),
+           result_value.parent=ifelse(result_value.parent==0,method_detection_limit.parent,result_value.parent))
   #Calculating RPD
   dup$RPD<-((dup$result_value.parent-dup$result_value.dup))
   #can't divide by 0 so I calculate the denominator first 
@@ -81,8 +80,6 @@ if (nrow(dup) > 0 ) {
     rm("i")
   }
   rm(list=c('params','nparams','eq'))
-} else{
-  print("No duplicate samples present!")
 }
 ```
 
@@ -111,7 +108,7 @@ if (nrow(dup) > 0 ) {
   data<-merge(data,dataset,by=c('sys_sample_code','chemical_name','sample_date'),all=TRUE)
   data<-data[!is.na(data$chemical_name),]
   rm(dataset)
-}
+} else {cat("\nNO DUPLICATE SAMPLES PRESENT")}
 ```
 
 ```{r message=FALSE, warning=FALSE, results='asis', fig.height=5.5, fig.width=9}
@@ -144,7 +141,13 @@ if (nrow(dup) > 0 ) {
     samplefails, dupfails,
     common.legend = TRUE, legend = "bottom"
   ))
+  
   rm(list=c('dupfails','samplefails'))
+
+  if (sum(grepl("fail", dup$pass)) > 0) {
+    cat("\n\nPRECISION FAILURES:")
+    knitr::kable(dup %>% filter(pass=="fail"))
+  } else {cat("\nNo duplicate failures present.")}
 }
 
 ```

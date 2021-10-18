@@ -17,11 +17,14 @@ Order,ANALYTIC_METHOD,cas_rn,chemical_name,nobuffer,Holding,Notes
 16,E200.7,7439-96-5,Manganese,4320,4344,
 17,E1631,7439-97-6,Mercury,2160,2184,
 18,E200.8,7440-02-0,Nickel,4320,4344,
+19,Calculation,7727-37-9,"Nitrogen",672,696,
 19,D6919-09,7664-41-7,"Nitrogen, Ammonia (As N)",672,696,
+19,D6919-09,7664-41-7,"Nitrogen, ammonia (As N)",672,696,
 20,E351.2,KN,"NITROGEN, KJELDAHL, TOTAL",672,696,
 21,CALC,14797-55-8,"NITROGEN, NITRATE (AS N)",48,999,"RIBS samples are not run for Nitrate as a stand-alone test, it is determined by calculation (NO2/NO3 - NO2), the holding time here does not apply in most cases. Set HT limit to 999"
 22,E353.2,14797-65-0,"NITROGEN, NITRITE",48,49,
 23,E353.2,ARC-NO3NO2N,"Nitrogen, Nitrite + Nitrate",672,696,
+23,E353.2,ARC-NO3NO2N,"Nitrate+Nitrite as Nitrogen",672,696,
 24,SM 4500-H+B,PH,pH,0.25,999.25,"Analyzed Immediately, On-site parameter. The lab may run this as well, but HT should be applied to field measurements. Added 999 b/c will always fail."
 25,E420.4,TOTPHEN,"Phenolics, Total Recoverable",672,696,
 26,E365.1,7723-14-0,"PHOSPHORUS, TOTAL (AS P)",672,696,
@@ -51,4 +54,10 @@ Order,ANALYTIC_METHOD,cas_rn,chemical_name,nobuffer,Holding,Notes
 50,E552.2,79-11-8,Monochloroacetic Acid,336,360
 51,E552.2,76-03-9,Trichloroacetic Acid,336,360
 52,7782-49-2,Selenium,4320,4344,
-39,SM2540E,TVS,TOTAL VOLATILE SOLIDS,168,192,
+53,SM2540E,TVS,TOTAL VOLATILE SOLIDS,168,192,
+54,SM5310C,TOC,TOTAL ORGANIC CARBON,672,696,
+55,SM 2120B,COLOR,"Color, True",48,49,
+56,SM 4500-H+B,PH,"pH of Color Analysis",0.25,999.25,"analyzed immediately so this is irrelevant"
+57,EPA 365.1,DP,"PHOSPHORUS, DISSOLVED (AS P)",672,696,
+58,SM 4500-H+B,UV254,"UV 254",48,49,
+59,E200.7,7439-95-4,magnesium,4320,4344,

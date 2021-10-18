@@ -36,14 +36,14 @@ output.filename <- paste0("chem_qaqc_", project.name, "_", Sys.Date(),".csv")
 name.i <- project.name
 
 # Load input data and filter if needed
-  # Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
+# Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
 data <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE) 
-  # filter(sample_delivery_group %in% c(
-  #   "R1905772",
-  #   "R1906451",
-  #   "R1907499",
-  #   "R1909548"
-  # ))
+# filter(sample_delivery_group %in% c(
+#   "R1905772",
+#   "R1906451",
+#   "R1907499",
+#   "R1909548"
+# ))
 
 ####################################
 
@@ -56,7 +56,7 @@ if("SITE_ID" %in% colnames(data)){
 errors<-read.csv(paste0(project.dir, input.dir, "laberrors.csv"))
 
 # Trim to only necessary fields. Checks if SITE_ID and Project_name fields exist (streams data) and include if yes. These fieds are not used in QAQC process but are carried through to the final data output.
-  # Added in SDG for streams data 2/25/2020
+# Added in SDG for streams data 2/25/2020
 if("SITE_ID" %in% colnames(data) & "project_name" %in% colnames(data)){
   data<-unique(data[c('sys_sample_code','sample_delivery_group','lab_anl_method_name','chemical_name','cas_rn','fraction','lab_qualifiers','lab_sdg','sample_date',
                       'result_value','result_unit','qc_original_conc','qc_spike_added','qc_spike_measured',
@@ -79,7 +79,7 @@ rmarkdown::render("QAQC.Rmd")
 
 # Write the data output
 # For streams, manually copy to L:\DOW\SMAS\StreamDatabase\Chemistry\final_QAQCd_data\[year]\
-  # Will automate this step after L drive is reorganized.
+# Will automate this step after L drive is reorganized.
 write.csv(forprint,file=paste0(project.dir, input.dir, output.filename),row.names = FALSE)
 
 # Copy report file to output directory and rename

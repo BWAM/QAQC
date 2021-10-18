@@ -22,8 +22,8 @@ The pairs we examined were as follows:
 ```{r message=FALSE, warning=FALSE, results='asis'}
 
 # Removed TKN and NO2+NO3 checks because Nitrogen field is not actually TN (at least for 2019 season data)
-component<-c('NITROGEN, NITRATE (AS N)','NITROGEN, NITRITE','Nitrogen, ammonia (As N)','Orthophosphate as Phosphorus, Dissolved')
-of<-c('Nitrate+Nitrite as Nitrogen','Nitrate+Nitrite as Nitrogen','Nitrogen','PHOSPHORUS, TOTAL (AS P)')
+component<-c('NITROGEN, NITRATE (AS N)','NITROGEN, NITRITE','Nitrogen, ammonia (As N)','Orthophosphate as Phosphorus, Dissolved','Dissolved Organic Carbon')
+of<-c('Nitrate+Nitrite as Nitrogen','Nitrate+Nitrite as Nitrogen','Nitrogen','PHOSPHORUS, TOTAL (AS P)','Total Organic Carbon')
 
 # Old code below
 # component<-c('NITROGEN, NITRATE (AS N)','NITROGEN, NITRITE','Nitrate+Nitrite as Nitrogen','Nitrogen, ammonia (As N)','NITROGEN, KJELDAHL, TOTAL','Orthophosphate as Phosphorus, Dissolved')
@@ -39,7 +39,7 @@ rm(list=c('component','of','table'))
 #pull parameter pairs
 #the pair is the total param that should be larger. The param that remains chemical_name is the param that should be smaller
 #we are only flagging the param that should be smaller
-pair<-unique(data[c('sys_sample_code','lab_sdg','sample_date','chemical_name','short','result_value','result_unit','smaller')])
+pair<-unique(data[c('sys_sample_code','lab_sdg','sample_date','chemical_name','short','result_value','result_unit','smaller','method_detection_limit')])
 paird<-pair[!is.na(pair$smaller),]
 #remove the smaller and short columns in pair
 pair<-unique(pair[c('sys_sample_code','lab_sdg','sample_date','chemical_name','result_value','result_unit')])
@@ -53,7 +53,9 @@ rm(paird)
 #now remove rows where the component parameter is NA
 pair<-pair[!is.na(pair$result_value),]
 #check that the units are the same and flagg values larger than their total
-pair$pairpass<-ifelse(pair$result_unit!=pair$result_unit.total,"units don't match",ifelse(pair$result_value>pair$result_value.total,"R","A"))
+pair$pairpass<-ifelse(pair$result_unit!=pair$result_unit.total,"units don't match",ifelse(pair$result_value>(pair$result_value.total+pair$method_detection_limit),"R","A"))
+#save for plot later
+pairplot<-pair
 #restrict just to 
 pair<-unique(pair[c('sys_sample_code','chemical_name','short','sample_date','pairpass')])
 
@@ -64,11 +66,14 @@ data<-merge(data,pair,by=c('sys_sample_code','chemical_name','short','sample_dat
 data<-data[!is.na(data$chemical_name),]
 ```
 
-### Paired Rejected sampes
+### Paired Rejected samples
 ```{r message=FALSE, warning=FALSE, results='asis'}
 #plotting the sample failures
 #count fails and passes
 # library(plyr)
+pairplot<-pairplot %>% 
+  filter(pairpass=="R") %>% 
+  select(sys_sample_code,lab_sdg,sample_date,chemical_name,result_value,result_value.total,method_detection_limit) %>% distinct()
 pairfails<-count(pair[c('short','pairpass')])
 names(pairfails)[names(pairfails)=='pairpass']<-'legend'
 
@@ -76,10 +81,15 @@ library(ggplot2)
 library(ggpubr)
 theme_set(theme_pubr())
 
- print(pairfails<-(ggplot() +
-    geom_col(data=pairfails,aes(short,freq,fill=legend)) +
-      coord_flip() +
-      theme(axis.title.x = element_blank(),axis.title.y = element_blank()) +
-      scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")))
+if (nrow(pairplot) > 0) {
+  print(pairfails<-(ggplot() +
+                      geom_col(data=pairfails,aes(short,freq,fill=legend)) +
+                      coord_flip() +
+                      theme(axis.title.x = element_blank(),axis.title.y = element_blank()) +
+                      scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")))
+  cat("\n\nPARAMETER PAIR FAILURES:")
+  knitr::kable(pairplot)
+} else {cat("\nNo parameter pair failures present.")} 
+
 # rm(list=c('pairfails','pair'))
 ```

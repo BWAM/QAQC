@@ -26,7 +26,7 @@ The components of our quality review are:
     + Assessing method precision using duplicate samples analyzed from the same date/location.    
 * Equipment Blank exceedances  
     + Assessing the influence of field errors using equipment blank samples.  
-* Parameter Pairs (CURRENTLY DISABLED)
+* Parameter Pairs
     + Flagging samples where component parameters exceed total concentrations.
 * Holding time exceedances  
     + Flagging samples where holding times were exceeded.  
@@ -38,16 +38,24 @@ The accuracy, precision, and equipment blank assessments are performed on a subs
 
 ```{r}
 #associate the data with the parameter info file
-rlimits<-read.csv("sections/data/param_pairs_accuracy.csv")
-data<-merge(data,rlimits,by=c('chemical_name'),all=FALSE)
-# rm(rlimits)
+rlimits<-read.csv("sections/data/param_pairs_accuracy_v2.csv") %>% 
+  mutate(chemical_name = tolower(chemical_name))
+
+data <- data %>%
+  mutate(chemical_name = tolower(chemical_name)) %>%
+  merge(. ,rlimits,by=c('chemical_name'),all.x = TRUE)
+
+if (sum(is.na(data$accuracy)) > 0) {
+  # cat("NOT ALL PARAMS JOINED WITH HOLDING TIMES") 
+  stop("NOT ALL PARAMETERS JOINED WITH ACCURACY/PARAM PAIRS TABLE")   
+}
 
 data <- data %>%
   mutate(short = case_when(
     # fraction %in% "T" ~ paste0(as.character(short), " (total)"),
     fraction %in% "D" ~ paste0(as.character(short), " (dissolved)"),
     TRUE ~ as.character(short)
-  )) %>% 
+  )) %>%
   mutate(short = factor(short, sort(unique(short), decreasing = TRUE)))
   
 ```
@@ -67,8 +75,9 @@ if (all(stringr::str_count(data$sample_date, ':') == 2)){
 
 #pulling spike dataset
 spike<-data[data$sample_type_code=="MS",]
-spike<-unique(spike[c('sys_sample_code','lab_sdg','sample_date','chemical_name','short','fraction','result_value','result_unit','quantitation_limit','method_detection_limit','detection_limit_unit','lab_qualifiers','qc_original_conc','qc_spike_added','qc_spike_measured','accuracy')])
-spike<-spike[!is.na(spike$chemical_name),]
+spike<-spike %>% 
+  select(sys_sample_code,lab_sdg,sample_date,chemical_name,short,fraction,result_value,result_unit,quantitation_limit,method_detection_limit,detection_limit_unit,lab_qualifiers,qc_original_conc,qc_spike_added,qc_spike_measured,accuracy) %>% distinct() %>% 
+  filter(!is.na(spike$chemical_name))
 
 #for all other data sets I need to first restrict the raw data to only that listed as "field"
 data$sample_source <- tolower(data$sample_source)
@@ -183,6 +192,7 @@ print(ggplot() +
   geom_point(data=samples,aes(sample_date,freq,color=type)) +
   ylab("sample types")+
   xlab("sample date"))
+
 rm(list=c('samples','blanksamples','dupsamples','spikesamples'))
 ```
 
@@ -228,27 +238,9 @@ return(final.df)
 
 ```
 
-### PARAMETER PAIRS TEST IS DISABLED UNTIL UPDATES ARE IMPLEMENTED ###
-
-```{r, echo = FALSE}
-
-      #```{r, child = 'sections/Parameter.pairs.Rmd'}
-      # Replace chunk header with this when resuming PP test.
+```{r, child = 'sections/Parameter.pairs.Rmd'}
 
 ```
-
-```{r}
-###########################################
-
-### DELETE THIS WHEN RE-ADDING PAIRED PARAMS TEST ###
-data$pairpass <- NA
-
-###########################################
-
-```
-
-
-
 
 ```{r, child = 'sections/HT.Rmd'}
 
@@ -263,7 +255,7 @@ data$pairpass <- NA
 if("SITE_ID" %in% colnames(data)){
   forprint<-unique(data[c('project_name','SITE_ID','SITE_ID_CORR_IND','sys_sample_code','sample_delivery_group','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers','qaqc_date')])
 
-# Temp block for running data without project_name and  SITE_ID_CORR_IND
+# Temp block for running data without project_name and SITE_ID_CORR_IND
 # if("SITE_ID" %in% colnames(data)){
 #   forprint<-unique(data[c('SITE_ID','sys_sample_code','sample_delivery_group','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers','qaqc_date')])
   
@@ -271,7 +263,7 @@ if("SITE_ID" %in% colnames(data)){
 
   
 } else{
-    forprint<-unique(data[c('sys_sample_code','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers','qaqc_date')])
+    forprint<-unique(data[c('sys_sample_code','chemical_name','sample_date','cas_rn','fraction','result_value','result_unit','method_detection_limit','detection_limit_unit','quantitation_limit','lab_qualifiers','validator_qualifiers','interpreted_qualifiers','qaqc_date','lab_sdg')])
 }
 
 ```
