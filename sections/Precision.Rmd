@@ -55,6 +55,10 @@ if (nrow(dup) > 0 ) {
   dup$RPD<-abs(dup$RPD)
   #remove parameters wihtout method detection limits
   dup<-dup[!is.na(dup$method_detection_limit.parent),]
+  #convert 0 values to the DL 
+  dup<-dup %>% 
+    mutate(result_value.dup=ifelse(result_value.dup==0,method_detection_limit.dup,result_value.dup),
+           result_value.parent=ifelse(result_value.parent==0,method_detection_limit.parent,result_value.parent))
   #this step is necessary to make sure you're using the max sample value
   dup$ratio<-ifelse(pmax(dup$result_value.parent, dup$result_value.dup)==dup$result_value.parent,
                     ifelse(dup$result_value.parent==0,0,(dup$result_value.parent/dup$method_detection_limit.parent)),
