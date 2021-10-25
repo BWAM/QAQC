@@ -38,11 +38,11 @@ NOTE: We only plotted parameters that had at least one failed duplicate sample r
 ```{r, echo=FALSE}
 #converting non-detects to 0
 if (nrow(dup) > 0 ) {
-  dup$result_value.dup <- ifelse(grepl("*U",dup$lab_qualifiers.dup),dup$method_detection_limit.dup,dup$result_value.dup)
-  dup$result_value.parent <- ifelse(grepl("*U",dup$lab_qualifiers.parent),dup$method_detection_limit.parent,dup$result_value.parent)
+  dup$result_value.dup <- ifelse(grepl("*U",dup$lab_qualifiers.dup),dup$quantitation_limit.dup,dup$result_value.dup)
+  dup$result_value.parent <- ifelse(grepl("*U",dup$lab_qualifiers.parent),dup$quantitation_limit.parent,dup$result_value.parent)
   dup<-dup %>% 
-    mutate(result_value.dup=ifelse(result_value.dup==0,method_detection_limit.dup,result_value.dup),
-           result_value.parent=ifelse(result_value.parent==0,method_detection_limit.parent,result_value.parent))
+    mutate(result_value.dup=ifelse(result_value.dup==0,quantitation_limit.dup,result_value.dup),
+           result_value.parent=ifelse(result_value.parent==0,quantitation_limit.parent,result_value.parent))
   #Calculating RPD
   dup$RPD<-((dup$result_value.parent-dup$result_value.dup))
   #can't divide by 0 so I calculate the denominator first 
