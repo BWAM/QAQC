@@ -29,52 +29,62 @@ library(furrr)
 # Used for naming report file and adding Project_name field to Streams data. 
 project.dir <- "sections/data/projectData/Streams/"
 
-input.dir <- "2020/all/"
-input.data <- "2020_chem_preqaqc_JOIN-ALL_2021-04-13.csv"
-proj.list.file <- file.path("L:/DOW/SMAS/data/chemistry/raw_lab_edds/2020", "nysdec 2020_Janice_ALS_proj_list_2021-02-12.xlsx")
-proj.year <- "2020"
+input.dir <- "2021/all_subset_assmnts/"
+input.data <- "2021_chem_preqaqc_JOIN-all_subset_assmnts_2021-10-20.csv"
+proj.list.file <- "2021_smas_qc_batching.csv"
+proj.year <- "2021"
 
 
 ####################################
 
 # Load input data and loop through by project 
 
-proj.list <- readxl::read_excel(proj.list.file, sheet = "SMAS") %>% 
-  select("Folder#", "project_QAQC") %>% 
-  dplyr::rename("sample_delivery_group" = "Folder#") %>% 
-  filter(project_QAQC != "Lake_Biomonitoring") %>% 
-  mutate(project_QAQC = str_replace_all(project_QAQC, "/", "-")) %>%
-  mutate(project_QAQC = toupper(project_QAQC))  
+proj.list <- read_csv(paste0(project.dir, input.dir, proj.list.file))  
+  # select("Folder#", "project_QAQC") 
+  # dplyr::rename("sample_delivery_group" = "Folder#")
+  # filter(project_QAQC != "Lake_Biomonitoring") %>% 
+  # mutate(project_QAQC = str_replace_all(project_QAQC, "/", "-")) %>%
+  # mutate(project_QAQC = toupper(project_QAQC))  
   # filter(project_QAQC %in% c("FINGER_LAKES_ADV_MON", "SCREENING_DELAWARE"))
 
 data.proj <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE) %>% 
-  left_join(proj.list, by = "sample_delivery_group") %>% 
-  dplyr::select(project_QAQC, everything()) %>%
+  left_join(proj.list, by = "SDG_team") %>% 
+  select(project_QAQC, everything()) %>%
   filter(!is.na(project_QAQC)) %>% 
   mutate(chemical_name = ifelse(chemical_name %in% "magnesium", "Magnesium", chemical_name))
 
+# Determine which projects are missing certain QC sample types so batches can be regrouped
+data.proj.dup <- data.proj %>% filter(DEC_sample_type %in% "DUP")
+data.proj.eb <- data.proj %>% filter(DEC_sample_type %in% "EB")
+
+proj.dup <- unique(data.proj.dup$project_QAQC)
+proj.eb <- unique(data.proj.eb$project_QAQC)
+# LEFT OFF HERE: return list of projects missing certain QC samples. 
+#    Find way to look for MS/MSDs. Maybe count params with MS records, looking for >20?
+
+
 # Look for SDGs with no project name match
-# data.proj.na <- data.proj %>%
-#   filter(is.na(project_QAQC))
-# distinct(project_QAQC, sample_delivery_group)
+data.proj.na <- data.proj %>%
+  filter(is.na(project_QAQC)) %>% 
+  distinct(project_QAQC, sample_delivery_group, SDG_team, SITE_ID)
+
+# look for missing sdgs
+missing.sdgs <- anti_join(proj.list, data.proj, by = "SDG_team")
+extra.sdgs <- anti_join(data.proj, proj.list, by = "SDG_team")
 
 proj.names <- unique(data.proj$project_QAQC)
 
 # For running single project
-name.i <- proj.names[1:18]
+name.i <- proj.names[13]
 # name.i <- proj.names[17]
 ### Must also change in loop below at "future_map(proj.names[x]"
 
-# look for missing sdgs
-missing.sdgs <- anti_join(proj.list, data.proj, by = "sample_delivery_group")
-extra.sdgs <- anti_join(data.proj, proj.list, by = "sample_delivery_group")
-
 future::plan(transparent)
 # furrr::future_map(proj.names, .progress = TRUE, function(name.i){
-furrr::future_map(proj.names[1:18], .progress = TRUE, function(name.i){
+furrr::future_map(proj.names[1:28], .progress = TRUE, function(name.i){
     # lapply(proj.names[1:2], function(name.i){
     
-  print(name.i)
+  cat(name.i)
   
   data <- data.proj %>% 
     filter(project_QAQC %in% name.i)
@@ -100,7 +110,8 @@ furrr::future_map(proj.names[1:18], .progress = TRUE, function(name.i){
   data$project_name <- name.i
   
   # Change turbidity quanitation limit to 1.0 NTU, as per Jason Fagel, 3/12/20
-  data <- data %>% 
+  # ALS changed the QLs in the EDDs for turbidity, but found one still at 0.1 in 2021 data, so keeping this line.
+  data <- data %>%
     mutate(quantitation_limit = ifelse(chemical_name == "TURBIDITY", 1.0, quantitation_limit))
   
   library(rmarkdown)

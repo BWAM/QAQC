@@ -104,11 +104,11 @@ dup$sys_sample_code<-gsub(" [Dd][Uu][Pp]","",dup$sys_sample_code)
 dup$sys_sample_code<-gsub("WS[Dd][Uu][Pp]","WS",dup$sys_sample_code)
 dup$sys_sample_code<-gsub("W[Dd][Uu][Pp]","W",dup$sys_sample_code)
 
-# Temp block of above for running 2020 data.
-# dup$sys_sample_code<-gsub("-[Ss][Ee][Qq]","",dup$sys_sample_code)
-# dup$sys_sample_code<-gsub(" [Ss][Ee][Qq]","",dup$sys_sample_code)
-# dup$sys_sample_code<-gsub("WS[Ss][Ee][Qq]","WS",dup$sys_sample_code)
-# dup$sys_sample_code<-gsub("W[Ss][Ee][Qq]","W",dup$sys_sample_code)
+# For SMAS data, which uses SEQ as the field replicate identified in the sys_sample_code. Will not affect data not using this convention.
+dup$sys_sample_code<-gsub("-[Ss][Ee][Qq]","",dup$sys_sample_code)
+dup$sys_sample_code<-gsub(" [Ss][Ee][Qq]","",dup$sys_sample_code)
+dup$sys_sample_code<-gsub("WS[Ss][Ee][Qq]","WS",dup$sys_sample_code)
+dup$sys_sample_code<-gsub("W[Ss][Ee][Qq]","W",dup$sys_sample_code)
 
 #convert both sys_sample_code fields to character
 dup$sys_sample_code<-as.character(dup$sys_sample_code)

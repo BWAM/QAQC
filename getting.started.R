@@ -29,9 +29,9 @@ library(lubridate)
 #   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
 project.dir <- "sections/data/projectData/Streams/"
 
-input.dir <- "2021/dodge_creek/"
-input.data <- "2021_chem_preqaqc_JOIN-dodge_creek_2021-09-20.csv"
-project.name <- "Dodge_Creek_2021"
+input.dir <- "2021/all_subset_assmnts/"
+input.data <- "2021_chem_preqaqc_JOIN-all_subset_assmnts_2021-10-20.csv"
+project.name <- "SMAS_assmnts_2021"
 output.filename <- paste0("chem_qaqc_", project.name, "_", Sys.Date(),".csv")
 name.i <- project.name
 
@@ -70,9 +70,9 @@ if("SITE_ID" %in% colnames(data) & "project_name" %in% colnames(data)){
 }
 
 # Change turbidity quanitation limit to 1.0 NTU, as per Jason Fagel, 3/12/20
-# Commented out 4/9/21. Already done on ALS end.
-# data <- data %>% 
-#   mutate(quantitation_limit = ifelse(chemical_name == "TURBIDITY", 1.0, quantitation_limit))
+# ALS changed the QLs in the EDDs for turbidity, but found one still at 0.1 in 2021 data, so keeping this line.
+data <- data %>%
+  mutate(quantitation_limit = ifelse(chemical_name == "TURBIDITY", 1.0, quantitation_limit))
 
 #run the rmarkdown script for this list
 rmarkdown::render("QAQC.Rmd")
