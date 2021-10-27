@@ -30,7 +30,7 @@ library(lubridate)
 project.dir <- "sections/data/projectData/Streams/"
 
 input.dir <- "2021/all_subset_assmnts/"
-input.data <- "2021_chem_preqaqc_JOIN-all_subset_assmnts_2021-10-20.csv"
+input.data <- "2021_chem_preqaqc_JOIN-all_subset_assmnts_v2_2021-10-27.csv"
 project.name <- "SMAS_assmnts_2021"
 output.filename <- paste0("chem_qaqc_", project.name, "_", Sys.Date(),".csv")
 name.i <- project.name

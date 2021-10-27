@@ -154,6 +154,35 @@ if(nrow(new_codes)>0){
 rm(new_codes)
 ```
 
+### Total Nitrogen Flags
+
+If TKN or NOX parameters are flagged as R (rejected) or T (trend) then these flags are transferred to Total Nitrogen in that priority (R is added over T if both are listed for that sys_sample_code).
+
+```{r, echo=FALSE, warning=FALSE}
+new_codes<-data %>% filter(chemical_name=="nitrogen") %>% select(sys_sample_code,sample_date) %>% distinct()
+if(nrow(new_codes)>0){
+  nox_tkn<-data %>% filter(chemical_name %in% c('nitrate+nitrite as nitrogen','nitrogen, kjeldahl, total')) %>% distinct()
+  new_codes<-merge(new_codes,nox_tkn,by=c('sys_sample_code','sample_date'),all.x = TRUE)
+  new_codes<-new_codes %>% 
+    select(sys_sample_code,validator_qualifiers) %>% distinct() %>% 
+    filter(!is.na(validator_qualifiers),
+           validator_qualifiers %in% c('R','T')) %>% 
+    arrange(sys_sample_code,validator_qualifiers) %>% 
+    #since these are arranged alphabetically, the R will be accepted over T
+    distinct(sys_sample_code,.keep_all = TRUE) %>% 
+    mutate(new_codes=validator_qualifiers) %>% 
+    select(sys_sample_code,new_codes) %>% distinct()
+  data2<-merge(data,new_codes,by=c('sys_sample_code'),all=TRUE)
+  data2<-data2 %>% 
+    mutate(validator_qualifiers=ifelse(!is.na(new_codes)&chemical_name=="nitrogen",new_codes,validator_qualifiers)) %>% 
+    select(-new_codes) %>% 
+    mutate(interpreted_qualifiers=ifelse(validator_qualifiers %in% c('R','T')&chemical_name=="nitrogen","calculated parameter_see components",interpreted_qualifiers))
+  rm(nox_tkn)
+}
+# rm(new_codes)
+```
+
+
 ### Flagged Samples  
 
 Data flags applied:  

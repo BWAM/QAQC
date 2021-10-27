@@ -30,7 +30,7 @@ library(furrr)
 project.dir <- "sections/data/projectData/Streams/"
 
 input.dir <- "2021/all_subset_assmnts/"
-input.data <- "2021_chem_preqaqc_JOIN-all_subset_assmnts_v2_2021-10-26.csv"
+input.data <- "2021_chem_preqaqc_JOIN-all_subset_assmnts_v2_2021-10-27.csv"
 proj.list.file <- "2021_smas_qc_batching_assmnts_2021-10-26.csv"
 proj.year <- "2021"
 
@@ -54,11 +54,6 @@ data.proj <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c
   # filter(!project_QAQC %in% "MOHK_TSS")
   # mutate(chemical_name = ifelse(chemical_name %in% "magnesium", "Magnesium", chemical_name))
 
-data.proj.tss <- data.proj %>% 
-  filter(project_QAQC %in% "MOHK_TSS",
-         sample_type_code %in% "MS")
-  
-
 # Determine which projects are missing certain QC sample types so batches can be regrouped
 data.proj.dup <- data.proj %>% filter(DEC_sample_type %in% "DUP")
 proj.list.dupmissing <- proj.list %>% 
@@ -71,7 +66,8 @@ proj.list.ebmissing <- proj.list %>%
   distinct(project_QAQC)
 
 # Identify how many parameters received MS/MSDs per project 
-#   (Ones with as many MS params as overall params have their own full MS. Ones with only a few are just the random lab MS tests run)
+#   (Check counts against overall number of params in project (assuming some params don't get spiked). 
+#   Keep in mind that the lab runs sparing MS tests regardless of the MS/MSDs we send)
 proj.list.mscount <- data.proj %>%
   filter(sample_type_code %in% "MS") %>% 
   dplyr::group_by(project_QAQC) %>% 
@@ -92,13 +88,13 @@ extra.sdgs <- anti_join(data.proj, proj.list, by = "SDG_team")
 proj.names <- unique(data.proj$project_QAQC)
 
 # For running single project
-name.i <- proj.names[13]
+name.i <- proj.names[1:18]
 # name.i <- proj.names[17]
 ### Must also change in loop below at "future_map(proj.names[x]"
 
 future::plan(transparent)
 # furrr::future_map(proj.names, .progress = TRUE, function(name.i){
-furrr::future_map(proj.names[1:28], .progress = TRUE, function(name.i){
+furrr::future_map(proj.names[1:18], .progress = TRUE, function(name.i){
     # lapply(proj.names[1:2], function(name.i){
     
   cat(name.i)
