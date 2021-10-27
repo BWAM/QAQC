@@ -30,8 +30,8 @@ library(furrr)
 project.dir <- "sections/data/projectData/Streams/"
 
 input.dir <- "2021/all_subset_assmnts/"
-input.data <- "2021_chem_preqaqc_JOIN-all_subset_assmnts_2021-10-20.csv"
-proj.list.file <- "2021_smas_qc_batching.csv"
+input.data <- "2021_chem_preqaqc_JOIN-all_subset_assmnts_v2_2021-10-26.csv"
+proj.list.file <- "2021_smas_qc_batching_assmnts_2021-10-26.csv"
 proj.year <- "2021"
 
 
@@ -49,18 +49,35 @@ proj.list <- read_csv(paste0(project.dir, input.dir, proj.list.file))
 
 data.proj <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE) %>% 
   left_join(proj.list, by = "SDG_team") %>% 
-  select(project_QAQC, everything()) %>%
-  filter(!is.na(project_QAQC)) %>% 
-  mutate(chemical_name = ifelse(chemical_name %in% "magnesium", "Magnesium", chemical_name))
+  select(project_QAQC, everything()) %>% 
+  filter(!is.na(project_QAQC)) 
+  # filter(!project_QAQC %in% "MOHK_TSS")
+  # mutate(chemical_name = ifelse(chemical_name %in% "magnesium", "Magnesium", chemical_name))
+
+data.proj.tss <- data.proj %>% 
+  filter(project_QAQC %in% "MOHK_TSS",
+         sample_type_code %in% "MS")
+  
 
 # Determine which projects are missing certain QC sample types so batches can be regrouped
 data.proj.dup <- data.proj %>% filter(DEC_sample_type %in% "DUP")
-data.proj.eb <- data.proj %>% filter(DEC_sample_type %in% "EB")
+proj.list.dupmissing <- proj.list %>% 
+  filter(!project_QAQC %in% data.proj.dup$project_QAQC) %>% 
+  distinct(project_QAQC)
 
-proj.dup <- unique(data.proj.dup$project_QAQC)
-proj.eb <- unique(data.proj.eb$project_QAQC)
-# LEFT OFF HERE: return list of projects missing certain QC samples. 
-#    Find way to look for MS/MSDs. Maybe count params with MS records, looking for >20?
+data.proj.eb <- data.proj %>% filter(DEC_sample_type %in% "EB")
+proj.list.ebmissing <- proj.list %>% 
+  filter(!project_QAQC %in% data.proj.eb$project_QAQC) %>% 
+  distinct(project_QAQC)
+
+# Identify how many parameters received MS/MSDs per project 
+#   (Ones with as many MS params as overall params have their own full MS. Ones with only a few are just the random lab MS tests run)
+proj.list.mscount <- data.proj %>%
+  filter(sample_type_code %in% "MS") %>% 
+  dplyr::group_by(project_QAQC) %>% 
+  dplyr::mutate(ms_param_count = sum(length(unique(chemical_name)))) %>% 
+  dplyr::ungroup() %>% 
+  distinct(project_QAQC, ms_param_count)
 
 
 # Look for SDGs with no project name match
