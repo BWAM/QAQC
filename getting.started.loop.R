@@ -23,6 +23,7 @@ library(tidyverse)
 library(plyr)
 library(lubridate)
 library(furrr)
+root.dir <- rprojroot::find_root("QAQC.Rproj")
 
 ###### User-defined variables ######
 
@@ -34,6 +35,8 @@ input.data <- "2021_chem_preqaqc_JOIN-all_subset_assmnts_v2_2021-10-27.csv"
 proj.list.file <- "2021_smas_qc_batching_assmnts_2021-10-26.csv"
 proj.year <- "2021"
 
+# If set to TRUE, exports qc sample failures to CSVs in project directory. Appends from all projects if using loop.
+export_qc_failures <- TRUE
 
 ####################################
 

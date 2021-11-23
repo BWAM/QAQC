@@ -143,10 +143,18 @@ if (nrow(dup) > 0 ) {
   ))
   
   rm(list=c('dupfails','samplefails'))
-
+  
   if (sum(grepl("fail", dup$pass)) > 0) {
     cat("\n\nPRECISION FAILURES:")
     knitr::kable(dup %>% filter(pass=="fail"))
+    if (exists("export_qc_failures")){
+      if (export_qc_failures == TRUE) {
+        fail.dup <- dup %>% 
+          filter(pass == "fail")
+        write.table(fail.dup, paste0(root.dir, "/", project.dir, input.dir, "fail.dup.csv"), append = TRUE, row.names = FALSE)
+        rm(fail.dup)
+      }
+    }
   } else {cat("\nNo duplicate failures present.")}
 }
 

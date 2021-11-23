@@ -95,6 +95,14 @@ theme_set(theme_pubr())
  if (sum(grepl("fail", spike$pass)) > 0) {
    cat("\n\nACCURACY FAILURES:")
    knitr::kable(spike %>% filter(pass=="fail"))
+   if (exists("export_qc_failures")){
+     if (export_qc_failures == TRUE) {
+       fail.spike <- spike %>% 
+         filter(pass == "fail")
+       write.table(fail.spike, paste0(root.dir, "/", project.dir, input.dir, "fail.spike.csv"), append = TRUE, row.names = FALSE)
+       rm(fail.spike)
+     }
+   }
  } else {cat("\nNo accuracy failures present.")}
  
 ```

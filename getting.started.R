@@ -22,30 +22,37 @@
 library(tidyverse)
 library(plyr)
 library(lubridate)
+root.dir <- rprojroot::find_root("QAQC.Rproj")
+
 
 ###### User-defined variables ######
 
 # Used for naming report file and adding Project_name field to Streams data. 
 #   Include project name type. (e.g, "Susquehanna RIBS Screening" or "Ramapo RAS")
-project.dir <- "sections/data/projectData/Streams/"
 
+project.name <- "SMAS_assmnts_2021"
 input.dir <- "2021/all_subset_assmnts/"
 input.data <- "2021_chem_preqaqc_JOIN-all_subset_assmnts_v2_2021-10-27.csv"
-project.name <- "SMAS_assmnts_2021"
-output.filename <- paste0("chem_qaqc_", project.name, "_", Sys.Date(),".csv")
-name.i <- project.name
 
-# Load input data and filter if needed
-# Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
-data <- read.csv(paste0(project.dir, input.dir, input.data), colClasses = c(fraction="character"), stringsAsFactors = FALSE) 
-# filter(sample_delivery_group %in% c(
-#   "R1905772",
-#   "R1906451",
-#   "R1907499",
-#   "R1909548"
-# ))
+# project.name <- "Mohawk_TSS"
+# input.dir <- "2021/mohaw_tss_PARTIAL/"
+# input.data <- "2021_chem_preqaqc_JOIN-mohk_tss-PARTIAL_2021-06-18.csv"
+
+# If set to TRUE, exports qc sample failures to CSVs in project directory.
+export_qc_failures <- TRUE
 
 ####################################
+
+name.i <- project.name
+project.dir <- "sections/data/projectData/Streams/"
+output.filename <- paste0("chem_qaqc_", project.name, "_", Sys.Date(),".csv")
+
+# Load input data
+# Must classify "fraction" column as character because if only T (total) is present, read.csv will classify as logical and convert all to "TRUE".
+data <- read.csv(paste0(project.dir, input.dir, input.data), 
+                 colClasses = c(fraction="character"),
+                 stringsAsFactors = FALSE
+) 
 
 # (For streams data) Add project name field for carrying through to final output
 if("SITE_ID" %in% colnames(data)){

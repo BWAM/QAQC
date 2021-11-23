@@ -89,6 +89,11 @@ if (nrow(pairplot) > 0) {
                       scale_fill_manual(values = c("A" = "#00BFC4", "R" = "#F8766D"), na.value = "gray")))
   cat("\n\nPARAMETER PAIR FAILURES:")
   knitr::kable(pairplot)
+  if (exists("export_qc_failures")){
+    if (export_qc_failures == TRUE) {
+      write.table(pairplot, paste0(root.dir, "/", project.dir, input.dir, "fail.pairs.csv"), append = TRUE, row.names = FALSE)
+    }
+  }
 } else {cat("\nNo parameter pair failures present.")} 
 
 # rm(list=c('pairfails','pair'))
