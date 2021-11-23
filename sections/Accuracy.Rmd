@@ -99,7 +99,7 @@ theme_set(theme_pubr())
      if (export_qc_failures == TRUE) {
        fail.spike <- spike %>% 
          filter(pass == "fail")
-       write.table(fail.spike, paste0(root.dir, "/", project.dir, input.dir, "fail.spike.csv"), append = TRUE, row.names = FALSE)
+       write.table(fail.spike, paste0(root.dir, "/", project.dir, input.dir, "fail.spike.csv"), sep = ",", append = TRUE, row.names = FALSE)
        rm(fail.spike)
      }
    }

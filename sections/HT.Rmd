@@ -86,7 +86,7 @@ if (sum(grepl("R", HT$HTpass)) > 0) {
     if (export_qc_failures == TRUE) {
       fail.HT <- HT %>% 
         filter(HTpass == "R")
-      write.table(fail.HT, paste0(root.dir, "/", project.dir, input.dir, "fail.HT.csv"), append = TRUE, row.names = FALSE)
+      write.table(fail.HT, paste0(root.dir, "/", project.dir, input.dir, "fail.HT.csv"), sep = ",", append = TRUE, row.names = FALSE)
       rm(fail.HT)
     } 
   }

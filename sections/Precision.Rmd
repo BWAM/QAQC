@@ -151,7 +151,7 @@ if (nrow(dup) > 0 ) {
       if (export_qc_failures == TRUE) {
         fail.dup <- dup %>% 
           filter(pass == "fail")
-        write.table(fail.dup, paste0(root.dir, "/", project.dir, input.dir, "fail.dup.csv"), append = TRUE, row.names = FALSE)
+        write.table(fail.dup, paste0(root.dir, "/", project.dir, input.dir, "fail.dup.csv"), sep = ",", append = TRUE, row.names = FALSE)
         rm(fail.dup)
       }
     }

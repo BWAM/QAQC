@@ -145,7 +145,7 @@ theme_set(theme_pubr())
      if (export_qc_failures == TRUE) {
        fail.EB <- EB %>% 
          filter(pass == "fail")
-       write.table(fail.EB, paste0(root.dir, "/", project.dir, input.dir, "fail.EB.csv"), append = TRUE, row.names = FALSE)
+       write.table(fail.EB, paste0(root.dir, "/", project.dir, input.dir, "fail.EB.csv"), sep = ",", append = TRUE, row.names = FALSE)
        rm(fail.EB)
      } 
    }

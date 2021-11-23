@@ -91,7 +91,7 @@ if (nrow(pairplot) > 0) {
   knitr::kable(pairplot)
   if (exists("export_qc_failures")){
     if (export_qc_failures == TRUE) {
-      write.table(pairplot, paste0(root.dir, "/", project.dir, input.dir, "fail.pairs.csv"), append = TRUE, row.names = FALSE)
+      write.table(pairplot, paste0(root.dir, "/", project.dir, input.dir, "fail.pairs.csv"), sep = ",", append = TRUE, row.names = FALSE)
     }
   }
 } else {cat("\nNo parameter pair failures present.")} 
