@@ -1,0 +1,61 @@
+---
+title: "compare_qc_failures"
+author: "glemley"
+date: "2/18/2022"
+output: html_document
+---
+
+```{r load libs and dirs}
+library(tidyverse)
+
+root.dir <- rprojroot::find_root("QAQC.Rproj")
+
+qcfail.dir <- "sections/data/projectData/Streams/2021/all_ALS-R/run1/qc_failures"
+
+```
+
+```{r load files}
+
+dup.all <- read.csv(file.path(qcfail.dir, "fail.dup.csv")) %>% 
+  filter(!sys_sample_code %in% "sys_sample_code")
+eb.all <- read.csv(file.path(qcfail.dir, "fail.eb.csv")) %>% 
+  filter(!sys_sample_code %in% "sys_sample_code")
+ht.all <- read.csv(file.path(qcfail.dir, "fail.HT.csv")) %>% 
+  filter(!sys_sample_code %in% "sys_sample_code")
+pair.all <- read_csv(file.path(qcfail.dir, "fail.pairs.csv"), col_types = cols(.default = "c")) %>% 
+  filter(!sys_sample_code %in% "sys_sample_code")
+spike.all <- read.csv(file.path(qcfail.dir, "fail.spike.csv")) %>% 
+  filter(!sys_sample_code %in% "sys_sample_code")
+
+dup.old <- read.csv(file.path(qcfail.dir, "oct2021", "fail.dup.csv")) %>% 
+  filter(!sys_sample_code %in% "sys_sample_code")
+eb.old <- read.csv(file.path(qcfail.dir, "oct2021", "fail.eb.csv")) %>% 
+  filter(!sys_sample_code %in% "sys_sample_code")
+ht.old <- read.csv(file.path(qcfail.dir, "oct2021", "fail.HT.csv")) %>% 
+  filter(!sys_sample_code %in% "sys_sample_code")
+pair.old <- read_csv(file.path(qcfail.dir, "oct2021", "fail.pairs.csv"), col_types = cols(.default = "c")) %>% 
+  filter(!sys_sample_code %in% "sys_sample_code")
+spike.old <- read.csv(file.path(qcfail.dir, "oct2021", "fail.spike.csv")) %>% 
+  filter(!sys_sample_code %in% "sys_sample_code")
+
+dup.new <- dup.all %>% 
+  anti_join(dup.old)
+eb.new <- eb.all %>% 
+  anti_join(eb.old)
+ht.new <- ht.all %>% 
+  anti_join(ht.old)
+pair.new <- pair.all %>% 
+  anti_join(pair.old)
+spike.new <- spike.all %>% 
+  anti_join(spike.old)
+```
+
+```{r}
+write.csv(dup.new, file.path(qcfail.dir, "new_failures/dup_new.csv"))
+write.csv(eb.new, file.path(qcfail.dir, "new_failures/eb_new.csv"))
+write.csv(ht.new, file.path(qcfail.dir, "new_failures/ht_new.csv"))
+write.csv(pair.new, file.path(qcfail.dir, "new_failures/pair_new.csv"))
+write.csv(spike.new, file.path(qcfail.dir, "new_failures/spike_new.csv"))
+
+```
+
