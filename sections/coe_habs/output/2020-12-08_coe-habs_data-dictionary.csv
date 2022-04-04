@@ -1,0 +1,29 @@
+column_name,definition
+sys_sample_code,Sample ID
+sample_date,Date the sample was collected
+site,"The site name identifies the field site name (control, esf, or clarkson) or will be 'lab' for lab generated samples"
+location,"The location at the site that the sample was collected (ambient, influent, or effluent) or will be 'lab' for lab generated samples"
+lab_sdg,Sample Delivery Group (SDG) is assigned to batches of data provided by ALS. This can be useful for tracking down associated lab reports.
+sample_source,Idenifies if the sample was collected in the field (FIELD) or part of a lab test (LAB). Assigned by ALS.
+nysdec_sample_type,"The type of sample represented. Most users will only be interested in the 'standard_sample's, the target samples. The remaining types correspond to different QC samples."
+chemical_name,The parameter measured
+fraction,Indicates if the measured parameter is dissolved or total.
+result_value,Measured parameter value.
+result_unit,Measured parameter values units.
+lab_flag,Interpreted flags provided by ALS.
+lab_anl_method_name,Lab analytical method
+cas_rn,CAS Registry Number for the parameter measured. Assigned by ALS.
+method_detection_limit,The method detecion limit.
+detection_limit_unit,Units for the method_detectiom_limit.
+quantitation_limit,The quantiation limit.
+analysis_date,Date the sample was analyzed by ALS.
+equipment_blank_ssc,The sys_sample_code(s) of the equipment blank sample.
+equipment_blank,A flag or flags for the equipment blank QC test.
+equipment_blank_result_value,The equipment blank value(s) associated with the equipment_blank_ssc(s) and equipment_blank flag(s).
+precision_ssc,A flag(s) for the precision QC test.
+precision,A flag or flags for the precision QC test.
+precision_result_value,The relative percent difference (RPD) values associated with precision_ssc and precision_result_value
+accuracy_ssc,A flag(s) for the accuracy QC test.
+accuracy,A flag or flags for the accuracy QC test. These tests were performed by ALS.
+accuracy_result_value,The result values associated with accuracy_ssc and accuracy_result_value
+qc,"Summarizes the results from 'equipment_blank', 'accuracy', and 'precision.' If one or more of these values was 'fail', then the value will be 'reject'. If none of the values contained `fail`, then 'accept' was returned. All data labled as 'reject' should be excluded from analyses."

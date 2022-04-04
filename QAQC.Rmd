@@ -38,8 +38,8 @@ The accuracy, precision, and equipment blank assessments are performed on a subs
 
 ```{r}
 #associate the data with the parameter info file
-rlimits<-read.csv("sections/data/param_pairs_accuracy.csv")
-data<-merge(data,rlimits,by=c('chemical_name'),all=FALSE)
+rlimits <- read.csv("sections/data/param_pairs_accuracy.csv")
+data <- merge(data, rlimits, by = c('chemical_name'), all = FALSE)
 # rm(rlimits)
 
 data <- data %>%
@@ -47,74 +47,160 @@ data <- data %>%
     # fraction %in% "T" ~ paste0(as.character(short), " (total)"),
     fraction %in% "D" ~ paste0(as.character(short), " (dissolved)"),
     TRUE ~ as.character(short)
-  )) %>% 
+  )) %>%
   mutate(short = factor(short, sort(unique(short), decreasing = TRUE)))
-  
 ```
 
 
 ```{r, echo=FALSE}
 
+
 # Convert dates from factors to POSIXct objects
 library(lubridate)
-if (all(stringr::str_count(data$sample_date, ':') == 2)){
- data$sample_date <- mdy_hms(data$sample_date)
- data$analysis_date <- mdy_hms(data$analysis_date)
+if (all(stringr::str_count(data$sample_date, ':') == 2)) {
+  data$sample_date <- mdy_hms(data$sample_date)
+  data$analysis_date <- mdy_hms(data$analysis_date)
 } else{
- data$sample_date <- mdy_hm(data$sample_date)
- data$analysis_date <- mdy_hm(data$analysis_date)
+  data$sample_date <- mdy_hm(data$sample_date)
+  data$analysis_date <- mdy_hm(data$analysis_date)
 }
 
 #pulling spike dataset
-spike<-data[data$sample_type_code=="MS",]
-spike<-unique(spike[c('sys_sample_code','lab_sdg','sample_date','chemical_name','short','fraction','result_value','result_unit','quantitation_limit','method_detection_limit','detection_limit_unit','lab_qualifiers','qc_original_conc','qc_spike_added','qc_spike_measured','accuracy')])
-spike<-spike[!is.na(spike$chemical_name),]
+spike <- data[data$sample_type_code == "MS", ]
+spike <-
+  unique(spike[c(
+    'sys_sample_code',
+    'lab_sdg',
+    'sample_date',
+    'chemical_name',
+    'short',
+    'fraction',
+    'result_value',
+    'result_unit',
+    'quantitation_limit',
+    'method_detection_limit',
+    'detection_limit_unit',
+    'lab_qualifiers',
+    'qc_original_conc',
+    'qc_spike_added',
+    'qc_spike_measured',
+    'accuracy'
+  )])
+spike <- spike[!is.na(spike$chemical_name), ]
 
 #for all other data sets I need to first restrict the raw data to only that listed as "field"
 data$sample_source <- tolower(data$sample_source)
-data<-data[data$sample_source=="field",]
-data<-data[!is.na(data$chemical_name),]
+data <- data[data$sample_source == "field", ]
+data <- data[!is.na(data$chemical_name), ]
 
 #pulling equipment blank data set
-EB<-data[data$DEC_sample_type=="EB",]
-EB<-unique(EB[c('sys_sample_code','lab_sdg','sample_date','chemical_name','short','fraction','result_value','result_unit','quantitation_limit','method_detection_limit','detection_limit_unit','lab_qualifiers')])
-EB<-EB[!is.na(EB$chemical_name),]
+EB <- data[data$DEC_sample_type == "EB", ]
+EB <-
+  unique(EB[c(
+    'sys_sample_code',
+    'lab_sdg',
+    'sample_date',
+    'chemical_name',
+    'short',
+    'fraction',
+    'result_value',
+    'result_unit',
+    'quantitation_limit',
+    'method_detection_limit',
+    'detection_limit_unit',
+    'lab_qualifiers'
+  )])
+EB <- EB[!is.na(EB$chemical_name), ]
 
 #pulling duplicate data set
-dup<-data[data$DEC_sample_type=="DUP"|data$DEC_sample_type=="N_DUPPARENT",]
-dup<-unique(dup[c('DEC_sample_type','sys_sample_code','lab_sdg','sample_date','chemical_name','short','fraction','result_value','result_unit','quantitation_limit','method_detection_limit','detection_limit_unit','lab_qualifiers')])
+dup <-
+  data[data$DEC_sample_type == "DUP" |
+         data$DEC_sample_type == "N_DUPPARENT", ]
+dup <-
+  unique(dup[c(
+    'DEC_sample_type',
+    'sys_sample_code',
+    'lab_sdg',
+    'sample_date',
+    'chemical_name',
+    'short',
+    'fraction',
+    'result_value',
+    'result_unit',
+    'quantitation_limit',
+    'method_detection_limit',
+    'detection_limit_unit',
+    'lab_qualifiers'
+  )])
 #separate the parent and duplicate data sets
-dupparent<-dup[dup$DEC_sample_type=="N_DUPPARENT",]
-dup<-dup[dup$DEC_sample_type=="DUP",]
+dupparent <- dup[dup$DEC_sample_type == "N_DUPPARENT", ]
+dup <- dup[dup$DEC_sample_type == "DUP", ]
 
 #remove -DUP from sys sample code for merge, including all instances of upper and lower case.
 ### ACCOUNT FOR DUPs labeled as "QC"? doesn't the new QAPP say to use this instead??
-dup$sys_sample_code<-gsub("-[Dd][Uu][Pp]","",dup$sys_sample_code)
-dup$sys_sample_code<-gsub(" [Dd][Uu][Pp]","",dup$sys_sample_code)
-dup$sys_sample_code<-gsub("WS[Dd][Uu][Pp]","WS",dup$sys_sample_code)
-dup$sys_sample_code<-gsub("W[Dd][Uu][Pp]","W",dup$sys_sample_code)
+dup$sys_sample_code <- gsub("-[Dd][Uu][Pp]", "", dup$sys_sample_code)
+dup$sys_sample_code <- gsub(" [Dd][Uu][Pp]", "", dup$sys_sample_code)
+dup$sys_sample_code <- gsub("[Dd][Uu][Pp]", "", dup$sys_sample_code)
+dup$sys_sample_code <- gsub("WS[Dd][Uu][Pp]", "WS", dup$sys_sample_code)
+dup$sys_sample_code <- gsub("W[Dd][Uu][Pp]", "W", dup$sys_sample_code)
 
 #convert both sys_sample_code fields to character
-dup$sys_sample_code<-as.character(dup$sys_sample_code)
-dupparent$sys_sample_code<-as.character(dupparent$sys_sample_code)
+dup$sys_sample_code <- as.character(dup$sys_sample_code)
+dupparent$sys_sample_code <- as.character(dupparent$sys_sample_code)
 #rename duplicate fields so can merge the two tables
-names(dupparent)[names(dupparent)=='result_value']<-'result_value.parent'
-names(dupparent)[names(dupparent)=='result_unit']<-'result_unit.parent'
-names(dupparent)[names(dupparent)=='sample_date']<-'sample_date.parent'
-names(dupparent)[names(dupparent)=='quantitation_limit']<-'quantitation_limit.parent'
-names(dupparent)[names(dupparent)=='method_detection_limit']<-'method_detection_limit.parent'
-names(dupparent)[names(dupparent)=='detection_limit_unit']<-'detection_limit_unit.parent'
-names(dupparent)[names(dupparent)=='lab_qualifiers']<-'lab_qualifiers.parent'
-names(dup)[names(dup)=='result_value']<-'result_value.dup'
-names(dup)[names(dup)=='result_unit']<-'result_unit.dup'
-names(dup)[names(dup)=='sample_date']<-'sample_date.dup'
-names(dup)[names(dup)=='quantitation_limit']<-'quantitation_limit.dup'
-names(dup)[names(dup)=='method_detection_limit']<-'method_detection_limit.dup'
-names(dup)[names(dup)=='detection_limit_unit']<-'detection_limit_unit.dup'
-names(dup)[names(dup)=='lab_qualifiers']<-'lab_qualifiers.dup'
+names(dupparent)[names(dupparent) == 'result_value'] <-
+  'result_value.parent'
+names(dupparent)[names(dupparent) == 'result_unit'] <-
+  'result_unit.parent'
+names(dupparent)[names(dupparent) == 'sample_date'] <-
+  'sample_date.parent'
+names(dupparent)[names(dupparent) == 'quantitation_limit'] <-
+  'quantitation_limit.parent'
+names(dupparent)[names(dupparent) == 'method_detection_limit'] <-
+  'method_detection_limit.parent'
+names(dupparent)[names(dupparent) == 'detection_limit_unit'] <-
+  'detection_limit_unit.parent'
+names(dupparent)[names(dupparent) == 'lab_qualifiers'] <-
+  'lab_qualifiers.parent'
+names(dup)[names(dup) == 'result_value'] <- 'result_value.dup'
+names(dup)[names(dup) == 'result_unit'] <- 'result_unit.dup'
+names(dup)[names(dup) == 'sample_date'] <- 'sample_date.dup'
+names(dup)[names(dup) == 'quantitation_limit'] <-
+  'quantitation_limit.dup'
+names(dup)[names(dup) == 'method_detection_limit'] <-
+  'method_detection_limit.dup'
+names(dup)[names(dup) == 'detection_limit_unit'] <-
+  'detection_limit_unit.dup'
+names(dup)[names(dup) == 'lab_qualifiers'] <- 'lab_qualifiers.dup'
 #remove DEC_sample_type for merge
-dup<-unique(dup[c('sys_sample_code','lab_sdg','chemical_name','short','sample_date.dup','result_value.dup','result_unit.dup','quantitation_limit.dup','method_detection_limit.dup','detection_limit_unit.dup','lab_qualifiers.dup')])
-dupparent<-unique(dupparent[c('sys_sample_code','lab_sdg','chemical_name','short','sample_date.parent','result_value.parent','result_unit.parent','quantitation_limit.parent','method_detection_limit.parent','detection_limit_unit.parent','lab_qualifiers.parent')])
+dup <-
+  unique(dup[c(
+    'sys_sample_code',
+    'lab_sdg',
+    'chemical_name',
+    'short',
+    'sample_date.dup',
+    'result_value.dup',
+    'result_unit.dup',
+    'quantitation_limit.dup',
+    'method_detection_limit.dup',
+    'detection_limit_unit.dup',
+    'lab_qualifiers.dup'
+  )])
+dupparent <-
+  unique(dupparent[c(
+    'sys_sample_code',
+    'lab_sdg',
+    'chemical_name',
+    'short',
+    'sample_date.parent',
+    'result_value.parent',
+    'result_unit.parent',
+    'quantitation_limit.parent',
+    'method_detection_limit.parent',
+    'detection_limit_unit.parent',
+    'lab_qualifiers.parent'
+  )])
 
 # Fill result field for nondetects with the method detection limits
 #   Determined unneccesary as per Jason Fagel on 2/4/2020
@@ -124,28 +210,43 @@ dupparent<-unique(dupparent[c('sys_sample_code','lab_sdg','chemical_name','short
 #   ifelse(dupparent$lab_qualifiers.parent %in% "U", dupparent$method_detection_limit.parent, dupparent$result_value.parent)
 
 #merge the two into one data set
-dup<-merge(dup,dupparent,by=c('sys_sample_code','lab_sdg','chemical_name','short'),all=TRUE)
+dup <-
+  merge(
+    dup,
+    dupparent,
+    by = c('sys_sample_code', 'lab_sdg', 'chemical_name', 'short'),
+    all = TRUE
+  )
 # rm(dupparent)
 
 #remove qc from complete data set
-data<-data[data$DEC_sample_type %in% c("N", "N_DUPPARENT"),]
+data <- data[data$DEC_sample_type %in% c("N", "N_DUPPARENT"), ]
 
 #creating a holding time subset
-HT<-unique(data[c('sys_sample_code','lab_sdg','sample_date','chemical_name','short','analysis_date')])
+HT <-
+  unique(data[c(
+    'sys_sample_code',
+    'lab_sdg',
+    'sample_date',
+    'chemical_name',
+    'short',
+    'analysis_date'
+  )])
 
 ```
 
 <!-- Plotting the sample dates to understand how best to associate them. -->
 
 ```{r, echo=FALSE, warning=FALSE}
-samples<-unique(data[c('sample_date','lab_sdg')])
-samples$freq<-1
-samples$type<-"standard samples"
-samples$sample_date<-as.Date(samples$sample_date,"%m/%d/%Y")
-blanksamples<-unique(EB[c('sample_date','lab_sdg')])
-blanksamples$freq<-2
-blanksamples$type<-"equipment blanks"
-blanksamples$sample_date<-as.Date(blanksamples$sample_date,"%m/%d/%Y")
+samples <- unique(data[c('sample_date', 'lab_sdg')])
+samples$freq <- 1
+samples$type <- "standard samples"
+samples$sample_date <- as.Date(samples$sample_date, "%m/%d/%Y")
+blanksamples <- unique(EB[c('sample_date', 'lab_sdg')])
+blanksamples$freq <- 2
+blanksamples$type <- "equipment blanks"
+blanksamples$sample_date <-
+  as.Date(blanksamples$sample_date, "%m/%d/%Y")
 
 # if (nrow(dup) > 0 ) {
 #   print("1")
@@ -153,31 +254,33 @@ blanksamples$sample_date<-as.Date(blanksamples$sample_date,"%m/%d/%Y")
 #   print("2")
 # }
 
-if (nrow(dup) > 0 ) {
-  dupsamples<-unique(dup[c('sample_date.parent','lab_sdg')])
-  dupsamples$freq<-3
-  dupsamples$type<-"duplicates"
-  names(dupsamples)[names(dupsamples)=="sample_date.parent"]<-"sample_date"
-  dupsamples$sample_date<-as.Date(dupsamples$sample_date,"%m/%d/%Y")
+if (nrow(dup) > 0) {
+  dupsamples <- unique(dup[c('sample_date.parent', 'lab_sdg')])
+  dupsamples$freq <- 3
+  dupsamples$type <- "duplicates"
+  names(dupsamples)[names(dupsamples) == "sample_date.parent"] <-
+    "sample_date"
+  dupsamples$sample_date <- as.Date(dupsamples$sample_date, "%m/%d/%Y")
 }
 
-spikesamples<-unique(spike[c('sample_date','lab_sdg')])
-spikesamples$freq<-4
-spikesamples$type<-"spike samples"
-spikesamples$sample_date<-as.Date(spikesamples$sample_date,"%m/%d/%Y")
+spikesamples <- unique(spike[c('sample_date', 'lab_sdg')])
+spikesamples$freq <- 4
+spikesamples$type <- "spike samples"
+spikesamples$sample_date <-
+  as.Date(spikesamples$sample_date, "%m/%d/%Y")
 #merge together
-samples<-merge(samples,blanksamples,all=TRUE)
-if(nrow(dup) > 0){
-  samples<-merge(samples,dupsamples,all=TRUE)
+samples <- merge(samples, blanksamples, all = TRUE)
+if (nrow(dup) > 0) {
+  samples <- merge(samples, dupsamples, all = TRUE)
 }
-samples<-merge(samples,spikesamples,all=TRUE)
+samples <- merge(samples, spikesamples, all = TRUE)
 
 library(ggplot2)
 print(ggplot() +
-  geom_point(data=samples,aes(sample_date,freq,color=type)) +
-  ylab("sample types")+
-  xlab("sample date"))
-rm(list=c('samples','blanksamples','dupsamples','spikesamples'))
+        geom_point(data = samples, aes(sample_date, freq, color = type)) +
+        ylab("sample types") +
+        xlab("sample date"))
+rm(list = c('samples', 'blanksamples', 'dupsamples', 'spikesamples'))
 ```
 
 ```{r, child = 'sections/Lab.Rmd'}

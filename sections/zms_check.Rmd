@@ -1,0 +1,289 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r, message=FALSE}
+scripts_path <- here::here("sections", "coe_habs", "scripts")
+source(file.path(scripts_path, "prep_r_env.R"))
+```
+
+```{r}
+fun_path <- file.path(scripts_path, "functions")
+
+source(file.path(fun_path, "fun_parse_event_id.R"))
+
+source(file.path(fun_path, "fun_get_parent.R"))
+
+source(file.path(fun_path, "fun_rel_pct_diff.R"))
+
+source(file.path(fun_path, "fun_nearest_date.R"))
+```
+
+```{r, message=FALSE}
+source(file.path(scripts_path, "prep_als.R"))
+```
+
+```{r}
+als_raw <- merge(als$sample,
+                  als$result,
+                  by = "sys_sample_code",
+                  all = TRUE)
+readr::write_csv(als_raw,
+                 here::here(
+                   "sections",
+                   "coe_habs",
+                   "output",
+                   paste0(Sys.Date(),
+                          "_coe-habs_raw-results.csv")
+                 ))
+```
+
+```{r}
+als_split$equipment_blank <- als_split$equipment_blank %>% 
+  mutate(
+    equipment_blank = case_when(
+      result_value <= quantitation_limit ~ "pass",
+      result_value > quantitation_limit ~ "fail",
+      is.na(result_value) ~ "no_result_value",
+      is.na(quantitation_limit) ~ "no_quanitation_limit",
+      is.na(result_value) &
+        is.na(quantitation_limit) ~ "no_result_or_quant_value",
+      TRUE ~ "ERROR"
+    )
+  ) %>% 
+  relocate(equipment_blank) %>% 
+  arrange(equipment_blank) 
+```
+
+```{r}
+als_split$field_duplicate <- als_split$field_duplicate %>% 
+  left_join(als_split$standard_sample[c("sys_sample_code",
+                     "result_value",
+                     "chemical_name",
+                     "fraction")],
+            by = c("parent" = "sys_sample_code",
+                   "chemical_name", "fraction")) %>% 
+  rename(result_value = result_value.x,
+         standard_sample_result_value = result_value.y) %>% 
+  mutate(rpd = mapply(rel_pct_diff,
+                      result_value,
+                      standard_sample_result_value
+                      ),
+         rpd = round(rpd),
+         precision = if_else(rpd <= 20,
+                            "pass",
+                            "fail")) %>% 
+  relocate(precision, rpd) %>% 
+  arrange(precision)
+```
+
+```{r}
+als_bind <- dplyr::bind_rows(als_split) %>% 
+  relocate(lab_flag,
+           equipment_blank,
+           precision,
+           accuracy)
+```
+
+```{r}
+als_eb_list <- by(als_bind,
+                  als_bind$chem_frac,
+                  FUN = function(i_df){
+                    merge_nearest_date(.x = i_df,
+                                       .y = als_split$equipment_blank,
+                                       .flag_col = "equipment_blank")
+                  })
+  
+als_eb <- do.call(rbind, als_eb_list)
+
+als_dup_list <- by(als_eb,
+                  als_eb$chem_frac,
+                  FUN = function(i_df){
+                    merge_nearest_date(.x = i_df,
+                                       .y = als_split$field_duplicate,
+                                       .flag_col = "precision")
+                  })
+  
+als_dup <- do.call(rbind, als_dup_list)
+
+als_ms_list <- by(als_dup,
+                  als_dup$chem_frac,
+                  FUN = function(i_df){
+                    # print(unique(i_df$chem_frac))
+                    merge_nearest_date(.x = i_df,
+                                       .y = als_split$matrix_spike,
+                                       .flag_col = "accuracy")
+                  })
+  
+als_ms <- do.call(dplyr::bind_rows, als_ms_list)
+
+```
+
+```{r}
+ht_df <- read.csv(here::here("sections", "data", "Holding.Times_v2.csv")) %>% 
+  mutate(chemical_name = toupper(chemical_name),
+         chemical_name = case_when(
+           chemical_name %in% "NITROGEN, NITRITE + NITRATE" ~ "NITRATE+NITRITE AS NITROGEN",
+           TRUE ~  chemical_name
+                                 ),
+         cas_rn = if_else(cas_rn %in% "ARC-NO3NO2N",
+                                 "NO3NO2N",
+                                 cas_rn
+                                 ),
+         
+         ) %>% 
+  rename_all(tolower) %>% 
+  select(chemical_name, cas_rn, nobuffer)
+
+ht_df2 <- ht_df %>%
+filter(chemical_name %in% "PHOSPHORUS, TOTAL (AS P)") %>%
+mutate(chemical_name = "PHOSPHORUS, DISSOLVED (AS P)") %>%
+bind_rows(ht_df)
+
+als_ht <- als_ms %>% 
+ mutate(chemical_name = toupper(chemical_name),
+        analysis_date = as.POSIXct(analysis_date,
+                                   format = "%m-%d-%Y %H:%M:%S")) %>% 
+  left_join(ht_df2, by = c("chemical_name", "cas_rn")) %>% 
+  mutate(holding_time_value = difftime(analysis_date , sample_date,
+                                 units = c("hours")),
+         holding_time = case_when(
+           holding_time_value > nobuffer ~ "fail",
+           holding_time_value <= nobuffer ~ "pass",
+           is.na(nobuffer) ~ "Test not available for this parameter.",
+           TRUE ~ "ERROR"
+             )) %>% 
+  select(-nobuffer)
+```
+
+
+```{r}
+als_final <- als_ht %>% 
+  relocate(
+    sys_sample_code,
+    sample_date,
+    site,
+    location,
+    lab_sdg,
+    sample_source,
+    nysdec_sample_type,
+    chemical_name, 
+    fraction,
+    result_value,
+    result_unit
+  ) %>% 
+  select(
+    -chem_frac,
+    -lab_qualifiers,
+    -parent,
+    -standard_sample_result_value,
+    -sample_type_code,
+    -qc_original_conc,
+    -qc_spike_added,
+    -qc_spike_measured,
+    -rpd
+  ) %>% 
+  mutate(nysdec_sample_type = factor(nysdec_sample_type,
+                                        levels = c("standard_sample",
+                                                   "field_duplicate",
+                                                   "equipment_blank",
+                                                   "matrix_spike",
+                                                   "lab_blank",
+                                                   "lab_control",
+                                                   "lab_duplicate",
+                                                   "lab_replicate"))) %>% 
+   mutate(qc =  if_else(str_detect(equipment_blank, "fail") |
+                       str_detect(accuracy, "fail") |
+                       str_detect(precision, "fail") |
+                        str_detect(holding_time, "fail"),
+                       "reject",
+                       "accept")) %>% 
+  arrange(nysdec_sample_type)
+
+als_final %>% 
+  filter(nysdec_sample_type %in% "standard_sample") %>% 
+  count(qc)
+
+test <- als_final %>% 
+  select(chemical_name, holding_time) %>% 
+  distinct()
+
+```
+
+```{r, fig.width=8, fig.height=4}
+# als_ht %>% 
+#   filter(chemical_name %in% "CHLOROPHYLL A",
+#          !location %in% "lab") %>% 
+#   mutate(location = factor(location,
+#                            c("ambient", "influent", "effluent"))) %>% 
+#   # unite(site, c("site", "location")) %>% 
+#   ggplot(aes(location, result_value, fill = qc)) +
+#   geom_boxplot() +
+#   scale_fill_manual(values = c(
+#     "accept" = "#56B4E9",
+#     "reject" = "#E69F00"
+#   )) +
+#   facet_wrap(~site)
+```
+
+
+```{r}
+readr::write_csv(als_final,
+                 here::here(
+                   "sections",
+                   "coe_habs",
+                   "output",
+                   paste0(Sys.Date(),
+                          "_coe-habs_qc-results.csv")
+                 ))
+```
+
+```{r}
+data_dictionary <- tibble::tribble(
+  ~ column_name, ~ definition,
+    "sys_sample_code", "Sample ID",
+    "sample_date", "Date the sample was collected",
+    "site", "The site name identifies the field site name (control, esf, or clarkson) or will be 'lab' for lab generated samples",
+    "location", "The location at the site that the sample was collected (ambient, influent, or effluent) or will be 'lab' for lab generated samples",
+      "lab_sdg", "Sample Delivery Group (SDG) is assigned to batches of data provided by ALS. This can be useful for tracking down associated lab reports.",
+      "sample_source", "Idenifies if the sample was collected in the field (FIELD) or part of a lab test (LAB). Assigned by ALS.",
+    "nysdec_sample_type", "The type of sample represented. Most users will only be interested in the 'standard_sample's, the target samples. The remaining types correspond to different QC samples.",
+    "chemical_name", "The parameter measured",
+    "fraction", "Indicates if the measured parameter is dissolved or total.",
+    "result_value", "Measured parameter value.",
+    "result_unit", "Measured parameter values units.",
+  "lab_flag", "Interpreted flags provided by ALS.",
+    "lab_anl_method_name", "Lab analytical method",
+    "cas_rn", "CAS Registry Number for the parameter measured. Assigned by ALS.",
+    "method_detection_limit", "The method detecion limit.",
+    "detection_limit_unit", "Units for the method_detectiom_limit.",
+    "quantitation_limit", "The quantiation limit.",
+    "analysis_date", "Date the sample was analyzed by ALS.",
+    "equipment_blank_ssc", "The sys_sample_code(s) of the equipment blank sample.",
+    "equipment_blank", "A flag or flags for the equipment blank QC test.",
+    "equipment_blank_result_value", "The equipment blank value(s) associated with the equipment_blank_ssc(s) and equipment_blank flag(s).",
+    "precision_ssc", "A flag(s) for the precision QC test.",
+    "precision", "A flag or flags for the precision QC test.",
+    "precision_result_value", "The relative percent difference (RPD) values associated with precision_ssc and precision_result_value",
+    "accuracy_ssc", "A flag(s) for the accuracy QC test.",
+    "accuracy", "A flag or flags for the accuracy QC test. These tests were performed by ALS.",
+    "accuracy_result_value", "The result values associated with accuracy_ssc and accuracy_result_value",
+  "holding_time_value", "The holding time values associated with sys_sample_code",
+  "holding_time", "A flag or flags for the holding-time QC test.",
+  "qc", "Summarizes the results from 'equipment_blank', 'accuracy', and 'precision.' If one or more of these values was 'fail', then the value will be 'reject'. If none of the values contained `fail`, then 'accept' was returned. All data labled as 'reject' should be excluded from analyses."
+  )
+
+readr::write_csv(data_dictionary,
+                 here::here(
+                   "sections",
+                   "coe_habs",
+                   "output",
+                   paste0(Sys.Date(),
+                          "_coe-habs_data-dictionary.csv")
+                 ))
+  
+```
+

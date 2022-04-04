@@ -22,10 +22,8 @@ Checking that laboratory analyses met all internal QAQC checks
 
 In order to review the narrative reports, you will need the following list of lab_sdg's associated with these data:  
 ```{r message=FALSE, warning=FALSE, results='asis'}
-qualifiers<-unique(data[c('lab_sdg','lab_qualifiers')])
-qualifiers$lab_qualifiers<-NA
-qualifiers<-unique(qualifiers[c('lab_sdg','lab_qualifiers')])
-names(qualifiers)[names(qualifiers)=='lab_qualifiers']<-'list'
+qualifiers<-unique(data[c('lab_sdg')])
+
 
 knitr::kable(qualifiers)
 rm(qualifiers)
@@ -58,17 +56,19 @@ E or J  -> J
 U -> U  
 
 ```{r message=FALSE, warning=FALSE, results='asis'}
-data$labpass<-data$lab_qualifiers
-data$labpass<-as.character(data$labpass)
-data$labpass<-ifelse(grepl("B",data$labpass),"R",data$labpass)
-data$labpass<-ifelse(grepl("N",data$labpass),"R",data$labpass)
-data$labpass<-ifelse(grepl("\\*",data$labpass),"R",data$labpass)
-data$labpass<-ifelse(grepl("D",data$labpass),"R",data$labpass)
-data$labpass<-ifelse(grepl("W",data$labpass),"R",data$labpass)
-data$labpass<-ifelse(grepl("U",data$labpass),"U",data$labpass)
-data$labpass<-ifelse(grepl("E",data$labpass),"J",data$labpass)
-data$labpass<-ifelse(grepl("J",data$labpass),"J",data$labpass)
-data$labpass<-ifelse(data$labpass=="","A",data$labpass)
+data$labpass <- data$lab_qualifiers
+data$labpass <- as.character(data$labpass)
+data$labpass <- ifelse(grepl("B", data$labpass), "R", data$labpass)
+data$labpass <- ifelse(grepl("N", data$labpass), "R", data$labpass)
+data$labpass <- ifelse(grepl("\\*", data$labpass), "R", data$labpass)
+data$labpass <- ifelse(grepl("D", data$labpass), "R", data$labpass)
+data$labpass <- ifelse(grepl("W", data$labpass), "R", data$labpass)
+data$labpass <- ifelse(grepl("U", data$labpass), "U", data$labpass)
+data$labpass <- ifelse(grepl("E", data$labpass), "J", data$labpass)
+data$labpass <- ifelse(grepl("J", data$labpass), "J", data$labpass)
+data$labpass <- ifelse(data$labpass == "" | is.na(data$labpass),
+                       "A",
+                       data$labpass)
 ```
 
 ### Lab Rejected samples

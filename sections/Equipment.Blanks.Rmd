@@ -40,13 +40,17 @@ NOTE: Non-detects are converted to 0 values strictly for the purpose of identify
 ```{r message=FALSE, results='asis'}
 #create pass column - pass if less than reporting limit; reject if more than reporting limit
 #convert non-detects to 0
-EB$lab_qualifiers<-as.character(EB$lab_qualifiers)
-EB$result_value <- ifelse(grepl("U",EB$lab_qualifiers),0,EB$result_value)
+EB$lab_qualifiers <- as.character(EB$lab_qualifiers)
+EB$result_value <- ifelse(grepl("U", EB$lab_qualifiers),
+                          0,
+                          EB$result_value)
 
 # Add step here to add buffer to turbidity QL (create new column and add 0.1 to only turbidity?)
 
 #create pass column
-EB$pass<-ifelse(EB$result_value>EB$quantitation_limit,"fail","pass")
+EB$pass <- ifelse(EB$result_value > EB$quantitation_limit,
+                  "fail",
+                  "pass")
 #format date
 # EB$sample_date <- as.Date(EB$sample_date,"%m/%d/%Y")
 ```
@@ -103,7 +107,22 @@ data<-data[!is.na(data$chemical_name),]
 rm(dataset)
 
 #finally, calculate error flag if any
-data$EBpass<-ifelse(is.na(data$blank),"A",ifelse(data$result_value<=3*(data$blank),"R",ifelse(data$result_value<=5*(data$blank),"T",ifelse(data$result_value<=10*(data$blank),"J","A"))))
+data$EBpass <-
+  ifelse(is.na(data$blank),
+         "A",
+         ifelse(
+           data$result_value <= 3 * (data$blank),
+           "R",
+           ifelse(
+             data$result_value <= 5 * (data$blank),
+             "T",
+             ifelse(
+               data$result_value <= 10 * (data$blank),
+                    "J",
+                    "A"
+               )
+           )
+         ))
 ```
 
 ```{r message=FALSE, warning=FALSE, results='asis', fig.height=5.5, fig.width=9}
